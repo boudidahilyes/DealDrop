@@ -22,11 +22,11 @@ class Feedback
 
     #[ORM\ManyToOne(inversedBy: 'feedback')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?event $event = null;
+    private ?Event $event = null;
 
     #[ORM\ManyToOne(inversedBy: 'feedback')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?member $member = null;
+    private ?Member $member = null;
 
     public function getId(): ?int
     {
@@ -57,24 +57,24 @@ class Feedback
         return $this;
     }
 
-    public function getEvent(): ?event
+    public function getEvent(): ?Event
     {
         return $this->event;
     }
 
-    public function setEvent(?event $event): static
+    public function setEvent(?Event $event): static
     {
         $this->event = $event;
 
         return $this;
     }
 
-    public function getMember(): ?member
+    public function getMember(): ?Member
     {
         return $this->member;
     }
 
-    public function setMember(?member $member): static
+    public function setMember(?Member $member): static
     {
         $this->member = $member;
 

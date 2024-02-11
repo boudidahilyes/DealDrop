@@ -40,7 +40,7 @@ abstract class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
-    protected ?member $owner = null;
+    protected ?Member $owner = null;
 
     public function __construct()
     {
@@ -144,12 +144,12 @@ abstract class Product
         return $this;
     }
 
-    public function getMember(): ?member
+    public function getMember(): ?Member
     {
         return $this->owner;
     }
 
-    public function setMember(?member $owner): static
+    public function setMember(?Member $owner): static
     {
         $this->owner = $owner;
 

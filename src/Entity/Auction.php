@@ -42,12 +42,12 @@ class Auction
         return $this->id;
     }
 
-    public function getProduct(): ?productforsale
+    public function getProduct(): ?ProductForSale
     {
         return $this->product;
     }
 
-    public function setProduct(productforsale $product): static
+    public function setProduct(ProductForSale $product): static
     {
         $this->product = $product;
 

@@ -30,7 +30,7 @@ class Event
 
     #[ORM\ManyToOne(inversedBy: 'events')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?member $organizer = null;
+    private ?Member $organizer = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $endDate = null;
@@ -96,12 +96,12 @@ class Event
         return $this;
     }
 
-    public function getOrganizer(): ?member
+    public function getOrganizer(): ?Member
     {
         return $this->organizer;
     }
 
-    public function setOrganizer(?member $organizer): static
+    public function setOrganizer(?Member $organizer): static
     {
         $this->organizer = $organizer;
 

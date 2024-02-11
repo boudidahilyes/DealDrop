@@ -22,8 +22,7 @@ class ProductForTrade extends Product
     private Collection $offers;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?offer $chosenOffer = null;
-
+    private ?Offer $chosenOffer = null;
     
     public function __construct()
     {
