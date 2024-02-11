@@ -86,12 +86,12 @@ class Delivery
         return $this;
     }
 
-    public function getDeliveryOrder(): ?order
+    public function getDeliveryOrder(): ?Order
     {
         return $this->deliveryOrder;
     }
 
-    public function setDeliveryOrder(order $deliveryOrder): static
+    public function setDeliveryOrder(Order $deliveryOrder): static
     {
         $this->deliveryOrder = $deliveryOrder;
 
