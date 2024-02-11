@@ -25,7 +25,7 @@ class Bid
 
     #[ORM\ManyToOne(inversedBy: 'bids')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?member $bidder = null;
+    private ?Member $bidder = null;
 
     #[ORM\ManyToOne(inversedBy: 'bids')]
     #[ORM\JoinColumn(nullable: false)]
@@ -72,24 +72,24 @@ class Bid
         return $this;
     }
 
-    public function getBidder(): ?member
+    public function getBidder(): ?Member
     {
         return $this->bidder;
     }
 
-    public function setBidder(?member $bidder): static
+    public function setBidder(?Member $bidder): static
     {
         $this->bidder = $bidder;
 
         return $this;
     }
 
-    public function getAuction(): ?auction
+    public function getAuction(): ?Auction
     {
         return $this->auction;
     }
 
-    public function setAuction(?auction $auction): static
+    public function setAuction(?Auction $auction): static
     {
         $this->auction = $auction;
 

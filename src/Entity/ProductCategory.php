@@ -15,7 +15,7 @@ class ProductCategory extends Category
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToMany(mappedBy: 'productCategory', targetEntity: product::class)]
+    #[ORM\OneToMany(mappedBy: 'ProductCategory', targetEntity: Product::class)]
     private Collection $products;
 
     public function __construct()

@@ -23,7 +23,7 @@ class Order
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?member $member = null;
+    private ?Member $member = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -58,12 +58,12 @@ class Order
         return $this;
     }
 
-    public function getMember(): ?member
+    public function getMember(): ?Member
     {
         return $this->member;
     }
 
-    public function setMember(?member $member): static
+    public function setMember(?Member $member): static
     {
         $this->member = $member;
 
