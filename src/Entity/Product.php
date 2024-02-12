@@ -17,7 +17,7 @@ abstract class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column(length: 255)]
     protected ?string $name = null;
@@ -35,7 +35,7 @@ abstract class Product
     #[ORM\JoinColumn(nullable: false)]
     protected ?ProductCategory $productCategory = null;
 
-    #[ORM\OneToMany(mappedBy: 'Product', targetEntity: ProductImage::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductImage::class)]
     protected Collection $productImages;
 
     #[ORM\ManyToOne(inversedBy: 'products')]

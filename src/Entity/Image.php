@@ -5,17 +5,16 @@ namespace App\Entity;
 use App\Repository\ImageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
-#[ORM\DiscriminatorMap(['DriverLicenseImage' => DriverLicenseImage::class, 'ProductImage' => ProductImage::class])]
+#[ORM\DiscriminatorMap(['DriverLicenseImage' => DriverLicenseImage::class, 'ProductImage' => ProductImage::class, 'UserImage' => UserImage::class])]
 
-#[Vich\Uploadable]
+
 class Image
 {
     #[ORM\Id]
@@ -30,9 +29,7 @@ class Image
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTimeInterface $modifyDate = null;
 
-    // NOTE: This is not a mapped field of entity metadata, just a simple property.
-    #[Vich\UploadableField(mapping: 'driverLicense', fileNameProperty: 'title')]
-    protected ?File $imageFile = null;
+    
 
     public function getId(): ?int
     {
@@ -64,27 +61,5 @@ class Image
 
         return $this;
     }
-    /**
-     * Get the value of imageFile
-     */ 
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
-
-    /**
-     * Set the value of imageFile
-     *
-     * @return  self
-     */ 
-    public function setImageFile($imageFile)
-    {
-        $this->imageFile = $imageFile;
-        if (null !== $imageFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->modifyDate = new \DateTimeImmutable();
-        }
-        return $this;
-    }
+    
 }

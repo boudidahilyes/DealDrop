@@ -13,7 +13,7 @@ class ProductForTrade extends Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $tradeType = null;
@@ -22,8 +22,7 @@ class ProductForTrade extends Product
     private Collection $offers;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?offer $chosenOffer = null;
-
+    private ?Offer $chosenOffer = null;
     
     public function __construct()
     {

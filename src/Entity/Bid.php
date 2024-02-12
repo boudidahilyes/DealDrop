@@ -29,7 +29,7 @@ class Bid
 
     #[ORM\ManyToOne(inversedBy: 'bids')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?auction $auction = null;
+    private ?Auction $auction = null;
 
     public function getId(): ?int
     {

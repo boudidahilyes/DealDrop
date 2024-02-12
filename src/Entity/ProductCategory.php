@@ -13,9 +13,9 @@ class ProductCategory extends Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
-    #[ORM\OneToMany(mappedBy: 'ProductCategory', targetEntity: Product::class)]
+    #[ORM\OneToMany(mappedBy: 'productCategory', targetEntity: Product::class)]
     private Collection $products;
 
     public function __construct()
@@ -36,7 +36,7 @@ class ProductCategory extends Category
         return $this->products;
     }
 
-    public function addProduct(product $product): static
+    public function addProduct(Product $product): static
     {
         if (!$this->products->contains($product)) {
             $this->products->add($product);
@@ -46,7 +46,7 @@ class ProductCategory extends Category
         return $this;
     }
 
-    public function removeProduct(product $product): static
+    public function removeProduct(Product $product): static
     {
         if ($this->products->removeElement($product)) {
             // set the owning side to null (unless already changed)

@@ -13,7 +13,7 @@ class SupportTicketCategory extends Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\OneToMany(mappedBy: 'supportTicketCategory', targetEntity: SupportTicket::class)]
     private Collection $tickets;
