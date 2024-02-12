@@ -20,7 +20,7 @@ class Image
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     protected static ?string $PATH = 'public/uploads/driverLicense/';
     #[ORM\Column(length: 255)]

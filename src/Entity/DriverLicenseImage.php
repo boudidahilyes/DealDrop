@@ -11,11 +11,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 class DriverLicenseImage extends Image
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
     #[ORM\ManyToOne(inversedBy: 'driverLicenseImages')]
     private ?DeliveryMan $DeliveryMan = null;
 

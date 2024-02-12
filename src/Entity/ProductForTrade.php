@@ -13,7 +13,7 @@ class ProductForTrade extends Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    protected ?int $id = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $tradeType = null;

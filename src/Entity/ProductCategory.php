@@ -10,11 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProductCategoryRepository::class)]
 class ProductCategory extends Category
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    protected ?int $id = null;
-
     #[ORM\OneToMany(mappedBy: 'productCategory', targetEntity: Product::class)]
     private Collection $products;
 

@@ -17,7 +17,7 @@ abstract class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    protected ?int $id = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     protected ?string $name = null;
