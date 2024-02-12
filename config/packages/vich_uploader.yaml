@@ -6,24 +6,24 @@ vich_uploader:
 
     mappings:
         driverLicense:
-            uri_prefix: /uploads/driverLicense
-            upload_destination: '%kernel.project_dir%/public/uploads/driverLicense'
+            uri_prefix: /uploads/driver_license
+            upload_destination: '%kernel.project_dir%/public/uploads/driver_license'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 
             delete_on_update: true
             delete_on_remove: true
 
         productImage:
-            uri_prefix: /uploads/productImage
-            upload_destination: '%kernel.project_dir%/public/uploads/productImage'
+            uri_prefix: /uploads/product_image
+            upload_destination: '%kernel.project_dir%/public/uploads/product_image'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 
             delete_on_update: true
             delete_on_remove: true
 
         userImage:
-            uri_prefix: /uploads/userImage
-            upload_destination: '%kernel.project_dir%/public/uploads/userImage'
+            uri_prefix: /uploads/user_image
+            upload_destination: '%kernel.project_dir%/public/uploads/user_image'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 
             delete_on_update: true

@@ -11,21 +11,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 class ProductImage extends Image
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'productImages')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?product $product = null;
 
     #[Vich\UploadableField(mapping: 'productImage', fileNameProperty: 'title')]
     protected ?File $imageFile = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getProduct(): ?product
     {

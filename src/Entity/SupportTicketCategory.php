@@ -10,10 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: SupportTicketCategoryRepository::class)]
 class SupportTicketCategory extends Category
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
 
     #[ORM\OneToMany(mappedBy: 'supportTicketCategory', targetEntity: SupportTicket::class)]
     private Collection $tickets;
@@ -22,12 +18,6 @@ class SupportTicketCategory extends Category
     {
         $this->tickets = new ArrayCollection();
     }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     /**
      * @return Collection<int, SupportTicket>
      */

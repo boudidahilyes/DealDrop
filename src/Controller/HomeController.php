@@ -28,11 +28,12 @@ class HomeController extends AbstractController
     {
         
 
-        return $this->render('home/index.html.twig', [
+        return $this->render('user/signin-register.html.twig', [
             
         ]);
         
     }
+    
 /*
     #[Route('/livreurs', name: 'listlivreur')]
     public function listLivreur(LivreurRepository $rep): Response

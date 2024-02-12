@@ -5,7 +5,8 @@ namespace App\Entity;
 use App\Repository\ImageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
@@ -20,9 +21,9 @@ class Image
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
-    protected static ?string $PATH = 'public/uploads/driverLicense/';
+    
     #[ORM\Column(length: 255)]
     protected ?string $title = null;
 
@@ -30,7 +31,10 @@ class Image
     protected ?\DateTimeInterface $modifyDate = null;
 
     
-
+    public function __construct($title)
+    {
+        $this->title = $title;
+    }
     public function getId(): ?int
     {
         return $this->id;

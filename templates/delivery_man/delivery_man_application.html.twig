@@ -1,0 +1,63 @@
+{% extends "baseFrontOffice.html.twig" %}
+{% block body %}
+	<div class="js-vv-modal mx-auto max-w-[90%] border-none bg-transparent p-0 backdrop:bg-gray-900/90" style="width:65vw">
+		<div class="pt-[22px]">
+			<div class="bg-white dark:bg-gray-700 shadow-3xl overflow-y-auto">
+				<div class="relative flex h-28 items-center bg-[url('../../../assets/img/str1/samples/modal-header-bg.jpg')] bg-cover bg-center bg-no-repeat px-6 md:px-10 lg:h-[140px]">
+					<div class="relative z-[4] text-white">
+						<h4 class="text-2xl font-bold lg:mb-0.5 lg:text-3xl xl:text-[32px] xl:leading-none">Login & Register</h4>
+						<div class="font-bold leading-none">I’m glad to see you here!</div>
+					</div>
+					<div class="absolute inset-0 z-[1] bg-black mix-blend-color"></div>
+					<div class="absolute inset-0 z-[2] bg-primary mix-blend-multiply"></div>
+					<div class="absolute inset-0 z-[3] bg-gray-900 mix-blend-lighten"></div><img class="absolute right-0 bottom-0 z-[5] -mt-[22px] max-w-[41%]" src="/build/images/str1/samples/modal-header-hero.png" alt=""></div>
+				<div>
+					<div class="tabs">
+						<nav class="tabs__header overflow-hidden">
+							<ul class="flex gap-x-[1px] dark:bg-gray-500/20">
+								<li class="tabs__header-item group flex-1">
+									<a href="#" class="flex justify-center border-b bg-gray-100 dark:bg-gray-800 group-[.is-active]:bg-white border-gray-500/20 py-4 text-center font-bold text-gray-500/40 transition-colors hover:text-accent group-[.is-active]:text-accent dark:group-[.is-active]:border-gray-700 group-[.is-active]:border-white dark:border-gray-500/20 dark:group-[.is-active]:bg-gray-700">Delivery Man Application</a>
+								</li>
+							</ul>
+						</nav>
+						<div class="tabs__content py-6 px-6 lg:px-10 lg:py-9">
+							
+							
+
+							<div class="tabs__content-item">
+              
+								{{ form_start(application) }}
+                {% for row in application %}
+                <div>
+                  {{ form_label(row) }}
+                  {{ form_widget(row, {'attr': {'class': 'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full'}}) }}
+                  </div>
+                {% endfor %}
+									<!--<div class="group is-success">
+										<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="register-user-email">Your Email</label>
+										<input class="group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full" type="email" name="register-user-email" id="register-user-email" value="jspigel@yourmail.com" placeholder=""><p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+									</div>
+									<div class="group is-error">
+										<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="register-user-password">Your Password</label>
+										<input class="group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full" type="password" name="register-user-password" id="register-user-password" value="qwertyqw" placeholder=""><p class="group-[.is-error]:block mt-2 hidden text-xs text-danger">Password need to have at least one number</p>
+									</div>
+									<div>
+										<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="user-password-repeat">Repeat Password</label>
+										<input class="group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full" type="password" name="user-password-repeat" id="user-password-repeat" value="" placeholder=""><p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+									</div>-->
+									<div class="mt-5">
+										<button type="submit" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-white bg-primary hover:bg-primary/90 w-full">Create your account</button>
+									</div>
+									<div class="text-sm leading-loose text-gray text-center ">
+										<p>You’ll receive a confirmation email in your inbox with a link so you can activate your account if your application is accepted. If you have any problems,
+											<a class="text-accent hover:text-primary dark:hover:text-white transition-colors" href="_str1-contact.html">contact us</a>!</p>
+									</div>
+								{{ form_end(application) }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
