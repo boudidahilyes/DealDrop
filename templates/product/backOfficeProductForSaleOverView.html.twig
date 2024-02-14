@@ -42,25 +42,42 @@
 		<div class="xl:col-span-4">
 			<div class="card">
 				<div class="card-body">
+        {% if product.status == 'Pending' %}
 					<div class="relative ltr:float-right rtl:float-left dropdown">
 						<button class="flex items-center justify-center size-[30px] dropdown-toggle p-0 text-slate-500 btn bg-slate-100 hover:text-white hover:bg-slate-600 focus:text-white focus:bg-slate-600 focus:ring focus:ring-slate-100 active:text-white active:bg-slate-600 active:ring active:ring-slate-100 dark:bg-slate-500/20 dark:text-slate-400 dark:hover:bg-slate-500 dark:hover:text-white dark:focus:bg-slate-500 dark:focus:text-white dark:active:bg-slate-500 dark:active:text-white dark:ring-slate-400/20" id="categoryNotes1" data-bs-toggle="dropdown">
 							<i data-lucide="more-horizontal" class="size-3"></i>
 						</button>
 						<ul class="absolute z-50 hidden py-2 mt-1 ltr:text-left rtl:text-right list-none bg-white rounded-md shadow-md dropdown-menu min-w-[10rem] dark:bg-zink-600" aria-labelledby="categoryNotes1">
 							<li>
-								<a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="apps-ecommerce-product-create.html">
-									<i data-lucide="file-edit" class="inline-block size-3 ltr:mr-1 rtl:ml-1"></i>
-									<span class="align-middle">Edit</span>
+								<a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="{{path('app_product_for_sale_accepted',{'id':product.id})}}">
+                <i data-lucide="check" class="inline-block size-3 ltr:mr-1 rtl:ml-1"></i>
+									<span class="align-middle">Approve</span>
 								</a>
 							</li>
 							<li>
-								<a data-modal-target="deleteModal" class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="#!">
+								<a data-modal-target="deleteModal" class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="{{path('app_product_for_sale_declined',{'id':product.id})}}">
+									<i data-lucide="x" class="inline-block size-3 ltr:mr-1 rtl:ml-1"></i>
+									<span class="align-middle">Decline</span>
+								</a>
+							</li>
+						</ul>
+					</div>
+                  {% endif %}
+									{% if product.status != 'Pending' %}
+                    					<div class="relative ltr:float-right rtl:float-left dropdown">
+						<button class="flex items-center justify-center size-[30px] dropdown-toggle p-0 text-slate-500 btn bg-slate-100 hover:text-white hover:bg-slate-600 focus:text-white focus:bg-slate-600 focus:ring focus:ring-slate-100 active:text-white active:bg-slate-600 active:ring active:ring-slate-100 dark:bg-slate-500/20 dark:text-slate-400 dark:hover:bg-slate-500 dark:hover:text-white dark:focus:bg-slate-500 dark:focus:text-white dark:active:bg-slate-500 dark:active:text-white dark:ring-slate-400/20" id="categoryNotes1" data-bs-toggle="dropdown">
+							<i data-lucide="more-horizontal" class="size-3"></i>
+						</button>
+						<ul class="absolute z-50 hidden py-2 mt-1 ltr:text-left rtl:text-right list-none bg-white rounded-md shadow-md dropdown-menu min-w-[10rem] dark:bg-zink-600" aria-labelledby="categoryNotes1">
+							<li>
+								<a data-modal-target="deleteModal" class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="{{path('app_product_for_rent_deleted',{'id':product.id})}}">
 									<i data-lucide="trash-2" class="inline-block size-3 ltr:mr-1 rtl:ml-1"></i>
 									<span class="align-middle">Delete</span>
 								</a>
 							</li>
 						</ul>
 					</div>
+                  {% endif %}
 					<h5 class="mt-3 mb-1">{{product.name}}</h5>
 					<ul class="flex flex-wrap items-center gap-4 mb-5 text-slate-500 dark:text-zink-200">
           						<li>Category:
@@ -77,6 +94,10 @@
 					<div class="mt-5">
 						<h6 class="mb-3 text-15">Product Description:</h6>
 						<p class="mb-2 text-slate-500 dark:text-zink-200">{{product.description}}</p>
+					</div>
+										<div class="mt-5">
+						<h6 class="mb-3 text-15">Product Price:</h6>
+						<p class="mb-2 text-slate-500 dark:text-zink-200">{{product.price}}</p>
 					</div>
 				</div>
 			</div>

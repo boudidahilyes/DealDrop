@@ -2,14 +2,14 @@
 {% block pagecontent %}
 	<div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
 		<div class="grow">
-			<h5 class="text-16">Products For Sale</h5>
+			<h5 class="text-16">Products For Rent</h5>
 		</div>
 		<ul class="flex items-center gap-2 text-sm font-normal shrink-0">
 			<li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
 				<a href="#!" class="text-slate-400 dark:text-zink-200">Products</a>
 			</li>
 			<li class="text-slate-700 dark:text-zink-100">
-				Products For Sale
+				Products For Rent
 			</li>
 		</ul>
 	</div>
@@ -32,9 +32,10 @@
 							<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">#</th>
 							<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Product Name</th>
 							<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Category</th>
-							<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Price</th>
+							<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Price Per Day</th>
 							<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Added Date</th>
 							<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Product Owner</th>
+              <th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Availability</th>
 							<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Status</th>
 							<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500">Action</th>
 						</tr>
@@ -53,11 +54,22 @@
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 category">
 									<span class="category px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-slate-100 border-slate-200 text-slate-500 dark:bg-slate-500/20 dark:border-slate-500/20 dark:text-zink-200">{{product.productCategory.name}}</span>
 								</td>
-								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">{{product.price}}
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">{{product.pricePerDay}}
 									Dt</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">{{product.addDate|date('j M, Y')}}</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">{{product.member.firstName}}
 									{{product.member.lastName}}</td>
+                  								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+									{% if product.disponibility == "UnAvailable" and product.status == 'Approved' %}
+										<span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-yellow-100 border-yellow-100 text-yellow-500 dark:bg-yellow-400/20 dark:border-transparent">UnAvailable</span>
+									{% endif %}
+									{% if product.disponibility == "Available" and product.status == 'Approved' %}
+										<span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-green-100 text-green-500 dark:bg-green-400/20 dark:border-transparent">Available</span>
+									{% endif %}
+                  {% if product.status != 'Approved' %}
+										<span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-purple-100 border-purple-100 text-purple-500 dark:bg-purple-400/20 dark:border-transparent">-</span>
+									{% endif %}
+                  </td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
 									{% if product.status == "Pending" %}
 										<span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-yellow-100 border-yellow-100 text-yellow-500 dark:bg-yellow-400/20 dark:border-transparent">Pending</span>
@@ -71,19 +83,19 @@
 								</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
 									<div class="flex gap-2">
-										<a href="{{path('app_product_for_sale_overview',{'id':product.id})}}" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 text-slate-500 bg-slate-100 hover:text-white hover:bg-slate-500 dark:bg-zink-600 dark:text-zink-200 dark:hover:text-white dark:hover:bg-zink-500">
+										<a href="{{path('app_product_for_rent_overview',{'id':product.id})}}" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 text-slate-500 bg-slate-100 hover:text-white hover:bg-slate-500 dark:bg-zink-600 dark:text-zink-200 dark:hover:text-white dark:hover:bg-zink-500">
 											<i data-lucide="eye" class="size-4"></i>
 										</a>
 										{% if product.status == "Pending" %}
-											<a href="{{path('app_product_for_sale_accepted',{'id':product.id})}}" class="flex items-center justify-center text-green-500 transition-all duration-200 ease-linear bg-green-100 rounded-md size-8 hover:text-white hover:bg-green-500 dark:bg-green-500/20 dark:hover:bg-green-500">
+											<a href="{{path('app_product_for_rent_accepted',{'id':product.id})}}" class="flex items-center justify-center text-green-500 transition-all duration-200 ease-linear bg-green-100 rounded-md size-8 hover:text-white hover:bg-green-500 dark:bg-green-500/20 dark:hover:bg-green-500">
 												<i data-lucide="check" class="size-4"></i>
 											</a>
-											<a href="{{path('app_product_for_sale_declined',{'id':product.id})}}" class="flex items-center justify-center text-red-500 transition-all duration-200 ease-linear bg-red-100 rounded-md size-8 hover:text-white hover:bg-red-500 dark:bg-red-500/20 dark:hover:bg-red-500">
+											<a href="{{path('app_product_for_rent_declined',{'id':product.id})}}" class="flex items-center justify-center text-red-500 transition-all duration-200 ease-linear bg-red-100 rounded-md size-8 hover:text-white hover:bg-red-500 dark:bg-red-500/20 dark:hover:bg-red-500">
 												<i data-lucide="x" class="size-4"></i>
 											</a>
 										{% endif %}
-										{% if product.status != "Pending" %}
-											<a href="{{path('app_product_for_sale_deleted',{'id':product.id})}}" class="flex items-center justify-center text-red-500 transition-all duration-200 ease-linear bg-red-100 rounded-md size-8 hover:text-white hover:bg-red-500 dark:bg-red-500/20 dark:hover:bg-red-500">
+										{% if product.status != "Pending" and product.disponibility !='UnAvailable' %}
+											<a href="{{path('app_product_for_rent_deleted',{'id':product.id})}}" class="flex items-center justify-center text-red-500 transition-all duration-200 ease-linear bg-red-100 rounded-md size-8 hover:text-white hover:bg-red-500 dark:bg-red-500/20 dark:hover:bg-red-500">
 												<i data-lucide="trash-2" class="size-4"></i>
 											</a>
 										{% endif %}
