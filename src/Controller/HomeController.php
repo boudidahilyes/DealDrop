@@ -39,6 +39,9 @@ class HomeController extends AbstractController
         return $this->render('baseBackOffice.html.twig');
         
     }
+        
+}
+    
 /*
     #[Route('/livreurs', name: 'listlivreur')]
     public function listLivreur(LivreurRepository $rep): Response
@@ -49,4 +52,3 @@ class HomeController extends AbstractController
             'livreurs' => $livreurs,
         ]);
     }*/
-}

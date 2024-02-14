@@ -11,19 +11,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 class UserImage extends Image
 {
+
     #[ORM\OneToOne(inversedBy: 'userImage', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
     #[Vich\UploadableField(mapping: 'userImage', fileNameProperty: 'title')]
     protected ?File $imageFile = null;
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
+    
     public function getUser(): ?User
     {
         return $this->user;

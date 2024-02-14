@@ -36,6 +36,7 @@ class ProductForSaleRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+
 //    public function findOneBySomeField($value): ?ProductForSale
 //    {
 //        return $this->createQueryBuilder('p')

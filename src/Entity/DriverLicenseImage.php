@@ -11,17 +11,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 class DriverLicenseImage extends Image
 {
-    #[ORM\ManyToOne(inversedBy: 'driverLicenseImages')]
+
+    #[ORM\ManyToOne(inversedBy: 'driverLicenseImages', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: true)]
     private ?DeliveryMan $DeliveryMan = null;
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
     #[Vich\UploadableField(mapping: 'driverLicense', fileNameProperty: 'title')]
     protected ?File $imageFile = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getDeliveryMan(): ?DeliveryMan
     {

@@ -27,7 +27,7 @@ class DeliveryMan extends User
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $area = null;
 
-    #[ORM\OneToMany(mappedBy: 'DeliveryMan', targetEntity: DriverLicenseImage::class)]
+    #[ORM\OneToMany(mappedBy: 'DeliveryMan', targetEntity: DriverLicenseImage::class, cascade: ['persist', 'remove'])]
     private Collection $driverLicenseImages;
 
     #[ORM\OneToMany(mappedBy: 'deliveryMan', targetEntity: Delivery::class)]
@@ -35,6 +35,17 @@ class DeliveryMan extends User
 
     public function __construct()
     {
+        $this->firstName = "";
+        $this->lastName = "";
+        $this->cin = 0;
+        $this->password = "";
+        $this->adress = "";
+        $this->phone = 0;
+        $this->firstName = "";
+        $this->disponibility = "";
+        $this->status = "Under Review";
+        $this->location = "";
+        $this->area = "";
         parent::__construct();
         $this->driverLicenseImages = new ArrayCollection();
         $this->deliveries = new ArrayCollection();

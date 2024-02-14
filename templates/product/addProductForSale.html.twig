@@ -17,26 +17,12 @@
 					</svg>
 				</li>
 				<li class="font-bold">
-					{% if ProductType == "ProductForSale" %}
-						<a href="{{ path('app_product', {'ProductType': 'ProductForSale'}) }}">Product</a>
-					{% endif %}
-					{% if ProductType == "ProductForTrade" %}
-						<a href="{{ path('app_product', {'ProductType': 'ProductForTrade'}) }}">Product</a>
-					{% endif %}
-					{% if ProductType == "ProductForRent" %}
-						<a href="{{ path('app_product', {'ProductType': 'ProductForRent'}) }}">Product</a>
-					{% endif %}
+						<a href="{{ path('app_product_for_sale') }}">Product</a>
 					<svg role="img" class="fill-gray absolute -right-4 top-1/2 aspect-[3/5] w-1.5 -translate-y-1/2 lg:-right-5">
 						<use xlink:href="/build/images/str1/sprite.svg#arrow-right-pixel-alt"></use>
 					</svg>
 				</li>
-				<li>Add Product For
-					{% if ProductType == "ProductForSale" %}Sale
-					{% endif %}
-					{% if ProductType == "ProductForTrade" %}Trade
-					{% endif %}
-					{% if ProductType == "ProductForRent" %}Rent
-					{% endif %}
+				<li>Add Product For Sale
 				</li>
 
 			</ol>
@@ -67,7 +53,12 @@
 							</div>
 							<div>
 								{{ form_label(formProduct.price, 'Product Price', {'label_attr': {'class': 'block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5'}}) }}
-								{{ form_widget(formProduct.price, {'attr': {'class': 'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full'}}) }}
+								{{ form_widget(formProduct.price, {'attr': {'class': 'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full','placeholder':'Price by Dinar'}}) }}
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+														<div>
+								{{ form_label(formProduct.productImage, 'Product Images', {'label_attr': {'class': 'block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5'}}) }}
+								{{ form_widget(formProduct.productImage, {'attr': {'class': 'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full'}}) }}
 								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
 							</div>
 						</div>

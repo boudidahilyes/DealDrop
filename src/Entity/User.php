@@ -43,7 +43,7 @@ abstract class User
     private Collection $supportTickets;
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?UserImage $userImage = null;
+    protected ?UserImage $userImage = null;
 
     public function __construct()
     {

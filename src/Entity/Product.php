@@ -17,7 +17,7 @@ abstract class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column(length: 255)]
     protected ?string $name = null;
@@ -25,8 +25,6 @@ abstract class Product
     #[ORM\Column(type: Types::TEXT)]
     protected ?string $description = null;
 
-    #[ORM\Column(nullable: true)]
-    protected ?bool $approved = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTimeInterface $addDate = null;
@@ -35,12 +33,15 @@ abstract class Product
     #[ORM\JoinColumn(nullable: false)]
     protected ?ProductCategory $productCategory = null;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductImage::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductImage::class,cascade: ['persist', 'remove'])]
     protected Collection $productImages;
 
-    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\ManyToOne(inversedBy: 'products', fetch:'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     protected ?Member $owner = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
 
     public function __construct()
     {
@@ -78,17 +79,6 @@ abstract class Product
         return $this;
     }
 
-    public function isApproved(): ?bool
-    {
-        return $this->approved;
-    }
-
-    public function setApproved(?bool $approved): static
-    {
-        $this->approved = $approved;
-
-        return $this;
-    }
 
     public function getAddDate(): ?\DateTimeInterface
     {
@@ -152,6 +142,18 @@ abstract class Product
     public function setMember(?Member $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

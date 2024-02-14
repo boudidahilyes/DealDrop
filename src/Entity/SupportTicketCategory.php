@@ -17,12 +17,6 @@ class SupportTicketCategory extends Category
     {
         $this->tickets = new ArrayCollection();
     }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     /**
      * @return Collection<int, SupportTicket>
      */

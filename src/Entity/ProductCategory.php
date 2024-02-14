@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Form\FormTypeInterface;
 use App\Repository\ProductCategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,17 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProductCategoryRepository::class)]
 class ProductCategory extends Category
 {
+
     #[ORM\OneToMany(mappedBy: 'productCategory', targetEntity: Product::class)]
-    private Collection $products;
+    protected Collection $products;
 
     public function __construct()
     {
         $this->products = new ArrayCollection();
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     /**
