@@ -25,16 +25,13 @@ class Image
 
     
     #[ORM\Column(length: 255)]
-    protected ?string $title = null;
+    protected  ?string $title = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTimeInterface $modifyDate = null;
 
     
-    public function __construct($title)
-    {
-        $this->title = $title;
-    }
+   
     public function getId(): ?int
     {
         return $this->id;

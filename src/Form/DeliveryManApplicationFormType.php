@@ -34,6 +34,7 @@ class DeliveryManApplicationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => DeliveryMan::class,
+            'attr' => ['id' => 'applicationid'],
         ]);
     }
 }

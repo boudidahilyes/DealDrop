@@ -45,4 +45,12 @@ class DeliveryManRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findAllApplications(){
+        return $this->createQueryBuilder('d')
+            ->where('d.status = \'Under Review\'')
+            ->getQuery()
+            ->getResult()
+        ;
+
+    }
 }

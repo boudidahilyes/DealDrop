@@ -28,7 +28,7 @@ class HomeController extends AbstractController
     {
         
 
-        return $this->render('user/signin-register.html.twig', [
+        return $this->render('home/index.html.twig', [
             
         ]);
         
