@@ -43,6 +43,15 @@ public function findAllProductForRent($value)
     ->getQuery()
     ->getResult();
 }
+public function setAvailabilityUnavailable($id)
+{
+    $em=$this->getEntityManager();
+    $query=$em->createQuery("UPDATE APP\Entity\ProductForRent p
+    SET p.disponibility = 'UnAvailable'
+    WHERE p.id=:id ")
+    ->setParameter('id',$id);
+    return $query->getResult();
+}
 
 //    public function findOneBySomeField($value): ?ProductForRent
 //    {

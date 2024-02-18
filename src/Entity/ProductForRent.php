@@ -48,4 +48,8 @@ class ProductForRent extends Product
 
         return $this;
     }
+    public function whoIAm()
+    {
+        return 'ProductForRent';
+    }
 }

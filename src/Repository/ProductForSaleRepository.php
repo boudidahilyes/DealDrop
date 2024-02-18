@@ -45,11 +45,11 @@ public function findAllProductForSale($value)
     ->getQuery()
     ->getResult();
 }
-public function setStatusSelled($id)
+public function setStatusSold($id)
 {
     $em=$this->getEntityManager();
     $query=$em->createQuery("UPDATE APP\Entity\ProductForSale p
-    SET p.status = 'SELLED'
+    SET p.status = 'SOLD'
     WHERE p.id=:id ")
     ->setParameter('id',$id);
     return $query->getResult();

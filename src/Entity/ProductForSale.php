@@ -32,4 +32,8 @@ class ProductForSale extends Product
 
         return $this;
     }
+    public function whoIAm()
+    {
+        return 'ProductForSale';
+    }
 }
