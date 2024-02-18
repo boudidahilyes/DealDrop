@@ -7,6 +7,7 @@ use App\Entity\DriverLicenseImage;
 use App\Entity\UserImage;
 use App\Form\DeliveryManApplicationFormType;
 use App\Form\DeliveryManFormType;
+use App\Form\DeliveryManRegistrationFormType;
 use App\Repository\DeliveryManRepository;
 use App\Repository\DriverLicenseImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,8 +19,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class DeliveryManController extends AbstractController
 {
@@ -105,22 +105,66 @@ class DeliveryManController extends AbstractController
         ]);
     }
 
-    #[Route('/application_refusal_email/{id}', name: 'app_send_application_refusal_email')]
-    public function SendApplicationRefusalEmail(DeliveryManRepository $rep, Request $req, MailerInterface $mailer, $id): Response
+    #[Route('/application_decision_email/{id}', name: 'app_send_application_decision_email')]
+    public function SendApplicationDecisionEmail(DeliveryManRepository $rep, Request $req, MailerInterface $mailer, $id): Response
     {
         $receiver = $req->get("email");
-        $content = $req->get("content");
+        $content = "";
+        $decision = $req->get("decision");
         $deliveryMan = $rep->findOneBy(['id' => $id]);
-       
-            $email = (new Email())
-                ->from('dealdrop.pidev@gmail.com')
-                ->to($receiver)
-                ->subject('Application Notification')
-                ->html($content);
-
-            $mailer->send($email);
         
-        $this->entityManager->remove($deliveryMan);
+        if($decision == "Refused")
+        {
+            $deliveryMan->setStatus("Refused");
+            $content = $req->get("content");
+        }
+        else{
+            $deliveryMan->setStatus("Accepted");
+            $content = '<h1>Your Application Has Been Accepted!</h1>
+                        <div>
+                            <a href ="dealdrop.local/delivery_man_register?id='.$id.'">Click Here to Continue Registration</a>
+                        </div>';
+        }
+        $email = (new Email())
+            ->from('dealdrop.pidev@outlook.com')
+            ->to($receiver)
+            ->subject('Application Notification')
+            ->html($content);
+
+        $mailer->send($email);
+
+        $this->entityManager->persist($deliveryMan);
+        $this->entityManager->flush();
+
         return $this->redirectToRoute('app_delivery_man_application_list');
+    }
+
+    #[Route('/delivery_man_register', name: 'app_delivery_man_registration')]
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, DeliveryManRepository $rep, Request $req): Response
+    {
+        $user = new DeliveryMan();
+        $user = $rep->findOneBy(['id' => $req->get('id')]);
+        $form = $this->createForm(DeliveryManRegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+            // do anything else you need here, like send an email
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('delivery_man/register.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
     }
 }

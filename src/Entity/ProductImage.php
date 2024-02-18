@@ -14,18 +14,18 @@ class ProductImage extends Image
 
     #[ORM\ManyToOne(inversedBy: 'productImages')]
     #[ORM\JoinColumn(nullable: true)]
-    private ?product $product = null;
+    private ?Product $product = null;
 
     #[Vich\UploadableField(mapping: 'productImage', fileNameProperty: 'title')]
     protected ?File $imageFile = null;
 
 
-    public function getProduct(): ?product
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
 
-    public function setProduct(?product $product): static
+    public function setProduct(?Product $product): static
     {
         $this->product = $product;
 
