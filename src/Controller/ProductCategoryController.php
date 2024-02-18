@@ -18,7 +18,7 @@ class ProductCategoryController extends AbstractController
     public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-    } 
+    }
     #[Route('/homeDashboard/categories', name: 'app_categories')]
     public function listCategory(ProductCategoryRepository $productCategory, Request $req): Response
     {

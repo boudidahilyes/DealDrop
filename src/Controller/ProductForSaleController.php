@@ -3,11 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Member;
+use App\Entity\Order;
 use App\Entity\ProductForSale;
 use App\Entity\ProductImage;
 use App\Form\ProductForSaleFormType;
+use App\Repository\ProductForSaleRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,12 +23,27 @@ class ProductForSaleController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-
-    //-------------------------ProductForSale Begin----------------------
-    #[Route('/productForSale', name: 'app_product_for_sale')]
-    public function index(): Response
+    public function getCookieID(Request $req)
     {
-        $listProduct = $this->entityManager->getRepository(ProductForSale::class)->findAll();
+        $cookie = new Cookie(
+            "user_id",                              // Cookie name
+            2,                                       // Cookie content
+            (new DateTime('now'))->modify("+1 day"), // Expiration date
+            "/",                                     // Path
+            "localhost",                             // Domain
+            $req->getScheme() === 'https',       // Secure
+            false,                                   // HttpOnly
+            true,                                    // Raw
+            'Strict'                                 // SameSite policy
+        );
+        return $cookie->getValue();
+    }
+    //-------------------------ProductForSale Begin----------------------
+    #FrontOffice Begin#
+    #[Route('/productForSale', name: 'app_product_for_sale')]
+    public function index(Request $req, ProductForSaleRepository $productForSaleRepository): Response
+    {
+        $listProduct = $productForSaleRepository->findAllProductForSale($this->getCookieID($req));
         return $this->render('product/frontOfficeListProductForSale.html.twig', [
             'listProduct' => $listProduct
         ]);
@@ -64,7 +83,10 @@ class ProductForSaleController extends AbstractController
             'product' => $product
         ]);
     }
-    
+
+    #frontOffice End#
+
+    #BackOffice Begin#
     #[Route('/homeDashboard/productForSale', name: 'app_product_for_sale_list')]
     public function listProductForSale(): Response
     {
@@ -113,10 +135,10 @@ class ProductForSaleController extends AbstractController
 
         $product = $this->entityManager->getRepository(ProductForSale::class)->findOneBy(['id' => $id]);
         $this->entityManager->remove($product);
-        $this->entityManager->flush(); 
-
+        $this->entityManager->flush();
         return $this->redirectToRoute('app_product_for_sale_list');
-        
     }
+
+    #backOffice End#
     //-----------------------------ProductForSale End-------------------------------------------
 }

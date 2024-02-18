@@ -35,7 +35,25 @@ class ProductForSaleRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
-
+public function findAllProductForSale($value)
+{
+    return $this->createQueryBuilder('p')
+    ->where('p.owner!=:id')
+    ->andWhere('p.status = :status' )
+    ->setParameter('id',$value)
+    ->setParameter('status','APPROVED')
+    ->getQuery()
+    ->getResult();
+}
+public function setStatusSelled($id)
+{
+    $em=$this->getEntityManager();
+    $query=$em->createQuery("UPDATE APP\Entity\ProductForSale p
+    SET p.status = 'SELLED'
+    WHERE p.id=:id ")
+    ->setParameter('id',$id);
+    return $query->getResult();
+}
 
 //    public function findOneBySomeField($value): ?ProductForSale
 //    {

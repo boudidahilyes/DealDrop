@@ -35,6 +35,14 @@ class ProductForRentRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
+public function findAllProductForRent($value)
+{
+    return $this->createQueryBuilder('p')
+    ->where('p.owner!=:id')
+    ->setParameter('id',$value)
+    ->getQuery()
+    ->getResult();
+}
 
 //    public function findOneBySomeField($value): ?ProductForRent
 //    {
