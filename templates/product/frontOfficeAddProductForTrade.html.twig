@@ -18,12 +18,12 @@
 					</svg>
 				</li>
 				<li class="font-bold">
-						<a href="{{ path('app_product_for_rent') }}">Product</a>
+					<a href="{{ path('app_product_for_trade') }}">Product</a>
 					<svg role="img" class="fill-gray absolute -right-4 top-1/2 aspect-[3/5] w-1.5 -translate-y-1/2 lg:-right-5">
 						<use xlink:href="/build/images/str1/sprite.svg#arrow-right-pixel-alt"></use>
 					</svg>
 				</li>
-				<li>Add Product For Rent
+				<li>Add Product For Trade
 				</li>
 
 			</ol>
@@ -37,7 +37,7 @@
 					<div>
 						<div class="mb-10 lg:mb-16">
 							<h2 class="text-2xl font-bold text-gray-900 dark:text-white md:text-3xl md:tracking-tight lg:text-3.5xl">
-								Add Product For Rent</h2>
+								Add Product For Trade</h2>
 						</div>
 						<div class="grid grid-cols-1 sm:grid-cols-2 gap-7">
 							<div>
@@ -47,18 +47,13 @@
 							<div>
 								{{ form_label(formProduct.name, 'Product Name', {'label_attr': {'class': 'block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5'}}) }}
 								{{ form_widget(formProduct.name, {'attr': {'class': 'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full'}}) }}
-															{{ form_errors(formProduct.name) }}
+								{{ form_errors(formProduct.name)}}
 							</div>
 							<div class="col-span-full">{{ form_label(formProduct.description, 'Product Description', {'label_attr': {'class': 'block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5'}}) }}
 								{{ form_widget(formProduct.description, {'attr': {'class': 'block border-base bg-white/40 w-full px-4 py-2 tracking-tight text-gray-900 transition-all duration-150 placeholder:text-gray-500/60 focus:border-accent focus:outline-0 focus:ring-0 dark:border-gray-650 dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 h-40 md:h-48'}}) }}
-																{{ form_errors(formProduct.description) }}
+								{{ form_errors(formProduct.description) }}
 							</div>
 							<div>
-								{{ form_label(formProduct.pricePerDay, 'Product Price Per Day', {'label_attr': {'class': 'block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5'}}) }}
-								{{ form_widget(formProduct.pricePerDay, {'attr': {'class': 'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full','placeholder':'Price by Dt'}}) }}
-																{{ form_errors(formProduct.pricePerDay) }}
-							</div>
-														<div>
 								{{ form_label(formProduct.productImage, 'Product Images', {'label_attr': {'class': 'block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5'}}) }}
 								{{ form_widget(formProduct.productImage, {'attr': {'class': 'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full'}}) }}
 								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>

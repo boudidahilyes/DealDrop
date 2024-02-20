@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductForRentRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ProductForRentRepository::class)]
 class ProductForRent extends Product
 {
@@ -14,6 +14,8 @@ class ProductForRent extends Product
     protected ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'The  price per day is required')]
+    #[Assert\Positive(message:'The price per day should be positive')]
     private ?float $pricePerDay = null;
 
     #[ORM\Column(length: 255)]

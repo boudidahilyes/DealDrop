@@ -41,7 +41,7 @@ public function findAllProductForSale($value)
     ->where('p.owner!=:id')
     ->andWhere('p.status = :status' )
     ->setParameter('id',$value)
-    ->setParameter('status','APPROVED')
+    ->setParameter('status','Approved')
     ->getQuery()
     ->getResult();
 }

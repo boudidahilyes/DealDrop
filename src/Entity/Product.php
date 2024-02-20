@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
@@ -20,9 +20,16 @@ abstract class Product
     protected ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'The name is required')]
     protected ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'The description is required')]
+    #[Assert\Length(
+        min:50,
+        max:500,
+        minMessage : "Your description must be at least {{ limit }} characters long",
+        maxMessage : "Your description cannot be longer than {{ limit }} characters")]
     protected ?string $description = null;
 
 
@@ -33,10 +40,10 @@ abstract class Product
     #[ORM\JoinColumn(nullable: false)]
     protected ?ProductCategory $productCategory = null;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductImage::class,cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductImage::class, cascade: ['persist', 'remove'])]
     protected Collection $productImages;
 
-    #[ORM\ManyToOne(inversedBy: 'products', fetch:'EAGER')]
+    #[ORM\ManyToOne(inversedBy: 'products', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     protected ?Member $owner = null;
 
@@ -48,7 +55,7 @@ abstract class Product
         $this->productImages = new ArrayCollection();
     }
 
-    
+
 
     public function getId(): ?int
     {
@@ -157,5 +164,4 @@ abstract class Product
 
         return $this;
     }
-
 }

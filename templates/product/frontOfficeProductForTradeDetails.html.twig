@@ -17,7 +17,7 @@
 					</svg>
 				</li>
 				<li class="font-bold">
-					<a href="{{ path('app_product_for_sale') }}">Product</a>
+					<a href="{{ path('app_product_for_trade') }}">Product</a>
 					<svg role="img" class="fill-gray absolute -right-4 top-1/2 aspect-[3/5] w-1.5 -translate-y-1/2 lg:-right-5">
 						<use xlink:href="/build/images/str1/sprite.svg#arrow-right-pixel-alt"></use>
 					</svg>
@@ -53,8 +53,6 @@
 							<div class="flex justify-between items-baseline mb-5 lg:mb-8">
 								<h2 class="text-2xl font-bold text-gray-900 md:text-2xl lg:text-4xl dark:text-white lg:leading-none">
 									{{product.name}}</h2>
-								<div class="text-2xl font-bold text-accent md:text-2xl lg:text-[32px] lg:leading-none">{{product.price}}
-									Dt</div>
 							</div>
 							<div class="flex items-center gap-x-4 relative text-sm leading-none mb-6 md:mb-12">
 								<div class="text-gray-500/60 uppercase font-bold text-sm leading-none mt-[1px]">Product Owner:
@@ -73,12 +71,13 @@
 								</div>
 							</div>
 							<div class="flex mb-10 lg:mb-20">
-									<a href='{{path('app_product_for_sale_order',{'id':product.id})}}' type="submit" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 basis-full md:basis-1/2 lg:basis-1/3">+ Buy Now </a>
-								</div>
+								<a href='{{path('app_product_for_trade_offer',{'id':product.id})}}' type="submit" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 basis-full md:basis-1/2 lg:basis-1/3">+ Offer Now
+								</a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</main>
-	{% endblock %}
+		</div>
+	</main>
+{% endblock %}

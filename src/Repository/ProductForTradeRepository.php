@@ -35,21 +35,23 @@ class ProductForTradeRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
-public function findAllProductForSale($value)
+public function findAllProductForTrade($value)
 {
     return $this->createQueryBuilder('p')
     ->where('p.owner!=:id')
-    ->andWhere('p.status = :status' )
+    ->andWhere('p.status = :status')
+    ->andWhere('p.tradeType = :tradeType')
     ->setParameter('id',$value)
-    ->setParameter('status','APPROVED')
+    ->setParameter('status','Approved')
+    ->setParameter('tradeType','POSTED')
     ->getQuery()
     ->getResult();
 }
-public function setStatusSold($id)
+public function setStatusTraded($id)
 {
     $em=$this->getEntityManager();
     $query=$em->createQuery("UPDATE APP\Entity\ProductForTrade p
-    SET p.status = 'SOLD'
+    SET p.status = 'TRADED'
     WHERE p.id=:id ")
     ->setParameter('id',$id);
     return $query->getResult();

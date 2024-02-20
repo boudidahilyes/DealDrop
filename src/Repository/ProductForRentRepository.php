@@ -39,7 +39,9 @@ public function findAllProductForRent($value)
 {
     return $this->createQueryBuilder('p')
     ->where('p.owner!=:id')
+    ->andWhere('p.status = :status' )
     ->setParameter('id',$value)
+    ->setParameter('status','Approved')
     ->getQuery()
     ->getResult();
 }

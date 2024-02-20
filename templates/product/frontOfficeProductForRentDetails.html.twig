@@ -65,14 +65,14 @@
 							</div>
 
 							<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="product-quantity">The Price Per Day</label>
+							<div class="basis-1/2">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="product-quantity">Product Description</label>
+							</div>
+							<div class="mb-6 lg:mb-10">{{product.description}}</div>
 							<div class="grid grid-cols-2 gap-7.5 mb-9 lg:mb-14 xl:pr-12.5">
 								<div class="basis-1/2">
 									<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="product-quantity">Product Category</label>
 									<div class="mb-6 lg:mb-10">{{product.productCategory.name}}</div>
-								</div>
-								<div class="basis-1/2">
-									<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="product-quantity">Product Description</label>
-									<div class="mb-6 lg:mb-10">{{product.description}}</div>
 								</div>
 							</div>
 							{% if product.disponibility != 'UnAvailable' %}
