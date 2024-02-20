@@ -11,7 +11,7 @@ class ProductForRent extends Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column]
     private ?float $pricePerDay = null;

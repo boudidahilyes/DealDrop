@@ -1,0 +1,102 @@
+{% extends 'baseFrontOffice.html.twig' %}
+{% block body %}
+<main id="main-content" class="grow lg:pt-0">
+				<div class="pt-10 pb-16 lg:pt-20 lg:pb-44">
+					<div class="container">
+						<div class="grid grid-cols-12 gap-x-5 md:gap-x-6 lg:gap-x-7.5 gap-y-16">
+							<div class="col-span-full md:col-span-8 md:pr-[38px] lg:pr-[50px] xl:pr-[70px]">
+								<div class="mb-12 md:mb-16 lg:mb-20 xl:mb-24">
+									<h3 class="text-gray-900 dark:text-white text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold mb-8 md:mb-12 lg:mb-14 xl:mb-16">Available <span class="text-accent  ">Deliveries</span></h3>
+									<div class="flex flex-col gap-y-12">
+                  {% for delivery in deliveries %}
+                    <div class="grid grid-cols-[70px_1fr] grid-rows-2 lg:grid-rows-1 lg:auto-rows-auto lg:grid-cols-[70px_1fr_180px] gap-x-4 lg:gap-x-6 xl:gap-x-7.5 gap-y-6">
+											<div class="flex items-center justify-center">
+												<svg class="aspect-square w-11 h-12.5 fill-accent" fill="currentColor">
+													<use xlink:href="assets/img/str1/sprite.svg#gamer-mouse"></use>
+												</svg>
+											</div>
+											<div class="lg:pt-1">
+												<h4 class="lg:leading-none text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
+													<a class="text-gray-900 dark:text-white hover:text-accent dark:hover:text-accent transition-colors" href="#">{{delivery.deliveryOrder.product.name}}</a>
+												</h4>
+												<div class="font-bold text-gray-500">{{delivery.deliveryOrder.deliveryAdress}}</div>
+											</div>
+											<div class="col-span-full lg:col-auto">
+												<a href="{{path('app_delivery_details',{'id' : delivery.id})}}" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-500/40 ring-1 ring-inset ring-gray-500/40 bg-transparent hover:bg-accent hover:text-gray-900 hover:ring-0 w-full">Claim</a>
+											</div>
+										</div>
+                  {% endfor %}
+
+									</div>
+								</div>
+								
+							</div>
+							<div class="col-span-full md:col-span-4">
+								<div class="mb-12 md:mb-16 lg:mb-20 xl:mb-24">
+									<h3 class="text-gray-900 dark:text-white text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold mb-8 md:mb-12 lg:mb-14 xl:mb-16">The Channel</h3>
+									<div class="mb-6 lg:mb-10">Hi! My name is April Valentine AKA
+										<a href="#" class="text-accent hover:text-gray-900 dark:hover:text-white">NekoMaGiX</a>. My main stream is every day at 8PM PST. I also make special morning streams all 1st‘s, 15th’s and 30th’s of every month with the lastest gaming news.</div>
+									<dl class="mb-8 flex flex-col gap-y-3.5 font-medium md:mb-10 lg:mb-12">
+										<div class="flex flex-wrap justify-between">
+											<dt class="text-gray-500 opacity-60">From</dt>
+											<dd class="[&_a]:text-accent [&_a]:hover:text-gray-900 [&_a]:dark:hover:text-white">Los Angeles, USA</dd>
+										</div>
+										<div class="flex flex-wrap justify-between">
+											<dt class="text-gray-500 opacity-60">Platforms</dt>
+											<dd class="[&_a]:text-accent [&_a]:hover:text-gray-900 [&_a]:dark:hover:text-white">PC, PS4, Atari</dd>
+										</div>
+										<div class="flex flex-wrap justify-between">
+											<dt class="text-gray-500 opacity-60">Content</dt>
+											<dd class="[&_a]:text-accent [&_a]:hover:text-gray-900 [&_a]:dark:hover:text-white">All Ages</dd>
+										</div>
+										<div class="flex flex-wrap justify-between">
+											<dt class="text-gray-500 opacity-60">Favourite Game</dt>
+											<dd class="[&_a]:text-accent [&_a]:hover:text-gray-900 [&_a]:dark:hover:text-white">Witch Hunters</dd>
+										</div>
+										<div class="flex flex-wrap justify-between">
+											<dt class="text-gray-500 opacity-60">eSports Team</dt>
+											<dd class="[&_a]:text-accent [&_a]:hover:text-gray-900 [&_a]:dark:hover:text-white">
+												<a href="#">Necromancers</a>
+											</dd>
+										</div>
+										<div class="flex flex-wrap justify-between">
+											<dt class="text-gray-500 opacity-60">
+												<svg class="aspect-square w-5 self-center fill-gray-500/60 lg:w-6" fill="currentColor">
+													<use xlink:href="assets/img/social-icons.svg#playstation"></use>
+												</svg>
+											</dt>
+											<dd class="[&_a]:text-accent [&_a]:hover:text-gray-900 [&_a]:dark:hover:text-white">NekoMaGiX_PS</dd>
+										</div>
+										<div class="flex flex-wrap justify-between">
+											<dt class="text-gray-500 opacity-60">
+												<svg class="aspect-square w-5 self-center fill-gray-500/60 lg:w-6" fill="currentColor">
+													<use xlink:href="assets/img/social-icons.svg#xbox"></use>
+												</svg>
+											</dt>
+											<dd class="[&_a]:text-accent [&_a]:hover:text-gray-900 [&_a]:dark:hover:text-white">NkMaGiX-08</dd>
+										</div>
+									</dl>
+									<a href="#" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-white bg-social-patreon hover:bg-social-patreon/90 w-full">
+										<svg class="h-[14px] w-[14px]" fill="currentColor">
+											<use xlink:href="assets/img/social-icons.svg#patreon"></use>
+										</svg>
+										Support me via Patreon</a>
+								</div>
+								<div>
+									<h3 class="text-gray-900 dark:text-white text-xl sm:text-2xl md:text-3xl lg:text-[32px] font-bold mb-8 md:mb-12 lg:mb-14 xl:mb-16">Stream Rules</h3>
+									<ol class="list-ol">
+										<li>Be positive! Respect and help other viewers</li>
+										<li>Be respectful of moderators</li>
+										<li>No insults or any other bad laguage</li>
+										<li>No self promotions</li>
+										<li>Discrimination will result in ban</li>
+										<li>No message or emote spamming</li>
+										<li>Have fun!</li>
+									</ol>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
+      {% endblock %}

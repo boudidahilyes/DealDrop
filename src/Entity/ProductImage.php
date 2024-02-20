@@ -12,7 +12,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class ProductImage extends Image
 {
 
-    #[ORM\ManyToOne(inversedBy: 'productImages')]
+    #[ORM\ManyToOne(inversedBy: 'productImages',cascade:['remove','persist'])]
     #[ORM\JoinColumn(nullable: true)]
     private ?Product $product = null;
 

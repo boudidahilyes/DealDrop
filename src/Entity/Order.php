@@ -29,6 +29,9 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $rentDays = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,9 +78,21 @@ class Order
         return $this->product;
     }
 
-    public function setProduct(Product $product): static
+    public function setProduct(?Product $product): static
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getRentDays(): ?int
+    {
+        return $this->rentDays;
+    }
+
+    public function setRentDays(?int $rentDays): static
+    {
+        $this->rentDays = $rentDays;
 
         return $this;
     }

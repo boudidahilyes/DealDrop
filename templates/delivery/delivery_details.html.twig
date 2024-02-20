@@ -1,0 +1,117 @@
+{% extends 'baseFrontOffice.html.twig' %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+{% endblock %}
+{% block body %}
+	<main id="main-content" class="grow lg:pt-0">
+		<div class="pt-10 pb-16 lg:pt-20 lg:pb-44">
+			<div class="container">
+				<div class="grid grid-cols-12 gap-x-5 md:gap-x-6 lg:gap-x-7.5 gap-y-16">
+					<div class="col-span-full md:col-span-8 md:pr-[38px] lg:pr-[50px] xl:pr-[70px]">
+						<div class="mb-10 md:mb-12 lg:mb-16 xl:mb-[72px]">
+							<h3 class="text-xl font-bold tracking-tight text-gray-900 before:text-accent before:content-['.'] dark:text-white sm:text-1.5xl md:text-2xl lg:leading-none lg:text-[32px]">LiveStream from TwitchCon 2023!</h3>
+						</div>
+						<figure class="relative mb-6 md:mb-8 lg:mb-10 xl:mb-12">
+							<div id="map" class='w-full' style ="height :50vh"></div>
+						</figure>
+
+						<div class="pt-5 lg:pt-9 grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-7.5 lg:max-w-xl">
+							<a href="_str1-single-event.html" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-white bg-primary hover:bg-primary/90 flex-1">Buy Tickets
+							</a>
+							<a href="_str1-single-event.html" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 flex-1">Add to Google Calendar</a>
+						</div>
+					</div>
+					<div class="col-span-full md:col-span-4">
+						<div class="mb-10 md:mb-12 lg:mb-16 xl:mb-[72px]">
+							<h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-1.5xl md:text-2xl lg:leading-none lg:text-[32px]">Event Details</h3>
+						</div>
+						<dl class="mb-8 flex flex-col gap-y-3.5 font-medium md:mb-10 lg:mb-12">
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">Date</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">Friday April 8th, 2023</dd>
+							</div>
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">Start</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">9:00AM PCT</dd>
+							</div>
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">End</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">11:00PM PCT</dd>
+							</div>
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">Organizer</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">Twitch</dd>
+							</div>
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">Cost</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">$20 USD</dd>
+							</div>
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">Website</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">
+									<a href="http://www.twitchcon.com/">www.twitchcon.com</a>
+								</dd>
+							</div>
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">Address</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">Fake W Street 123</dd>
+							</div>
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">State/Country</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">New York, USA</dd>
+							</div>
+						</dl>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+{% block endbodyjs %}
+	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+var map = L.map('map').setView({{ delivery.coordinates }}, 14);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '© OpenStreetMap contributors'}).addTo(map);
+
+var markerGroup = L.featureGroup().addTo(map);
+L.marker({{ delivery.coordinates }}).addTo(markerGroup);
+var destination = {{ delivery.coordinates }};
+var apiKey = '5b3ce3597851110001cf6248c7ddd0a26f424500a914813c8440fef9';
+if (navigator.geolocation) {
+navigator.geolocation.getCurrentPosition(function (position) {
+let currentLatitude = position.coords.latitude;
+let currentLongitude = position.coords.longitude;
+let currentPosition = [currentLatitude, currentLongitude];
+console.log(currentPosition);
+
+var routingUrl = 'https://api.openrouteservice.org/v2/directions/driving-car?api_key=' + apiKey + '&start=' + currentPosition[1] + ',' + currentPosition[0] + '&end=' + destination[1] + ',' + destination[0];
+
+// Make the routing request
+axios.get(routingUrl).then(function (response) {
+var routeCoordinates = response.data.features[0].geometry.coordinates;
+for (let i = 0; i < routeCoordinates.length; i++) {
+let aux = routeCoordinates[i][0];
+routeCoordinates[i][0] = routeCoordinates[i][1];
+routeCoordinates[i][1] = aux;
+}
+// Create a polyline using the route coordinates
+var polyline = L.polyline(routeCoordinates, {color: 'blue'}).addTo(map);
+
+// Fit the map view to the polyline bounds
+map.fitBounds(polyline.getBounds());
+}).catch(function (error) {
+console.error('Error getting route:', error);
+});
+
+}, function (error) {
+console.error('Error getting location:', error.message);
+});
+} else {
+console.error('Geolocation is not supported by this browser.');
+}
+})
+	</script>
+{% endblock %}
