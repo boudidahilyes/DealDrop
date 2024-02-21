@@ -83,7 +83,52 @@ class ProductForSaleController extends AbstractController
             'product' => $product
         ]);
     }
-
+    #[Route('/profil/productForSale', name: 'app_product_for_sale_profil')]
+    public function ProductForSaleProfil(ProductForSaleRepository $productForSaleRepository): Response
+    {
+        $products = $productForSaleRepository->findAllProductForSaleProfil(1);
+        return $this->render('product/frontOfficeListProductForSaleProfil.html.twig', [
+            'listProduct' => $products
+        ]);
+    }
+    #[Route('/profil/productForSale/edit{id}', name: 'app_product_for_sale_edit')]
+    public function editProductForSale($id, Request $req): Response
+    {
+        $pfs = $this->entityManager->getRepository(ProductForSale::class)->findOneBy(['id' => $id]);
+        $form = $this->createForm(ProductForSaleFormType::class, $pfs);
+        $form->handleRequest($req);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $pfs->setAddDate(new \DateTimeImmutable());
+            $pfs->setStatus('Pending');
+            $ProductImages = $form->get("productImage")->getData();
+            if ($ProductImages != null) {
+                foreach ($pfs->getProductImages() as $productImg) {
+                    $this->entityManager->remove($productImg);
+                    $this->entityManager->flush();
+                }
+                $pfs->getProductImages()->clear();
+                foreach ($ProductImages as $img) {
+                    $ProductImage = new ProductImage($img->getClientOriginalName());
+                    $ProductImage->setImageFile($img);
+                    $ProductImage->setProduct($pfs);
+                    $this->entityManager->persist($ProductImage);
+                    $this->entityManager->flush();
+                }
+            }
+            $this->entityManager->persist($pfs);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('app_product_for_sale_profil');
+        }
+        return $this->render('product/frontOfficeAddProductForSale.html.twig', ['formProduct' => $form->createView()]);
+    }
+    #[Route('/profil/productForSaleDel/{id}', name: 'app_product_for_sale_remove')]
+    public function removeProductForSale($id): Response
+    {
+        $product = $this->entityManager->getRepository(ProductForSale::class)->findOneBy(['id' => $id]);
+        $this->entityManager->remove($product);
+        $this->entityManager->flush();
+        return $this->redirectToRoute('app_product_for_sale_profil');
+    }
     #frontOffice End#
 
     #BackOffice Begin#

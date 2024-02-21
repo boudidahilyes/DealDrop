@@ -11,6 +11,7 @@ use App\Entity\Offer;
 use App\Entity\ProductForTrade;
 use App\Entity\ProductImage;
 use App\Form\ProductForTradeFormType;
+use App\Repository\OfferRepository;
 use App\Repository\ProductForTradeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,9 +51,7 @@ class ProductForTradeController extends AbstractController
                 $ProductImage->setProduct($pft);
                 $this->entityManager->persist($ProductImage);
                 $this->entityManager->flush();
-                dump($ProductImage);
             }
-            die;
             $this->entityManager->persist($pft);
             $this->entityManager->flush();
             return $this->redirectToRoute('app_product_for_trade');
@@ -66,6 +65,51 @@ class ProductForTradeController extends AbstractController
         return $this->render('product/frontOfficeProductForTradeDetails.html.twig', [
             'product' => $product
         ]);
+    }
+    #[Route('/profil/productForTrade', name: 'app_product_for_trade_profil')]
+    public function ProductForTradeProfil(ProductForTradeRepository $productForTradeRepository): Response
+    {
+        $products = $productForTradeRepository->findAllProductForTradeProfil(1);
+        return $this->render('product/frontOfficeListProductForTradeProfil.html.twig', [
+            'listProduct' => $products
+        ]);
+    }
+    #[Route('/profil/productForTrade/edit{id}', name: 'app_product_for_trade_edit')]
+    public function editProductForTrade($id, Request $req): Response
+    {
+        $pft = $this->entityManager->getRepository(ProductForTrade::class)->findOneBy(['id' => $id]);
+        $form = $this->createForm(ProductForTradeFormType::class, $pft);
+        $form->handleRequest($req);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $offers = $this->entityManager->getRepository(Offer::class)->findBy(['productPosted' => $pft]);
+            foreach ($offers as $offer) {
+                $pft->removeOffer($offer);
+                $productoffered = $this->entityManager->getRepository(ProductForTrade::class)->findOneBy(['id' => $offer->getProductOffered()]);
+                $this->entityManager->remove($productoffered);
+                $this->entityManager->flush();
+            }
+            $pft->setAddDate(new \DateTimeImmutable());
+            $pft->setStatus('Pending');
+            $ProductImages = $form->get("productImage")->getData();
+            if ($ProductImages != null) {
+                foreach ($pft->getProductImages() as $productImg) {
+                    $this->entityManager->remove($productImg);
+                    $this->entityManager->flush();
+                }
+                $pft->getProductImages()->clear();
+                foreach ($ProductImages as $img) {
+                    $ProductImage = new ProductImage($img->getClientOriginalName());
+                    $ProductImage->setImageFile($img);
+                    $ProductImage->setProduct($pft);
+                    $this->entityManager->persist($ProductImage);
+                    $this->entityManager->flush();
+                }
+            }
+            $this->entityManager->persist($pft);
+            $this->entityManager->flush();
+            return $this->redirectToRoute('app_product_for_trade_profil');
+        }
+        return $this->render('product/frontOfficeAddProductForTrade.html.twig', ['formProduct' => $form->createView()]);
     }
     #[Route('/productForTrade/offer/{id}', name: 'app_product_for_trade_offer')]
     public function offerProductForTrade(Request $req, prdcon $prdcon, $id): Response
@@ -99,7 +143,45 @@ class ProductForTradeController extends AbstractController
         }
         return $this->render('product/frontOfficeAddProductForTrade.html.twig', ['formProduct' => $form->createView()]);
     }
+    #[Route('/profil/productForTrade/offers/{id}', name: 'app_product_for_trade_offers')]
+    public function ViewAllOffers($id): Response
+    {
+        $product = $this->entityManager->getRepository(ProductForTrade::class)->findOneBy(['id' => $id]);
+        $offers = [];
+        foreach ($product->getOffers() as $offer) {
+            $offers[] = $offer->getProductOffered();
+        }
+        return $this->render('product/frontOfficeProductForTradeOffers.html.twig', [
+            'listProduct' => $offers
+        ]);
+    }
 
+    #[Route('/profil/productForTrade/details/{id}', name: 'app_product_for_trade_offer_details')]
+    public function offerMoreDetails($id): Response
+    {
+        $product = $this->entityManager->getRepository(ProductForTrade::class)->findOneBy(['id' => $id]);
+        return $this->render('product/frontOfficeProductForTradeOfferDetails.html.twig', [
+            'product' => $product
+        ]);
+    }
+    #[Route('/profil/productForTrade/accept/{id}', name: 'app_product_for_trade_offer_accept')]
+    public function acceptOffer($id): Response
+    {
+        $offer = $this->entityManager->getRepository(Offer::class)->findOneBy(['productOffered' => $id]);
+        $offer->getProductPosted()->setChosenOffer($offer);
+        $this->entityManager->persist($offer->getProductPosted());
+        $this->entityManager->flush();
+        return $this->redirectToRoute('app_product_for_trade_order', ['offerId' => $offer->getId()]);
+    }
+    #[Route('/profil/productForTradeDel/{id}', name: 'app_product_for_trade_remove')]
+    public function removeProductForTrade($id): Response
+    {
+        $product = $this->entityManager->getRepository(ProductForTrade::class)->findOneBy(['id' => $id]);
+        $this->entityManager->remove($product);
+        $this->entityManager->flush();
+        return $this->redirectToRoute('app_product_for_trade_profil');
+    }
+    
     #frontOffice End#
     #BackOffice Begin#
     #[Route('/homeDashboard/productForTrade', name: 'app_product_for_trade_list')]

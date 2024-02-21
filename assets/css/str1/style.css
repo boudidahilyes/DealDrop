@@ -4257,6 +4257,15 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(var(--color-accent) / var(--tw-bg-opacity));
 }
+.bg-yellow {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 0 / var(--tw-bg-opacity));
+}
+.bg-red
+{
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 20 60 / var(--tw-bg-opacity));
+}
 .bg-accent\/80 {
   background-color: rgb(var(--color-accent) / 0.8);
 }

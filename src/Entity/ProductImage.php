@@ -14,7 +14,7 @@ class ProductImage extends Image
 
     #[ORM\ManyToOne(inversedBy: 'productImages',cascade:['remove','persist'])]
     #[ORM\JoinColumn(nullable: true)]
-    private ?product $product = null;
+    protected ?product $product = null;
 
     #[Vich\UploadableField(mapping: 'productImage', fileNameProperty: 'title')]
     protected ?File $imageFile = null;

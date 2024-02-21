@@ -3,7 +3,7 @@
 	<main id="main-content" class="grow lg:pt-0">
 		<div class="pt-10 pb-16 lg:pt-20 lg:pb-44">
 			<div class="container">
-				{{ form_start(form,{'attr':{'class':'grid grid-cols-12 gap-x-6 md:gap-x-7.5 content-start gap-y-12'}}) }}
+				{{ form_start(form,{'attr':{'class':'grid grid-cols-12 gap-x-6 md:gap-x-7.5 content-start gap-y-12','novalidator':'novalidator'}}) }}
 				<div class="col-span-full lg:col-span-8 lg:pr-[70px]">
 					<div>
 						<div class="mb-10 lg:mb-16">
@@ -68,6 +68,6 @@
   <script>
   $('#rentDays').on('input',function(){
                     $('#Days').text($('#rentDays').val());
-                    $('#fullPrice').text(parseInt($('#pricePerDay').text()) * parseInt($('#Days').text()));})
+                    $('#fullPrice').text(parseInt(($('#pricePerDay').text()) * parseInt($('#Days').text()))+8);})
   </script>
 {% endblock %}

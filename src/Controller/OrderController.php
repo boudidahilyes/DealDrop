@@ -13,10 +13,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\ProductForSaleController as prdcon;
+use App\Entity\Offer;
 use App\Entity\Order;
 use App\Entity\ProductForRent;
+use App\Entity\ProductForTrade;
 use App\Form\OrderForRentFormType;
 use App\Repository\ProductForRentRepository;
+use App\Repository\ProductForTradeRepository;
 
 class OrderController extends AbstractController
 {
@@ -74,6 +77,34 @@ class OrderController extends AbstractController
         ]);
     }
     ##Order productForRent End ##
+        ##Order productForTrade Begin ##
+    #[Route('/productForTrade/order', name: 'app_product_for_trade_order')]
+    public function orderProductForTrade(Request $req,ProductForTradeRepository $productForTradeRepository):Response
+    {
+        $offer=$this->entityManager->getRepository(Offer::class)->findOneBy(['id'=>$req->get('offerId')]);
+        $productOffered=$this->entityManager->getRepository(ProductForTrade::class)->findOneBy(['id'=>$offer->getProductOffered()->getId()]);
+        $productPosted=$this->entityManager->getRepository(ProductForTrade::class)->findOneBy(['id'=>$offer->getProductPosted()->getId()]);
+        //order for Product Posted
+        $orderForProductPosted=new Order();
+        $orderForProductPosted->setMember($productPosted->getMember());
+        $orderForProductPosted->setProduct($productPosted);
+        $orderForProductPosted->setOrderDate(new \DateTimeImmutable());
+        $orderForProductPosted->setDeliveryAdress($productPosted->getMember()->getAdress());
+        $productForTradeRepository->setStatusSold($productPosted->getId());
+        $this->entityManager->persist($orderForProductPosted);
+        $this->entityManager->flush();
+        //order for Product Accepted
+        $orderForProductOffered=new Order();
+        $orderForProductOffered->setMember($productOffered->getMember());
+        $orderForProductOffered->setProduct($productOffered);
+        $orderForProductOffered->setOrderDate(new \DateTimeImmutable());
+        $orderForProductOffered->setDeliveryAdress($productOffered->getMember()->getAdress());
+        $productForTradeRepository->setStatusSold($productOffered->getId());
+        $this->entityManager->persist($orderForProductOffered);
+        $this->entityManager->flush();
+        return $this->redirectToRoute('app_product_for_trade_profil');
+    }
+            ##Order productForTrade End ##
     ## BackOffice Begin ##
     #[Route('/homeDashboard/orders', name: 'app_orders_list')]
     public function listOrders(): Response

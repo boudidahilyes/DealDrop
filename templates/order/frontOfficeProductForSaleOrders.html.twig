@@ -7,7 +7,7 @@
 					<use xlink:href="/build/images/str1/sprite.svg#arrow-right-pixel"></use>
 				</svg>
 				<h1 class="relative mb-3 text-3xl font-bold leading-none tracking-tighter text-gray-900 dark:text-white sm:text-4xl md:text-5xl lg:text-7xl xl:text-[84px]">
-					Product</h1>
+					Orders</h1>
 			</div>
 			<ol class="relative flex flex-wrap gap-x-6 text-sm leading-none text-gray-500 lg:gap-x-8 lg:text-lg [&>li>a]:text-gray-900 hover:[&>li>a]:text-accent dark:[&>li>a]:text-white dark:hover:[&>li>a]:text-accent [&>li]:relative">
 				<li class="font-bold">
@@ -35,19 +35,16 @@
 							<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="_str1-account-info.html">Personal Info</a>
 						</li>
 						<li>
-							<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="_str1-account-billing.html">Products For Sale</a>
+							<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{path('app_product_for_sale_profil')}}">Products For Sale</a>
 						</li>
 						<li>
-							<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="_str1-account-shipping.html">Products for Rent</a>
+							<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{path('app_product_for_rent_profil')}}">Products for Rent</a>
 						</li>
 						<li>
-							<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="_str1-account-shipping.html">Products for Trade</a>
+							<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{path('app_product_for_trade_profil')}}">Products for Trade</a>
 						</li>
 						<li>
 							<a class="transition-all text-accent" href="{{path('app_product_for_sale_orders')}}">Orders</a>
-						</li>
-						<li>
-							<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="#.html">Logout</a>
 						</li>
 					</ul>
 				</nav>
@@ -72,7 +69,8 @@
 							<div class="col-span-full sm:col-span-6 md:col-span-3">
 								<h5 class="font-bold text-gray-900 dark:text-white mb-5 lg:mb-8">Shipping Details</h5>
 								<address class="leading-8 [&>p]:mb-8 [&>p:last-child]:mb-0 not-italic">
-									<p>{{order.member.firstName}} {{order.member.lastName}}<br><a class="hover:text-primary" href="mailto:jspiegel@yourmail.com">{{order.member.email}}</a><br>{{order.member.phone}}</p>
+									<p>{{order.member.firstName}}
+										{{order.member.lastName}}<br><a class="hover:text-primary" href="mailto:jspiegel@yourmail.com">{{order.member.email}}</a><br>{{order.member.phone}}</p>
 									<p>{{order.deliveryAdress}}</p>
 								</address>
 							</div>
@@ -82,30 +80,47 @@
 									<li>
 										<div>{{order.product.name}}
 											-</div>
-											{% if order.product.whoIam() == 'ProductForSale' %}
-										<div>{{order.product.price}} Dt</div>
-																					{% endif %}
-																			{% if order.product.whoIam() == 'ProductForRent' %}	
-																				<div>{{order.product.pricePerDay}} Dt *{{order.rentDays}}</div>
-																				{% endif %}
+										{% if order.product.whoIam() == 'ProductForSale' %}
+											<div>{{order.product.price}}
+												Dt</div>
+										{% endif %}
+										{% if order.product.whoIam() == 'ProductForRent' %}
+											<div>{{order.product.pricePerDay}}
+												Dt *{{order.rentDays}}</div>
+										{% endif %}
 									</li>
 								</ul>
 							</div>
 							<div class="col-span-full sm:col-span-6 md:col-span-3">
 								<h5 class="font-bold text-gray-900 dark:text-white mb-5 lg:mb-8">Totals & Payment</h5>
 								{% if order.product.whoIam() == 'ProductForSale' %}
-								<address class="leading-8 [&>p]:mb-8 [&>p:last-child]:mb-0 not-italic">
-									<p>Sub total: {{order.product.price}} Dt<br>Shipping: 8 Dt<br>Order Total:
-										<span class="text-accent">{{order.product.price + 8}} Dt</span>
-									</p>
-								</address>
+									<address class="leading-8 [&>p]:mb-8 [&>p:last-child]:mb-0 not-italic">
+										<p>Sub total:
+											{{order.product.price}}
+											Dt<br>Shipping: 8 Dt<br>Order Total:
+											<span class="text-accent">{{order.product.price + 8}}
+												Dt</span>
+										</p>
+									</address>
 								{% endif %}
-															{% if order.product.whoIam() == 'ProductForRent' %}
-								<address class="leading-8 [&>p]:mb-8 [&>p:last-child]:mb-0 not-italic">
-									<p>Sub total: {{order.product.pricePerDay}} Dt *{{order.rentDays}}<br>Shipping: 8 Dt<br>Order Total:
-										<span class="text-accent">{{(order.product.pricePerDay * order.rentDays) + 8}} Dt</span>
-									</p>
-								</address>
+								{% if order.product.whoIam() == 'ProductForRent' %}
+									<address class="leading-8 [&>p]:mb-8 [&>p:last-child]:mb-0 not-italic">
+										<p>Sub total:
+											{{order.product.pricePerDay}}
+											Dt *{{order.rentDays}}<br>Shipping: 8 Dt<br>Order Total:
+											<span class="text-accent">{{(order.product.pricePerDay * order.rentDays) + 8}}
+												Dt</span>
+										</p>
+									</address>
+								{% endif %}
+																{% if order.product.whoIam() == 'ProductForTrade' %}
+									<address class="leading-8 [&>p]:mb-8 [&>p:last-child]:mb-0 not-italic">
+										<p>Sub total:
+											-<br>Shipping: 8 Dt<br>Order Total:
+											<span class="text-accent">8	
+												Dt</span>
+										</p>
+									</address>
 								{% endif %}
 							</div>
 						</div>

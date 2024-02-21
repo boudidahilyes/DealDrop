@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\OrderRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
 class Order
@@ -16,6 +16,12 @@ class Order
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'The adress is required')]
+    #[Assert\Length(
+        min:5,
+        max:150,
+        minMessage : "Your Adress is too short",
+        maxMessage : "Your Adress cannot be longer than {{ limit }} characters")]
     private ?string $deliveryAdress = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -29,6 +35,8 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
+    #[Assert\NotBlank(message:'The rent days is required')]
+    #[Assert\Positive(message:'The rent days should be positive')]
     #[ORM\Column(nullable: true)]
     private ?int $rentDays = null;
 

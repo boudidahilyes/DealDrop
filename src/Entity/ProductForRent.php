@@ -14,7 +14,7 @@ class ProductForRent extends Product
     protected ?int $id = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'The  price per day is required')]
+    #[Assert\NotBlank(message: 'The price per day is required')]
     #[Assert\Positive(message:'The price per day should be positive')]
     private ?float $pricePerDay = null;
 

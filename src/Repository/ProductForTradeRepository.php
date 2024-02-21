@@ -35,24 +35,41 @@ class ProductForTradeRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
-public function findAllProductForTrade($value)
+public function findAllProductForTrade($id)
 {
     return $this->createQueryBuilder('p')
     ->where('p.owner!=:id')
     ->andWhere('p.status = :status')
     ->andWhere('p.tradeType = :tradeType')
-    ->setParameter('id',$value)
+    ->setParameter('id',$id)
     ->setParameter('status','Approved')
     ->setParameter('tradeType','POSTED')
     ->getQuery()
     ->getResult();
 }
-public function setStatusTraded($id)
+public function setStatusSold($id)
 {
     $em=$this->getEntityManager();
     $query=$em->createQuery("UPDATE APP\Entity\ProductForTrade p
-    SET p.status = 'TRADED'
+    SET p.status = 'SOLD'
     WHERE p.id=:id ")
+    ->setParameter('id',$id);
+    return $query->getResult();
+}
+public function findAllProductForTradeProfil($id)
+{
+    return $this->createQueryBuilder('p')
+    ->where('p.owner=:id')
+    ->andWhere('p.tradeType = :tradeType')
+    ->setParameter('id',$id)
+    ->setParameter('tradeType','POSTED')
+    ->getQuery()
+    ->getResult();
+}
+public function findAllOfferedProduct($id)
+{
+    $em=$this->getEntityManager();
+    $query=$em->createQuery("Select o from App\Entity\Offer o where o.productPosted=:id")
     ->setParameter('id',$id);
     return $query->getResult();
 }
