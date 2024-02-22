@@ -7,30 +7,38 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\PropertyAccess\PropertyPath;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\Entity(repositoryClass: AuctionRepository::class)]
-class Auction
-{
+class Auction extends Product{
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?productforsale $product = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank(message: 'This value should not be blank')]
+    #[Assert\GreaterThan(value: "today", message: "The start date must be after the current date.")]
     private ?\DateTimeInterface $startDate = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'This value should not be blank')]
     private ?float $currentPrice = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank(message: 'This value should not be blank')]
+    #[Assert\GreaterThan(propertyPath: "startDate", message: "The end date must be after than the start date.")]
+
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\OneToMany(mappedBy: 'auction', targetEntity: Bid::class, orphanRemoval: true)]
     private Collection $bids;
+
+    #[ORM\Column(nullable: true)]
+    protected ?int $highestBid = null;
 
     public function __construct()
     {
@@ -40,18 +48,6 @@ class Auction
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getProduct(): ?ProductForSale
-    {
-        return $this->product;
-    }
-
-    public function setProduct(ProductForSale $product): static
-    {
-        $this->product = $product;
-
-        return $this;
     }
 
     public function getStartDate(): ?\DateTimeInterface
@@ -89,6 +85,17 @@ class Auction
 
         return $this;
     }
+    public function getHighestBid(): ?int
+    {
+        return $this->highestBid;
+    }
+
+    public function setHighestBid(?int $highestBid): static
+    {
+        $this->highestBid = $highestBid;
+
+        return $this;
+    }
 
     /**
      * @return Collection<int, Bid>
@@ -119,4 +126,6 @@ class Auction
 
         return $this;
     }
+
+    
 }

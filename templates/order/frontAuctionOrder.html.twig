@@ -1,0 +1,65 @@
+{% extends 'baseFrontOffice.html.twig' %}
+{% block body %}
+	<main id="main-content" class="grow lg:pt-0">
+		<div class="pt-10 pb-16 lg:pt-20 lg:pb-44">
+			<div class="container">
+				{{ form_start(form,{'attr':{'class':'grid grid-cols-12 gap-x-6 md:gap-x-7.5 content-start gap-y-12'}}) }}
+				<div class="col-span-full lg:col-span-8 lg:pr-[70px]">
+					<div>
+						<div class="mb-10 lg:mb-16">
+							<h2 class="text-2xl font-bold text-gray-900 dark:text-white md:text-3xl md:tracking-tight lg:text-3.5xl">
+								Shipping Details</h2>
+						</div>
+						<div class="grid grid-cols-1 sm:grid-cols-2 gap-7">
+							<div class="col-span-full">
+								{{ form_label(form.deliveryAdress,'Full Address',{'attr':{'class':'block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5'}}) }}
+								{{ form_widget(form.deliveryAdress, {'attr': {'class': 'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full mb-3'}}) }}
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-span-full lg:col-span-4 self-start">
+					<div class="mb-8 lg:mb-12">
+						<div class="mb-10 lg:mb-16">
+							<h2 class="text-2xl font-bold text-gray-900 dark:text-white md:text-3xl md:tracking-tight lg:text-3.5xl">
+								Your Order</h2>
+						</div>
+						<div class="font-medium">
+							<div class="flex flex-wrap justify-between mb-3.5">
+								<h4>Sub total</h4>
+								<div class="font-bold text-gray-900 dark:text-white">{{product.highestBid}}
+									Dt</div>
+							</div>
+							<div class="flex flex-col gap-y-3.5 mb-3.5">
+								<div class="flex flex-wrap justify-between">
+									<div>Shipping</div>
+									<div class="font-bold text-gray-900 dark:text-white">8 Dt</div>
+								</div>
+							</div>
+							<div class="flex flex-wrap justify-between mb-4 lg:mb-8">
+								<div>Total</div>
+								<div class="text-accent font-bold">{{product.highestBid + 8}}
+									Dt</div>
+							</div>
+						</div>
+					</div>
+					<div class="border-y border-gray-500/20 pt-10 mb-8">
+						<ul>
+							<li class="pb-9">
+								<label class="flex flex-wrap gap-x-3 hover:cursor-pointer" for="cash-on-delivery"><input name="payment-method" id="cash-on-delivery" type="radio" class="border-gray-500 h-4 w-4 text-accent checked:bg-transparent checked:border-accent checked:hover:bg-transparent checked:hover:border-accent transition-all duration-150 bg-transparent hover:cursor-pointer peer" checked="checked">
+									<span class="font-bold text-gray-900 dark:text-white leading-tight">Cash on Delivery</span>
+									<span class="basis-full max-h-0 overflow-hidden peer-checked:max-h-28 duration-200 transition-[max-height]">
+										<span class="block pt-5">Pay with cash upon delivery.</span>
+									</span>
+								</label>
+							</li>
+						</ul>
+					</div>
+					{{ form_widget(form.submit, {'attr': {'class': 'inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 w-full'}}) }}
+				</div>
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</main>
+{% endblock %}
