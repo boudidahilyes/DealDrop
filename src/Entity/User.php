@@ -10,7 +10,8 @@ use Symfony\Component\Mime\Message;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
@@ -22,7 +23,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     protected ?int $id = null;
-
+    
+    #[Assert\Email()]
     #[ORM\Column(length: 180, unique: true)]
     protected ?string $email = null;
 
@@ -32,21 +34,57 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
+    #[Assert\Regex(
+        pattern:'/[a-zA-Z]*[0-9][a-zA-Z]*/',
+        message:'Password should containt a number'
+        )]
     #[ORM\Column]
     protected ?string $password = null;
 
+    #[Assert\Length(
+        min: 3,
+        max: 30,
+        minMessage: 'Your Firstname must be at least {{ limit }} characters long',
+        maxMessage: 'Your Firstname cannot be longer than {{ limit }} characters',
+    )]
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     protected ?string $firstName = null;
 
+    #[Assert\NotBlank()]
+    #[Assert\Length(
+        min: 3,
+        max: 30,
+        minMessage: 'Your Lastname must be at least {{ limit }} characters long',
+        maxMessage: 'Your Lastname cannot be longer than {{ limit }} characters',
+    )]
     #[ORM\Column(length: 255)]
     protected ?string $lastName = null;
 
+    #[Assert\Length(
+        min: 8,
+        max: 8,
+        minMessage: 'Your CIN must be {{ limit }} characters long',
+        maxMessage: 'Your CIN must be {{ limit }} characters',
+    )]
     #[ORM\Column]
     protected ?int $cin = null;
 
+    #[Assert\Length(
+        min: 50,
+        max: 255,
+        minMessage: 'Your Adress must be at least {{ limit }} characters long',
+        maxMessage: 'Your Adress cannot be longer than {{ limit }} characters',
+    )]
     #[ORM\Column(length: 255)]
     protected ?string $adress = null;
 
+    #[Assert\Length(
+        min: 8,
+        max: 8,
+        minMessage: 'Your Phone number must be {{ limit }} characters long',
+        maxMessage: 'Your Phone number must be {{ limit }} characters',
+    )]
     #[ORM\Column]
     protected ?int $phone = null;
 
@@ -68,7 +106,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): static
+    public function setFirstName(?string $firstName): static
     {
         $this->firstName = $firstName;
 
@@ -80,7 +118,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): static
+    public function setLastName(?string $lastName): static
     {
         $this->lastName = $lastName;
 
@@ -106,7 +144,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->adress;
     }
 
-    public function setAdress(string $adress): static
+    public function setAdress(?string $adress): static
     {
         $this->adress = $adress;
 
@@ -185,7 +223,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(?string $email): static
     {
         $this->email = $email;
 
@@ -237,7 +275,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(?string $password): static
     {
         $this->password = $password;
 

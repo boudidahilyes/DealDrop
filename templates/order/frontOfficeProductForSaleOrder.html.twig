@@ -98,7 +98,7 @@
 											map.on('click', function(event){
 											let lat = event.latlng.lat;
 											let lng = event.latlng.lng;
-											$('#coordinates').val('['+ lat +','+ lng +']')
+											$('#coordinates').val(lat +','+ lng)
 											markerGroup.clearLayers();
 											L.marker([lat, lng]).addTo(markerGroup);
 

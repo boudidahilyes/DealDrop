@@ -1,6 +1,7 @@
 {% extends 'baseFrontOffice.html.twig' %}
 {% block body %}
 	<main id="main-content" class="grow lg:pt-0">
+		
 		<div class="pt-10 pb-16 lg:pt-20 lg:pb-44">
 			<div class="container">
 				<div class="grid grid-cols-12 gap-x-5 md:gap-x-6 lg:gap-x-7.5 gap-y-16">
@@ -11,6 +12,7 @@
 							</h3>
 							<div class="flex flex-col gap-y-12">
 								{% for delivery in deliveries %}
+								
 									<div class="grid grid-cols-[70px_1fr] grid-rows-2 lg:grid-rows-1 lg:auto-rows-auto lg:grid-cols-[70px_1fr_180px] gap-x-4 lg:gap-x-6 xl:gap-x-7.5 gap-y-6">
 										<div class="flex items-center justify-center">
 											<svg class="aspect-square w-11 h-12.5 fill-accent" fill="currentColor">
@@ -37,10 +39,10 @@
 
 						<ul class="flex flex-wrap gap-x-4 lg:gap-x-9 text-base lg:text-lg font-bold">
 							<li>
-								<a class="text-gray-900 text-accent dark:text-accent transition-colors" href="#">All Deliveries</a>
+								<a class="text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent transition-colors" href="{{path('app_available_deliveries')}}">All Deliveries</a>
 							</li>
 							<li>
-								<a class="text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent transition-colors" href="{{path('app_available_deliveries_in_my_area')}}">Deliveries In My Area</a>
+								<a class="text-gray-900 hover-accent dark:text-accent  transition-colors" href="#">Deliveries In My Area</a>
 							</li>
 							
 						</ul>

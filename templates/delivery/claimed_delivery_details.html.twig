@@ -16,9 +16,9 @@
 						</figure>
 
 						<div class="pt-5 lg:pt-9 grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-7.5 lg:max-w-xl">
-							<a href="_str1-single-event.html" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-white bg-primary hover:bg-primary/90 flex-1">Buy Tickets
+							<a href="{{path('app_mark_as_delivered', {'id' : delivery.id})}}" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-white bg-primary hover:bg-primary/90 flex-1">Mark As Delivered
 							</a>
-							<a href="{{path('app_claim_delivery', {'id' :delivery.id})}}" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 flex-1">Claim Delivery</a>
+							<a href="{{path('app_unclaim_delivery', {'id' :delivery.id})}}" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 flex-1">Unclaim Delivery</a>
 						</div>
 					</div>
 					<div class="col-span-full md:col-span-4">

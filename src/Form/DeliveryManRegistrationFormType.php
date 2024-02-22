@@ -44,6 +44,14 @@ class DeliveryManRegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('area', TextType::class, [
+                
+                'attr' => [
+                    'id' => 'area',
+                    
+                    
+                ]
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [

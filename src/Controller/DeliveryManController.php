@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+
+
 use App\Entity\DeliveryMan;
 use App\Entity\DriverLicenseImage;
 use App\Entity\UserImage;
@@ -48,7 +50,7 @@ class DeliveryManController extends AbstractController
             $this->entityManager->flush();
 
             $userImage = $applicationForm->get("userImage")->getData();
-            $licenseImages = $applicationForm->get("driverLicense")->getData();
+            $licenseImages = [$applicationForm->get("driverLicenseFront")->getData(), $applicationForm->get("driverLicenseBack")->getData()];
 
             foreach ($licenseImages as $img) {
                 $i = new DriverLicenseImage();
@@ -58,16 +60,12 @@ class DeliveryManController extends AbstractController
                 $this->entityManager->flush();
             }
 
-
             $userIm = new UserImage();
             $userIm->setImageFile($userImage);
             $userIm->setUser($dm);
 
-
-
             $this->entityManager->persist($userIm);
             $this->entityManager->flush();
-            sleep(5);
             return $this->redirectToRoute('app_home');
         }
         return $this->render('delivery_man/delivery_man_application.html.twig', [
@@ -122,7 +120,7 @@ class DeliveryManController extends AbstractController
             $deliveryMan->setStatus("Accepted");
             $content = '<h1>Your Application Has Been Accepted!</h1>
                         <div>
-                            <a href ="dealdrop.local/delivery_man_register?id='.$id.'">Click Here to Continue Registration</a>
+                            <a href ="https://dealdrop.local/delivery_man_register?id='.$id.'">Click Here to Continue Registration</a>
                         </div>';
         }
         $email = (new Email())
@@ -140,14 +138,16 @@ class DeliveryManController extends AbstractController
     }
 
     #[Route('/delivery_man_register', name: 'app_delivery_man_registration')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, DeliveryManRepository $rep, Request $req): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, DeliveryManRepository $rep): Response
     {
         $user = new DeliveryMan();
-        $user = $rep->findOneBy(['id' => $req->get('id')]);
+        $user = $rep->findOneBy(['id' => $request->get('id')]);
         $form = $this->createForm(DeliveryManRegistrationFormType::class, $user);
         $form->handleRequest($request);
-
+        //dd($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -155,6 +155,7 @@ class DeliveryManController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
+            $user->setDisponibility('disponible');
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -165,6 +166,16 @@ class DeliveryManController extends AbstractController
 
         return $this->render('delivery_man/register.html.twig', [
             'registrationForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/admin/delivery_man_list', name: 'app_admin_delivery_man_list')]
+    public function getDeliveryManList(DeliveryManRepository $rep): Response
+    {
+        $deliveryMen = $rep->findAll();
+
+        return $this->render('delivery_man/admin_delivery_man_list.html.twig', [
+            'deliveryMen' => $deliveryMen,
         ]);
     }
 }

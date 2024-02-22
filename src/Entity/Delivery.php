@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\DeliveryRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -116,5 +117,16 @@ class Delivery
         $this->coordinates = $coordinates;
 
         return $this;
+    }
+    public function claim(?DeliveryMan $dm){
+        $this->deliveryMan = $dm;
+        $this->startTime = new DateTime();
+        $this->state = "In Route";
+    }
+
+    public function unclaim(){
+        $this->deliveryMan = null;
+        $this->startTime = null;
+        $this->state = "Awaiting Pick Up";
     }
 }

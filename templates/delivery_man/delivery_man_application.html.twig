@@ -24,13 +24,19 @@
 
 
 							<div class="tabs__content-item">
-
-								{{ form_start(application) }}
+								{{ form_start(application, {'attr':{'novalidate':'novalidate', 'enctype': 'multipart/form-data'}}) }}
 								{% for row in application %}
-									<div>
+								
+									<div class="group {% if app.request.method == 'POST' %}{% if form_errors(row)%}is-error{% else %}is-success{% endif %}{% endif %}">
+									{% if "Token" not in form_label(row)  %}
+										
+									
 										{{ form_label(row) }}
 										{{ form_widget(row, {'attr': {'class': 'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full'}}) }}
+										<div style="color:rgb(240,50,69)" class="text-l">{{ form_errors(row) }}</div>
+										
 									</div>
+									{% endif %}
 								{% endfor %}
 								<!--<div class="group is-success">
 																																										<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="register-user-email">Your Email</label>
@@ -78,19 +84,5 @@
 
 {% endblock %}
 {% block endbodyjs %}
-	<script>
-		$('#submitbtn').on('click', () => {
-
-$('#redirection').show();
-let end = new Date().getSeconds() + 5;
-let countInterval = setInterval(function () {
-  let cd = end - new Date().getSeconds();
-  if (cd < 0 ) {
-    cd =0;
-    clearInterval(countInterval);
-  }
-$('#timedown').text(cd);
-}, 900)
-})
-	</script>
+	
 {% endblock %}
