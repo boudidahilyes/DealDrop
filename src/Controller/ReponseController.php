@@ -10,31 +10,74 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as RP;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Response;
+use App\Repository\ResponseRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Id;
 
 class ReponseController extends AbstractController
 {
     #[Route('/addreponse/{id}', name: 'app_reponse')]
-    public function edit(Request $request, EntityManagerInterface $em, int $id, SupportTicketRepository $SuppR, UserRepository $u): RP
+    public function add(Request $request, EntityManagerInterface $em, int $id, SupportTicketRepository $SuppR, UserRepository $u): RP
     {
-        $One = $SuppR->findOneBy(['id'=> $id]);
-        $Response= new Response();
-        $form=$this->createForm(ReponseType::class,$Response);
+        $Ticket = $SuppR->findOneBy(['id' => $id]);
+        $LesReponses= $Ticket->getResponses();
+        $Response = new Response();
+        $form = $this->createForm(ReponseType::class, $Response);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $choice = $request->get('choice');
-            $Response->setUser($u->findOneBy(['id'=> 1]));
+            $Response->setUser($u->findOneBy(['id' => 3]));
+            $Response->setSupportTicket($SuppR->findOneBy(['id' => $id]));
             $Response->setAddDate(new \DateTime());
-            $Response->setSupportTicket($SuppR->findOneBy(['id'=> $id]));
-            $One->setState($choice);
+            $Ticket->setState($choice);
             $em->persist($Response);
             $em->flush();
+            $Ticket->addResponse($Response);
             return $this->redirectToRoute('app_ticketlistadmin');
         }
-        return $this->render('reponse/edit.html.twig',[
-            'form'=>$form->createView(),
-            'One' => $One
+        return $this->render('reponse/edit.html.twig', [
+            'form' => $form->createView(),
+            'LesReponses' => $LesReponses,
+            'Ticket' => $Ticket
+        ]);
+    }
+    #[Route('/details/{id}', name: 'app_detailsticket')]
+    public function details(Request $request, EntityManagerInterface $em, SupportTicketRepository $SuppR, int $id, UserRepository $u, ResponseRepository $r): RP
+    {
+        $Ticket = $SuppR->findOneBy(['id' => $id]);
+        $LesReponses= $Ticket->getResponses();
+        $Response = new Response();
+        $form = $this->createForm(ReponseType::class, $Response);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $Response->setUser($u->findOneBy(['id' => 1]));
+            $Response->setSupportTicket($SuppR->findOneBy(['id' => $id]));
+            $Response->setAddDate(new \DateTime());
+            $em->persist($Response);
+            $em->flush();
+            $Ticket->addResponse($Response);
+            $Ticket->setState("Pending");
+            $em->persist($Ticket);
+            $em->flush();
+            return $this->redirectToRoute('app_ticketlist');
+        }
+        return $this->render('reponse/details.html.twig', [
+            'form' => $form->createView(),
+            'LesReponses' => $LesReponses,
+            'Ticket' => $Ticket
+        ]);
+    }
+    #[Route('/ticketlist/{id}', name: 'app_ticketlistid')]
+    public function affiche(SupportTicketRepository $repository, $id, EntityManagerInterface $em): RP
+    {
+        $Ticket=$repository->findOneBy(['id' => $id]);
+        $Ticket->setState("Closed");
+        $em->persist($Ticket);
+        $em->flush();
+        $list=$repository->findAll();
+        return $this->render('ticket/list.html.twig',[
+            'list'=>$list
         ]);
     }
 }

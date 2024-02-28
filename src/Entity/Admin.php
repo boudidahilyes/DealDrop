@@ -11,7 +11,7 @@ class Admin extends User
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column(length: 100)]
     private ?string $role = null;
@@ -31,5 +31,8 @@ class Admin extends User
         $this->role = $role;
 
         return $this;
+    }
+    public function getType(){
+        return "Admin";
     }
 }

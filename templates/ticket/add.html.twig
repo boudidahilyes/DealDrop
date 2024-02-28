@@ -16,14 +16,16 @@
 				<div class="col-span-full lg:col-span-4">
 					{{ form_label(form.subject, 'Subject', {'label_attr': {'class': 'block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5'}}) }}
 					{{ form_widget(form.subject,{'attr':{'class':'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full'}}) }}
+					{{ form_errors(form.subject) }}
 				</div>
 				<div class="col-span-full lg:col-span-6">
 					{{ form_label(form.description, 'Description', {'label_attr': {'class': 'block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5'}}) }}
 					{{ form_widget(form.description,{'attr':{'class':'block border-base bg-white/40 w-full px-4 py-2 tracking-tight text-gray-900 transition-all duration-150 placeholder:text-gray-500/60 focus:border-accent focus:outline-0 focus:ring-0 dark:border-gray-650 dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 h-40 md:h-[200px]'}}) }}
+					{{ form_errors(form.description) }}
 				</div>
 				<div class="col-span-full md:col-span-6 pt-2">
-			{{ form_widget(form.Submit,{'attr':{'class':'inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 col-span-full lg:col-start-10 lg:col-span-3'}}) }}
-		</div>
+					{{ form_widget(form.Submit,{'attr':{'class':'inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 col-span-full lg:col-start-10 lg:col-span-3'}}) }}
+				</div>
 			</div>
 			{{ form_end(form) }}
 		</section>

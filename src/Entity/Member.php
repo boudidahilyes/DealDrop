@@ -13,7 +13,7 @@ class Member extends User
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Product::class, orphanRemoval: true)]
     private Collection $products;
@@ -193,5 +193,8 @@ class Member extends User
         }
 
         return $this;
+    }
+    public function getType(){
+        return "Member";
     }
 }

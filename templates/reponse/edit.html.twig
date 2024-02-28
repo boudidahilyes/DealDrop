@@ -22,33 +22,46 @@
 				<div class="card">
 					<div class="card-body">
 						<h6 class="mb-4 text-15">Resolving Ticket ID :
-							{{One.id}}</h6>
+							{{Ticket.id}}</h6>
 						{{ form_start(form) }}
 						<div class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-12">
 							<div class="col-span-1 md:col-span-1 xl:col-span-4 p-4">
 								<label class="inline-block mb-2 text-base font-medium">First Name</label>
-								<input type="text" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" value="{{One.user.firstname}}" readonly>
+								<input type="text" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" value="{{Ticket.user.firstname}}" readonly>
 							</div>
 							<div class="col-span-1 md:col-span-1 xl:col-span-4 p-4">
 								<label for="middleNameInput" class="inline-block mb-2 text-base font-medium">Last Name</label>
-								<input type="text" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" value="{{One.user.lastname}}" readonly>
+								<input type="text" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" value="{{Ticket.user.lastname}}" readonly>
 							</div>
 							<div class="col-span-1 md:col-span-1 xl:col-span-4 p-4">
 								<label class="inline-block mb-2 text-base font-medium">Category</label>
-								<input type="text" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" value="{{One.supportticketcategory.name}}" readonly>
+								<input type="text" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" value="{{Ticket.supportticketcategory.name}}" readonly>
 							</div>
 							<div class="col-span-1 md:col-span-1 xl:col-span-4 p-4">
 								<label class="inline-block mb-2 text-base font-medium">Creation Date</label>
-								<input type="text" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" value="{{One.creationDate|date('Y-m-d')}}" readonly>
+								<input type="text" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" value="{{Ticket.creationDate|date('Y-m-d')}}" readonly>
 							</div>
 							<div class="col-span-1 md:col-span-1 xl:col-span-4 p-4">
 								<label for="alternativeNumberInput" class="inline-block mb-2 text-base font-medium">Subject</label>
-								<input type="text" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" value="{{One.subject}}" readonly>
+								<input type="text" class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" value="{{Ticket.subject}}" readonly>
 							</div>
 							<div class="xl:col-span-12">
 								<label class="inline-block mb-2 text-base font-medium">Description</label>
-								<textarea class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" readonly rows="3">{{ One.description }}</textarea>
+								<textarea class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" readonly rows="3">{{ Ticket.description }}</textarea>
 							</div>
+							{% for rep in LesReponses %}
+							{% if rep.user.getType() == "Admin" %}
+							<div class="xl:col-span-12">
+								<label class="inline-block mb-2 text-base font-medium">Admin</label>
+								<textarea class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" readonly rows="3">{{ rep.content }}</textarea>
+							</div>
+							{% else %}
+							<div class="xl:col-span-12">
+								<label class="inline-block mb-2 text-base font-medium">User</label>
+								<textarea class="form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" readonly rows="3">{{ rep.content }}</textarea>
+							</div>
+							{% endif %}
+							{% endfor %}
 							<div class="xl:col-span-12">
 								{{ form_label(form.content, 'Your Response', {'label_attr': {'class': 'inline-block mb-2 text-base font-medium'}}) }}
 
@@ -60,12 +73,12 @@
 									<option value="Pending">Pending</option>
 									<option value="Resolved">Resolved</option>
 									<option value="Rejected">Rejected</option>
+									<option value="Closed">Closed</option>
 								</select>
 							</div>
 							<div class="mt-6">
 								{{ form_widget(form.Submit,{'attr':{'class':'w-1/2 text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20'}}) }}
 							</div>
-
 						</div>
 						{{ form_end(form) }}
 					</div>
