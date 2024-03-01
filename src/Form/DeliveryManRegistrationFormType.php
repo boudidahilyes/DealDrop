@@ -20,11 +20,11 @@ class DeliveryManRegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName',TextType::class)
-            ->add('lastName', TextType::class)
-            ->add('cin', NumberType::class)
-            ->add('adress', TextType::class)
-            ->add('phone', NumberType::class)
+            ->add('firstName',TextType::class, ['data' =>''])
+            ->add('lastName', TextType::class, ['data' =>''])
+            ->add('cin', NumberType::class, ['data' => 0])
+            ->add('adress', TextType::class, ['data' =>''])
+            ->add('phone', NumberType::class, ['data' =>0])
             ->add('email', EmailType::class, ['disabled' => true ])
             ->add('password', PasswordType::class, [
                 // instead of being set onto the object directly,
@@ -48,7 +48,7 @@ class DeliveryManRegistrationFormType extends AbstractType
                 
                 'attr' => [
                     'id' => 'area',
-                    
+                    'hidden' => true
                     
                 ]
             ])

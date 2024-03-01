@@ -9,6 +9,8 @@ use App\Repository\DeliveryRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -148,6 +150,24 @@ class DeliveryController extends AbstractController
         ]);
     }
 
+
+    #[Route('/track_delivery/{id}', name: 'app_track_delivery')]
+    public function trackDelivery(DeliveryRepository $rep, $id): Response
+    {
+        $delivery = $rep->findOneBy(['id' => $id]);
+        return $this->render('delivery/track_delivery.html.twig',[
+            'delivery' => $delivery
+        ]);
+    }
+
+    #[Route('/get_delivery_position', name: 'app_delivery_position')]
+    public function updateDeliveryPosition(DeliveryRepository $rep, Request $req): JsonResponse
+    {
+        $id = $req->get('id');
+        $delivery = $rep->findOneBy(['id' => $id]);
+        return new JsonResponse(['location' => $delivery->getCurrentCoordinates()]);
+    }
+    
     
 
 }

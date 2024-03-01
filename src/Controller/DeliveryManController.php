@@ -15,6 +15,7 @@ use App\Repository\DriverLicenseImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -178,4 +179,24 @@ class DeliveryManController extends AbstractController
             'deliveryMen' => $deliveryMen,
         ]);
     }
+    #[Route('/update_deliveries_location', name: 'app_update_deliveries_location')]
+    public function updateDeliveriesLocation(Request $req, DeliveryManRepository $rep): JsonResponse
+    {
+        $id = $req->get('id');
+        $coordinates = $req->get('location');
+        $dm = $rep->findOneBy(['id' => $id]);
+        $deliveries = $dm->getDeliveries();
+        for($i = 0 ; $i<count($deliveries);$i++)
+        {
+            if($deliveries[$i]->getState('In Route'))
+            {
+                $deliveries[$i]->setCurrentCoordinates($coordinates);
+                $this->entityManager->persist($deliveries[$i]);
+                $this->entityManager->flush();
+            }       
+        }
+
+        return new JsonResponse(['response' => 'good']); 
+    }
+    
 }

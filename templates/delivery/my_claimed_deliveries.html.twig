@@ -84,21 +84,27 @@
 	<script src="https://kit.fontawesome.com/9ee4261700.js" crossorigin="anonymous"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function () {
-  var coords = [{% for delivery in deliveries %}{% if delivery.state == "In Route" %}
-		[{{ delivery.coordinates }}],
-	{% endif %} {% endfor %}];
-	var map = L.map('map').setView([{{ deliveries| first.coordinates }}], 14);
-	L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', { attribution: '© OpenStreetMap contributors' }).addTo(map);
-	var markerGroup = L.featureGroup().addTo(map);
+  
 
 
 
 	var apiKey = '5b3ce3597851110001cf6248c7ddd0a26f424500a914813c8440fef9';
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function (position) {
+
+			
 			let currentLatitude = position.coords.latitude;
 			let currentLongitude = position.coords.longitude;
 			let currentPosition = [currentLatitude, currentLongitude];
+
+			var coords = [{% for delivery in deliveries %}{% if delivery.state == "In Route" %}
+		[{{ delivery.coordinates }}],
+	{% endif %} {% endfor %}];
+	var map = L.map('map').setView([{% if deliveries is not empty %}
+		{{ deliveries| first.coordinates }} {% else %} currentLatitude,currentLongitude
+	{% endif %}], 14);
+	L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', { attribution: '© OpenStreetMap contributors' }).addTo(map);
+	var markerGroup = L.featureGroup().addTo(map);
 			var pointDistance = [];
 			coords.forEach((coord) => {
 				let distance = Math.sqrt((currentPosition[0] - coord[0]) * (currentPosition[0] - coord[0]) + (currentPosition[1] - coord[1]) * (currentPosition[1] - coord[1]));

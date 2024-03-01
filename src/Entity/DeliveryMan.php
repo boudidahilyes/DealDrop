@@ -28,7 +28,7 @@ class DeliveryMan extends User
     private ?string $location = null;
 
     #[MyConstraints\VerticesConstraint()]
-    #[MyConstraints\AreaConstraint()]
+     //#[MyConstraints\AreaConstraint()]
     #[ORM\Column(type: Types::TEXT, nullable:true)]
     private ?string $area = null;
 

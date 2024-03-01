@@ -34,11 +34,16 @@ class Delivery
     #[ORM\Column(length: 255, nullable: false)]
     private ?string $coordinates = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $currentCoordinates = null;
+
+
     public function __construct(?Order $order, ?string $coordinate)
     {
         $this->deliveryOrder = $order;
         $this->state = "Awaiting Pick Up";
         $this->coordinates = $coordinate;
+        $this->currentCoordinates = $coordinate;
     }
 
     public function getId(): ?int
@@ -128,5 +133,17 @@ class Delivery
         $this->deliveryMan = null;
         $this->startTime = null;
         $this->state = "Awaiting Pick Up";
+    }
+
+    public function getCurrentCoordinates(): ?string
+    {
+        return $this->currentCoordinates;
+    }
+
+    public function setCurrentCoordinates(string $currentCoordinates): static
+    {
+        $this->currentCoordinates = $currentCoordinates;
+
+        return $this;
     }
 }
