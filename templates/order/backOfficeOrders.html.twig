@@ -189,89 +189,94 @@
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 customer_name">{{order.member.firstName}}
 									{{order.member.lastName}}
 								</td>
-								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 payment_method">Cash on Delivery
+																<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+									<span class="delivery_status px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-sky-100 border-sky-200 text-sky-500 dark:bg-sky-500/20 dark:border-sky-500/20">{% if order.payment == 'bank' %}
+									Credit Card
+									{% else %}
+										Cash on Delivery
+									{% endif %}</span>
+									
 								</td>
-								{% if order.product.whoIam() == 'ProductForSale' %}
+								{% if order.products.whoIam() == 'ProductForSale' %}
 									<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">
-										{{order.product.price}}
+										{{order.products.price}}
 										Dt</td>
-                    {% endif %}
-									{% if order.product.whoIam() == 'ProductForRent' %}
-										<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">
-											{{order.product.pricePerDay}}
-											Dt</td>
+								{% endif %}
+								{% if order.products.whoIam() == 'ProductForRent' %}
+									<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">
+										{{order.products.pricePerDay}}
+										Dt</td>
+								{% endif %}
+								{% if order.products.whoIam() == 'ProductForTrade' %}
+									<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">
+										-</td>
+								{% endif %}
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 rentDays">
+									{% if order.rentDays == null %}
+										-
+									{% else %}
+										{{order.rentDays}}
 									{% endif %}
-																		{% if order.product.whoIam() == 'ProductForTrade' %}
-										<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">
-											-</td>
-									{% endif %}
-									<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 rentDays">
-										{% if order.rentDays == null %}
-											-
-										{% else %}
-											{{order.rentDays}}
-										{% endif %}
-									</td>
-									<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-										<span class="delivery_status px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20">Awaiting Pick Up</span>
-									</td>
-									<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-										<div class="flex gap-2">
-											<a href="{{path('app_order_overview',{'id':order.id})}}" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 text-slate-500 bg-slate-100 hover:text-white hover:bg-slate-500 dark:bg-zink-600 dark:text-zink-200 dark:hover:text-white dark:hover:bg-zink-500">
-												<i data-lucide="eye" class="size-4"></i>
-											</a>
-											<a href="{{path('app_order_remove',{'id':order.id})}}" class="flex items-center justify-center text-red-500 transition-all duration-200 ease-linear bg-red-100 rounded-md size-8 hover:text-white hover:bg-red-500 dark:bg-red-500/20 dark:hover:bg-red-500">
-												<i data-lucide="trash-2" class="size-4"></i>
-											</a>
-										</div>
-									</td>
-								</tr>
-							{% endfor %}
-						</tbody>
+								</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+									<span class="delivery_status px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20">Awaiting Pick Up</span>
+								</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+									<div class="flex gap-2">
+										<a href="{{path('app_order_overview',{'id':order.id})}}" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 text-slate-500 bg-slate-100 hover:text-white hover:bg-slate-500 dark:bg-zink-600 dark:text-zink-200 dark:hover:text-white dark:hover:bg-zink-500">
+											<i data-lucide="eye" class="size-4"></i>
+										</a>
+										<a href="{{path('app_order_remove',{'id':order.id})}}" class="flex items-center justify-center text-red-500 transition-all duration-200 ease-linear bg-red-100 rounded-md size-8 hover:text-white hover:bg-red-500 dark:bg-red-500/20 dark:hover:bg-red-500">
+											<i data-lucide="trash-2" class="size-4"></i>
+										</a>
+									</div>
+								</td>
+							</tr>
+						{% endfor %}
 					</tbody>
-				</table>
-				<div class="noresult" style="display: none">
-					<div class="py-6 text-center">
-						<i data-lucide="search" class="w-6 h-6 mx-auto text-sky-500 fill-sky-100 dark:sky-500/20"></i>
-						<h5 class="mt-2 mb-1">Sorry! No Result Found</h5>
-						<p class="mb-0 text-slate-500 dark:text-zink-200">We've searched more than 299+
-																												                                            orders We did not find any orders for you search.</p>
-					</div>
+				</tbody>
+			</table>
+			<div class="noresult" style="display: none">
+				<div class="py-6 text-center">
+					<i data-lucide="search" class="w-6 h-6 mx-auto text-sky-500 fill-sky-100 dark:sky-500/20"></i>
+					<h5 class="mt-2 mb-1">Sorry! No Result Found</h5>
+					<p class="mb-0 text-slate-500 dark:text-zink-200">We've searched more than 299+
+																																		                                            orders We did not find any orders for you search.</p>
 				</div>
-			</div>
-
-			<div class="flex flex-col items-center mt-5 md:flex-row">
-				<div class="mb-4 grow md:mb-0">
-					<p class="text-slate-500 dark:text-zink-200">Showing
-						<b>10</b>
-						of
-						<b>18</b>
-						Results
-					</p>
-				</div>
-				<ul class="flex flex-wrap items-center gap-2 shrink-0">
-					<li>
-						<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 h-8 px-3 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-500 dark:[&.active]:text-custom-500 [&.active]:bg-custom-50 dark:[&.active]:bg-custom-500/10 [&.active]:border-custom-50 dark:[&.active]:border-custom-500/10 [&.active]:hover:text-custom-700 dark:[&.active]:hover:text-custom-700 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">
-							<i class="mr-1 size-4 rtl:rotate-180" data-lucide="chevron-left"></i>
-							Prev</a>
-					</li>
-					<li>
-						<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-500 dark:[&.active]:text-custom-500 [&.active]:bg-custom-50 dark:[&.active]:bg-custom-500/10 [&.active]:border-custom-50 dark:[&.active]:border-custom-500/10 [&.active]:hover:text-custom-700 dark:[&.active]:hover:text-custom-700 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">1</a>
-					</li>
-					<li>
-						<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-500 dark:[&.active]:text-custom-500 [&.active]:bg-custom-50 dark:[&.active]:bg-custom-500/10 [&.active]:border-custom-50 dark:[&.active]:border-custom-500/10 [&.active]:hover:text-custom-700 dark:[&.active]:hover:text-custom-700 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto active">2</a>
-					</li>
-					<li>
-						<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-500 dark:[&.active]:text-custom-500 [&.active]:bg-custom-50 dark:[&.active]:bg-custom-500/10 [&.active]:border-custom-50 dark:[&.active]:border-custom-500/10 [&.active]:hover:text-custom-700 dark:[&.active]:hover:text-custom-700 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">3</a>
-					</li>
-					<li>
-						<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 h-8 px-3 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-500 dark:[&.active]:text-custom-500 [&.active]:bg-custom-50 dark:[&.active]:bg-custom-500/10 [&.active]:border-custom-50 dark:[&.active]:border-custom-500/10 [&.active]:hover:text-custom-700 dark:[&.active]:hover:text-custom-700 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">Next
-							<i class="ml-1 size-4 rtl:rotate-180" data-lucide="chevron-right"></i>
-						</a>
-					</li>
-				</ul>
 			</div>
 		</div>
+
+		<div class="flex flex-col items-center mt-5 md:flex-row">
+			<div class="mb-4 grow md:mb-0">
+				<p class="text-slate-500 dark:text-zink-200">Showing
+					<b>10</b>
+					of
+					<b>18</b>
+					Results
+				</p>
+			</div>
+			<ul class="flex flex-wrap items-center gap-2 shrink-0">
+				<li>
+					<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 h-8 px-3 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-500 dark:[&.active]:text-custom-500 [&.active]:bg-custom-50 dark:[&.active]:bg-custom-500/10 [&.active]:border-custom-50 dark:[&.active]:border-custom-500/10 [&.active]:hover:text-custom-700 dark:[&.active]:hover:text-custom-700 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">
+						<i class="mr-1 size-4 rtl:rotate-180" data-lucide="chevron-left"></i>
+						Prev</a>
+				</li>
+				<li>
+					<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-500 dark:[&.active]:text-custom-500 [&.active]:bg-custom-50 dark:[&.active]:bg-custom-500/10 [&.active]:border-custom-50 dark:[&.active]:border-custom-500/10 [&.active]:hover:text-custom-700 dark:[&.active]:hover:text-custom-700 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">1</a>
+				</li>
+				<li>
+					<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-500 dark:[&.active]:text-custom-500 [&.active]:bg-custom-50 dark:[&.active]:bg-custom-500/10 [&.active]:border-custom-50 dark:[&.active]:border-custom-500/10 [&.active]:hover:text-custom-700 dark:[&.active]:hover:text-custom-700 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto active">2</a>
+				</li>
+				<li>
+					<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-500 dark:[&.active]:text-custom-500 [&.active]:bg-custom-50 dark:[&.active]:bg-custom-500/10 [&.active]:border-custom-50 dark:[&.active]:border-custom-500/10 [&.active]:hover:text-custom-700 dark:[&.active]:hover:text-custom-700 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">3</a>
+				</li>
+				<li>
+					<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 h-8 px-3 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-500 dark:[&.active]:text-custom-500 [&.active]:bg-custom-50 dark:[&.active]:bg-custom-500/10 [&.active]:border-custom-50 dark:[&.active]:border-custom-500/10 [&.active]:hover:text-custom-700 dark:[&.active]:hover:text-custom-700 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto">Next
+						<i class="ml-1 size-4 rtl:rotate-180" data-lucide="chevron-right"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
 	</div>
-	<!--end card-->
-{% endblock %}
+</div>
+<!--end card-->{% endblock %}

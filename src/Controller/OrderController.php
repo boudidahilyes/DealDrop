@@ -37,13 +37,27 @@ class OrderController extends AbstractController
         $order = new Order();
         $form = $this->createForm(OrderFormType::class, $order);
         $form->handleRequest($req);
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
             $order->setMember($member);
-            $order->setProduct($product);
+            $order->setProducts($product);
             $order->setOrderDate(new \DateTimeImmutable());
-            $this->entityManager->persist($order);
-            $this->entityManager->flush();
-            $rep->setStatusSold($id);
+            if($form->get('paymentMethod')->getData() == 'bank')
+            {
+                $order->setPayment('bank');
+                $this->entityManager->persist($order);
+                $this->entityManager->flush();
+                $rep->setStatusSold($id);
+                return $this->redirectToRoute('app_stripe_sale',['price'=>$product->getPrice()+8]);
+            }
+            else 
+            {
+                $order->setPayment('onDelivery');
+                $this->entityManager->persist($order);
+                $this->entityManager->flush();
+                $rep->setStatusSold($id);
+            return $this->redirectToRoute('app_product_for_sale');
+            }
+
             return $this->redirectToRoute('app_product_for_sale');
         }
         return $this->render('order/frontOfficeProductForSaleOrder.html.twig', [
@@ -64,19 +78,31 @@ class OrderController extends AbstractController
         $form->handleRequest($req);
         if ($form->isSubmitted() && $form->isValid()) {
             $order->setMember($member);
-            $order->setProduct($product);
+            $order->setProducts($product);
             $order->setOrderDate(new \DateTimeImmutable());
-            $this->entityManager->persist($order);
-            $this->entityManager->flush();
-            $rep->setAvailabilityUnavailable($id);
+            if($form->get('paymentMethod')->getData() == 'bank')
+            {
+                $order->setPayment('bank');
+                $this->entityManager->persist($order);
+                $this->entityManager->flush();
+                $rep->setAvailabilityUnavailable($id);
+                return $this->redirectToRoute('app_stripe_rent',['price'=>$product->getPricePerDay()*$order->getRentDays()+8]);
+            }
+            else 
+            {
+                $order->setPayment('onDelivery');
+                $this->entityManager->persist($order);
+                $this->entityManager->flush();
+                $rep->setAvailabilityUnavailable($id);
             return $this->redirectToRoute('app_product_for_rent');
+            }
         }
         return $this->render('order/frontOfficeProductForRentOrder.html.twig', [
             'form' => $form->createView(),
             'product' => $product
         ]);
     }
-    ##Order productForRent End ##
+    ## Order productForRent End ##
         ##Order productForTrade Begin ##
     #[Route('/productForTrade/order', name: 'app_product_for_trade_order')]
     public function orderProductForTrade(Request $req,ProductForTradeRepository $productForTradeRepository):Response
@@ -87,7 +113,7 @@ class OrderController extends AbstractController
         //order for Product Posted
         $orderForProductPosted=new Order();
         $orderForProductPosted->setMember($productPosted->getMember());
-        $orderForProductPosted->setProduct($productPosted);
+        $orderForProductPosted->setProducts($productPosted);
         $orderForProductPosted->setOrderDate(new \DateTimeImmutable());
         $orderForProductPosted->setDeliveryAdress($productPosted->getMember()->getAdress());
         $productForTradeRepository->setStatusSold($productPosted->getId());
@@ -96,7 +122,7 @@ class OrderController extends AbstractController
         //order for Product Accepted
         $orderForProductOffered=new Order();
         $orderForProductOffered->setMember($productOffered->getMember());
-        $orderForProductOffered->setProduct($productOffered);
+        $orderForProductOffered->setProducts($productOffered);
         $orderForProductOffered->setOrderDate(new \DateTimeImmutable());
         $orderForProductOffered->setDeliveryAdress($productOffered->getMember()->getAdress());
         $productForTradeRepository->setStatusSold($productOffered->getId());

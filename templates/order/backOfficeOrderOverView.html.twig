@@ -72,20 +72,35 @@
 				<div>
 					<div class="card">
 						<div class="text-center card-body">
-							{% if order.product.whoIAm() == 'ProductForSale' %}
-								<h6 class="mb-1">{{order.product.price}}
+							{% if order.products.whoIAm() == 'ProductForSale' %}
+								<h6 class="mb-1">{{order.products.price}}
 									Dt</h6>
 							{% endif %}
-							{% if order.product.whoIAm() == 'ProductForRent' %}
-								<h6 class="mb-1">{{order.product.pricePerDay * order.rentDays}}
+							{% if order.products.whoIAm() == 'ProductForRent' %}
+								<h6 class="mb-1">{{order.products.pricePerDay * order.rentDays}}
 									Dt
 								</h6>
 							{% endif %}
-							{% if order.product.whoIAm() == 'ProductForTrade' %}
+							{% if order.products.whoIAm() == 'ProductForTrade' %}
 								<h6 class="mb-1">-
 								</h6>
 							{% endif %}
 							<p class="uppercase text-slate-500 dark:text-zink-200">Order Amount</p>
+						</div>
+					</div>
+				</div>
+				<!--end col-->
+								<div>
+					<div class="card">
+						<div class="text-center card-body">
+							<span class="delivery_status px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-sky-100 border-sky-200 text-sky-500 dark:bg-sky-500/20 dark:border-sky-500/20">
+								{% if order.payment == 'bank' %}
+								Credit Card
+								{% else %}
+									Cash on Delivery
+								{% endif %}
+							</span>
+							<p class="uppercase text-slate-500 dark:text-zink-200">Payment Method</p>
 						</div>
 					</div>
 				</div>
@@ -113,38 +128,38 @@
 									<td class="px-3.5 py-4 border-b border-dashed first:pl-0 last:pr-0 border-slate-200 dark:border-zink-500">
 										<div class="flex items-center gap-3">
 											<div class="flex items-center justify-center rounded-md size-12 bg-slate-100 shrink-0">
-												<img src="{{ vich_uploader_asset(order.product.productImages|first, 'imageFile') }}" alt="" class="h-8">
+												<img src="{{ vich_uploader_asset(order.products.productImages|first, 'imageFile') }}" alt="" class="h-8">
 
 											</div>
 											<div class="grow">
 												<h6 class="mb-1 text-15">
-													{% if order.product.whoIAm() == 'ProductForSale' %}
-														<a href="{{path('app_product_for_sale_overview',{'id':order.product.id})}}" class="transition-all duration-300 ease-linear hover:text-custom-500">{{order.product.name}}</a>
+													{% if order.products.whoIAm() == 'ProductForSale' %}
+														<a href="{{path('app_product_for_sale_overview',{'id':order.products.id})}}" class="transition-all duration-300 ease-linear hover:text-custom-500">{{order.products.name}}</a>
 													{% endif %}
-													{% if order.product.whoIAm() == 'ProductForRent' %}
-														<a href="{{path('app_product_for_rent_overview',{'id':order.product.id})}}" class="transition-all duration-300 ease-linear hover:text-custom-500">
-															{{order.product.name}}</a>
-														<p class="text-slate-500 dark:text-zink-200">{{order.product.pricePerDay}}
+													{% if order.products.whoIAm() == 'ProductForRent' %}
+														<a href="{{path('app_product_for_rent_overview',{'id':order.products.id})}}" class="transition-all duration-300 ease-linear hover:text-custom-500">
+															{{order.products.name}}</a>
+														<p class="text-slate-500 dark:text-zink-200">{{order.products.pricePerDay}}
 															Dt x
 															{{order.rentDays}}</p>
 													{% endif %}
-													{% if order.product.whoIAm() == 'ProductForTrade' %}
-														<a href="{{path('app_product_for_trade_overview',{'id':order.product.id})}}" class="transition-all duration-300 ease-linear hover:text-custom-500">{{order.product.name}}</a>
+													{% if order.products.whoIAm() == 'ProductForTrade' %}
+														<a href="{{path('app_product_for_trade_overview',{'id':order.products.id})}}" class="transition-all duration-300 ease-linear hover:text-custom-500">{{order.products.name}}</a>
 														{% endif %}
 													</h6>
 												</div>
 											</div>
 										</td>
 									</td>
-									{% if order.product.whoIAm() == 'ProductForSale' %}
-										<td class="px-3.5 py-4 border-b border-dashed first:pl-0 last:pr-0 border-slate-200 dark:border-zink-500 ltr:text-right rtl:text-left">{{order.product.price}}
+									{% if order.products.whoIAm() == 'ProductForSale' %}
+										<td class="px-3.5 py-4 border-b border-dashed first:pl-0 last:pr-0 border-slate-200 dark:border-zink-500 ltr:text-right rtl:text-left">{{order.products.price}}
 											Dt</td>
 									{% endif %}
-									{% if order.product.whoIAm() == 'ProductForRent' %}
-										<td class="px-3.5 py-4 border-b border-dashed first:pl-0 last:pr-0 border-slate-200 dark:border-zink-500 ltr:text-right rtl:text-left">{{order.product.pricePerDay * order.rentDays}}
+									{% if order.products.whoIAm() == 'ProductForRent' %}
+										<td class="px-3.5 py-4 border-b border-dashed first:pl-0 last:pr-0 border-slate-200 dark:border-zink-500 ltr:text-right rtl:text-left">{{order.products.pricePerDay * order.rentDays}}
 											Dt</td>
 										{% endif %}
-																			{% if order.product.whoIAm() == 'ProductForTrade' %}
+																			{% if order.products.whoIAm() == 'ProductForTrade' %}
 										<td class="px-3.5 py-4 border-b border-dashed first:pl-0 last:pr-0 border-slate-200 dark:border-zink-500 ltr:text-right rtl:text-left">-</td>
 										{% endif %}
 									</tr>
@@ -153,15 +168,15 @@
 									<td class="px-3.5 pt-4 pb-3 first:pl-0 last:pr-0 text-slate-500 dark:text-zink-200">
 										Sub Total
 									</td>
-									{% if order.product.whoIAm() == 'ProductForSale' %}
-										<td class="px-3.5 pt-4 pb-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">{{order.product.price}}
+									{% if order.products.whoIAm() == 'ProductForSale' %}
+										<td class="px-3.5 pt-4 pb-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">{{order.products.price}}
 											Dt</td>
 									{% endif %}
-									{% if order.product.whoIAm() == 'ProductForRent' %}
-										<td class="px-3.5 pt-4 pb-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">{{order.product.pricePerDay * order.rentDays}}
+									{% if order.products.whoIAm() == 'ProductForRent' %}
+										<td class="px-3.5 pt-4 pb-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">{{order.products.pricePerDay * order.rentDays}}
 											Dt</td>
 									{% endif %}
-																		{% if order.product.whoIAm() == 'ProductForTrade' %}
+																		{% if order.products.whoIAm() == 'ProductForTrade' %}
 										<td class="px-3.5 pt-4 pb-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">-
 											</td>
 									{% endif %}
@@ -176,15 +191,15 @@
 									<td class="px-3.5 pt-3 first:pl-0 last:pr-0 text-slate-500 dark:text-zink-200">
 										Total Amount
 									</td>
-									{% if order.product.whoIAm() == 'ProductForSale' %}
-										<td class="px-3.5 pt-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">{{order.product.price + 8}}
+									{% if order.products.whoIAm() == 'ProductForSale' %}
+										<td class="px-3.5 pt-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">{{order.products.price + 8}}
 											Dt</td>
 									{% endif %}
-									{% if order.product.whoIAm() == 'ProductForRent' %}
-										<td class="px-3.5 pt-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">{{order.product.pricePerDay * order.rentDays + 8}}
+									{% if order.products.whoIAm() == 'ProductForRent' %}
+										<td class="px-3.5 pt-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">{{order.products.pricePerDay * order.rentDays + 8}}
 											Dt</td>
 									{% endif %}
-																		{% if order.product.whoIAm() == 'ProductForTrade' %}
+																		{% if order.products.whoIAm() == 'ProductForTrade' %}
 										<td class="px-3.5 pt-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">8
 											Dt</td>
 									{% endif %}

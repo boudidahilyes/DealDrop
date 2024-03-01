@@ -1,4 +1,5 @@
 {% extends 'baseFrontOffice.html.twig' %}
+{% form_theme form 'form_theme_frontOffice.html.twig' %}
 {% block body %}
 	<main id="main-content" class="grow lg:pt-0">
 		<div class="pt-10 pb-16 lg:pt-20 lg:pb-44">
@@ -14,7 +15,7 @@
 							<div class="col-span-full">
 								{{ form_label(form.deliveryAdress,'Full Address',{'attr':{'class':'block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5'}}) }}
 								{{ form_widget(form.deliveryAdress, {'attr': {'class': 'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full mb-3'}}) }}
-								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+								{{ form_errors(form.deliveryAdress) }}
 							</div>
 						</div>
 					</div>
@@ -46,6 +47,14 @@
 					</div>
 					<div class="border-y border-gray-500/20 pt-10 mb-8">
 						<ul>
+													<li class="pb-9">
+								<label class="flex flex-wrap gap-x-3 hover:cursor-pointer" for="bank-transfer"><input name="payment-method" id="bank-transfer" type="radio" class="border-gray-500 h-4 w-4 text-accent checked:bg-transparent checked:border-accent checked:hover:bg-transparent checked:hover:border-accent transition-all duration-150 bg-transparent hover:cursor-pointer peer" value='bank'>
+									<span class="font-bold text-gray-900 dark:text-white leading-tight">Direct Bank Transfer</span>
+									<span class="basis-full max-h-0 overflow-hidden peer-checked:max-h-28 duration-200 transition-[max-height]">
+										<span class="block pt-5">Make your payment directly into our bank account.</span>
+									</span>
+								</label>
+							</li>
 							<li class="pb-9">
 								<label class="flex flex-wrap gap-x-3 hover:cursor-pointer" for="cash-on-delivery"><input name="payment-method" id="cash-on-delivery" type="radio" class="border-gray-500 h-4 w-4 text-accent checked:bg-transparent checked:border-accent checked:hover:bg-transparent checked:hover:border-accent transition-all duration-150 bg-transparent hover:cursor-pointer peer" checked="checked">
 									<span class="font-bold text-gray-900 dark:text-white leading-tight">Cash on Delivery</span>

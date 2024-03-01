@@ -78,14 +78,14 @@
 								<h5 class="font-bold text-gray-900 dark:text-white mb-5 lg:mb-8">Your Order</h5>
 								<ul class="leading-8 not-italic">
 									<li>
-										<div>{{order.product.name}}
+										<div>{{order.products.name}}
 											-</div>
-										{% if order.product.whoIam() == 'ProductForSale' %}
-											<div>{{order.product.price}}
+										{% if order.products.whoIam() == 'ProductForSale' %}
+											<div>{{order.products.price}}
 												Dt</div>
 										{% endif %}
-										{% if order.product.whoIam() == 'ProductForRent' %}
-											<div>{{order.product.pricePerDay}}
+										{% if order.products.whoIam() == 'ProductForRent' %}
+											<div>{{order.products.pricePerDay}}
 												Dt *{{order.rentDays}}</div>
 										{% endif %}
 									</li>
@@ -93,27 +93,33 @@
 							</div>
 							<div class="col-span-full sm:col-span-6 md:col-span-3">
 								<h5 class="font-bold text-gray-900 dark:text-white mb-5 lg:mb-8">Totals & Payment</h5>
-								{% if order.product.whoIam() == 'ProductForSale' %}
+								{% if order.products.whoIam() == 'ProductForSale' %}
 									<address class="leading-8 [&>p]:mb-8 [&>p:last-child]:mb-0 not-italic">
 										<p>Sub total:
-											{{order.product.price}}
+											{{order.products.price}}
 											Dt<br>Shipping: 8 Dt<br>Order Total:
-											<span class="text-accent">{{order.product.price + 8}}
+											<span class="text-accent">{{order.products.price + 8}}
 												Dt</span>
+											{% if order.payment == 'bank' %}
+											<br><span class="text-accent">paid with credit card</span>
+											{% endif %}
 										</p>
 									</address>
 								{% endif %}
-								{% if order.product.whoIam() == 'ProductForRent' %}
+								{% if order.products.whoIam() == 'ProductForRent' %}
 									<address class="leading-8 [&>p]:mb-8 [&>p:last-child]:mb-0 not-italic">
 										<p>Sub total:
-											{{order.product.pricePerDay}}
+											{{order.products.pricePerDay}}
 											Dt *{{order.rentDays}}<br>Shipping: 8 Dt<br>Order Total:
-											<span class="text-accent">{{(order.product.pricePerDay * order.rentDays) + 8}}
+											<span class="text-accent">{{(order.products.pricePerDay * order.rentDays) + 8}}
 												Dt</span>
+																							{% if order.payment == 'bank' %}
+											<br><span class="text-accent">paid with credit card</span>
+											{% endif %}
 										</p>
 									</address>
 								{% endif %}
-																{% if order.product.whoIam() == 'ProductForTrade' %}
+																{% if order.products.whoIam() == 'ProductForTrade' %}
 									<address class="leading-8 [&>p]:mb-8 [&>p:last-child]:mb-0 not-italic">
 										<p>Sub total:
 											-<br>Shipping: 8 Dt<br>Order Total:

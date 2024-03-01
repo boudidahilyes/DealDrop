@@ -31,14 +31,16 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     private ?Member $member = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Product $product = null;
-
     #[Assert\NotBlank(message:'The rent days is required')]
     #[Assert\Positive(message:'The rent days should be positive')]
     #[ORM\Column(nullable: true)]
     private ?int $rentDays = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $payment = null;
+
+    #[ORM\ManyToOne(inversedBy: 'orders',cascade: ['persist', 'remove'])]
+    private ?Product $products = null;
 
     public function getId(): ?int
     {
@@ -81,17 +83,6 @@ class Order
         return $this;
     }
 
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): static
-    {
-        $this->product = $product;
-
-        return $this;
-    }
 
     public function getRentDays(): ?int
     {
@@ -101,6 +92,30 @@ class Order
     public function setRentDays(?int $rentDays): static
     {
         $this->rentDays = $rentDays;
+
+        return $this;
+    }
+
+    public function getPayment(): ?string
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(?string $payment): static
+    {
+        $this->payment = $payment;
+
+        return $this;
+    }
+
+    public function getProducts(): ?product
+    {
+        return $this->products;
+    }
+
+    public function setProducts(?product $products): static
+    {
+        $this->products = $products;
 
         return $this;
     }

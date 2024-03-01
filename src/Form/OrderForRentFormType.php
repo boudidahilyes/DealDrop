@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Order;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,6 +18,8 @@ class OrderForRentFormType extends AbstractType
         $builder
             ->add('rentDays',NumberType::class)
             ->add('deliveryAdress',TextType::class)
+            ->add('paymentMethod',HiddenType::class, [
+                'mapped' => false])
             ->add('submit',SubmitType::class,['label'=>'Place
             Order Now!']);
         ;
