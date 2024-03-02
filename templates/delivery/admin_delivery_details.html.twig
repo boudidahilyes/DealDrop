@@ -43,11 +43,11 @@
 									<td class="px-3.5 py-4 border-b border-dashed first:pl-0 last:pr-0 border-slate-200 dark:border-zink-500">
 										<div class="flex items-center gap-3">
 											<div class="flex items-center justify-center rounded-md size-20 bg-slate-100 shrink-0">
-												<img src="{{vich_uploader_asset(delivery.deliveryOrder.product.productImages[0],'imageFile')}}" alt="" class="h-16">
+												<img src="{{vich_uploader_asset(delivery.deliveryOrder.products.productImages[0],'imageFile')}}" alt="" class="h-16">
 											</div>
 											<div class="grow">
 												<h6 class="mb-1 text-15">
-													<div  class="transition-all duration-300 ease-linear hover:text-custom-500">{{delivery.deliveryOrder.product.name}}</div>
+													<div  class="transition-all duration-300 ease-linear hover:text-custom-500">{{delivery.deliveryOrder.products.name}}</div>
 												</h6>
 												
 											</div>
@@ -60,7 +60,7 @@
 									<td class="px-3.5 pt-4 pb-3 first:pl-0 last:pr-0 text-slate-500 dark:text-zink-200">
 										Customer
 									</td>
-									<td class="px-3.5 pt-4 pb-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">{{delivery.deliveryOrder.product.member.firstName}} {{delivery.deliveryOrder.product.member.lastName}}</td>
+									<td class="px-3.5 pt-4 pb-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">{{delivery.deliveryOrder.products.member.firstName}} {{delivery.deliveryOrder.products.member.lastName}}</td>
 								</tr>
 								<tr>
 									<td class="px-3.5 py-3 first:pl-0 last:pr-0 text-slate-500 dark:text-zink-200">

@@ -60,6 +60,7 @@ class UserController extends AbstractController
                     )
                 );
             }
+
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }

@@ -69,7 +69,6 @@
 				</div>
 				<div class="grid grid-cols-12 gap-x-6 gap-y-9 md:gap-x-6 lg:gap-x-7.5">
 					{% for productForSale in listProduct %}
-						{% if productForSale.status != 'Pending' and productForSale.status != 'Declined' %} {# and product.member.id != session #} 
 							<div class="col-span-full sm:col-span-6 md:col-span-4 lg:col-span-3">
 								<figure class="group relative mb-5.5 overflow-hidden bg-gray-100"><img class="aspect-[27/34] w-full object-cover transition-transform duration-300 group-hover:scale-110" src="{{ vich_uploader_asset(productForSale.productImages.first(), 'imageFile') }}" alt="Neko MaGiX Black Mug">
 									<div class="absolute inset-0 bg-white dark:bg-gray-900 opacity-0 group-hover:opacity-90 transition-opacity"></div>
@@ -87,7 +86,6 @@
 									</div>
 								</div>
 							</div>
-						{% endif %}
 					{% endfor %}
 				</div>
 				<nav class="pt-10 md:pt-14 lg:pt-24">

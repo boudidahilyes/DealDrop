@@ -473,7 +473,7 @@
 								
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">{{delivery.id}}</td>
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 customer_name">{{delivery.deliveryOrder.orderDate|date('d-m-Y H:i:s')}}</td>
-								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 order_date">{{delivery.deliveryOrder.product.name}}</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 order_date">{{delivery.deliveryOrder.products.name}}</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 delivery_date">{{delivery.deliveryOrder.member.firstName}} {{delivery.deliveryOrder.member.lastName}}</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">{{delivery.deliveryOrder.deliveryAdress}}</td>
                                 <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">{{delivery.deliveryMan.firstName}} {{delivery.deliveryMan.lastName}}</td>

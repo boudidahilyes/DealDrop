@@ -32,17 +32,17 @@
 
 									<td class="py-8 pl-4 lg:pl-6 text-left border-b border-gray-500/20">
 										<div class="flex items-center gap-6 min-w-[260px]"><!-- Thumb --><figure class="shrink-0">
-												<img class="transition-opacity duration-300 group-hover:opacity-75" width="150" src="{{ vich_uploader_asset(delivery.deliveryOrder.product.productImages|first, 'imageFile') }}" alt="">
+												<img class="transition-opacity duration-300 group-hover:opacity-75" width="150" src="{{ vich_uploader_asset(delivery.deliveryOrder.products.productImages|first, 'imageFile') }}" alt="">
 											</figure><!-- Thumb / End --><!-- Product Body --><div
 												class="flex flex-grow flex-col gap-1 leading-tight">
 												<!-- Category -->
 												<span class="text-xs font-bold uppercase text-gray-300"></span><!-- Category / End--><!-- Title --><h4 class="mb-[2px] font-bold">
-													<a class="text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="_str1-single-product.html">{{delivery.deliveryOrder.product.name}}</a>
+													<a class="text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="_str1-single-product.html">{{delivery.deliveryOrder.products.name}}</a>
 												</h4>
 												<!-- Title / End -->
 											</div><!-- Product Body / End --></div>
 									</td>
-									<td class="py-4 px-4 font-bold text-gray-900 dark:text-white border-b border-gray-500/20">{{delivery.deliveryOrder.product.price}}
+									<td class="py-4 px-4 font-bold text-gray-900 dark:text-white border-b border-gray-500/20">{{delivery.deliveryOrder.products.price}}
 										DT</td>
 									<td class="py-4 pl-4 font-bold border-b border-gray-500/20 text-gray-900 dark:text-white">{{delivery.deliveryOrder.deliveryAdress}}</td>
 									<td class="py-4 pl-4 font-bold border-b border-gray-500/20 text-gray-900 dark:text-white">{{delivery.startTime|date('d-M-y H:mi:s')}}</td>

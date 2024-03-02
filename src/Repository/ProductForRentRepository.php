@@ -39,7 +39,30 @@ public function findAllProductForRent($value)
 {
     return $this->createQueryBuilder('p')
     ->where('p.owner!=:id')
+    ->andWhere('p.status = :status' )
     ->setParameter('id',$value)
+    ->setParameter('status','Approved')
+    ->getQuery()
+    ->getResult();
+}
+public function setAvailabilityUnavailable($id)
+{
+    $em=$this->getEntityManager();
+    $query=$em->createQuery("UPDATE APP\Entity\ProductForRent p
+    SET p.disponibility = 'UnAvailable'
+    WHERE p.id=:id ")
+    ->setParameter('id',$id);
+    return $query->getResult();
+}
+public function findAllProductForRentProfil($id)
+{
+    return $this->createQueryBuilder('p')
+    ->where('p.owner=:id')
+    ->andWhere('p.status!=:status')
+    ->andWhere('p.status!=:status2')
+    ->setParameter('id',$id)
+    ->setParameter('status','Removed')
+    ->setParameter('status2','Declined')
     ->getQuery()
     ->getResult();
 }

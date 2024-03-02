@@ -68,8 +68,8 @@
 									{% if product.status == "Declined" %}
 										<span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-red-100 border-red-100 text-red-500 dark:bg-red-400/20 dark:border-transparent">Declined</span>
 									{% endif %}
-									{% if product.status == 'SELLED' %}
-																				<span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-purple-100 border-purple-100 text-purple-500 dark:bg-purple-400/20 dark:border-transparent">SELLED</span>
+									{% if product.status == 'SOLD' %}
+																				<span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-purple-100 border-purple-100 text-purple-500 dark:bg-purple-400/20 dark:border-transparent">SOLD</span>
 									{% endif %}
 								</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
@@ -85,7 +85,7 @@
 												<i data-lucide="x" class="size-4"></i>
 											</a>
 										{% endif %}
-										{% if product.status != "Pending" and product.status != 'SELLED' %}
+										{% if product.status != "Pending" and product.status != 'SOLD' %}
 											<a href="{{path('app_product_for_sale_deleted',{'id':product.id})}}" class="flex items-center justify-center text-red-500 transition-all duration-200 ease-linear bg-red-100 rounded-md size-8 hover:text-white hover:bg-red-500 dark:bg-red-500/20 dark:hover:bg-red-500">
 												<i data-lucide="trash-2" class="size-4"></i>
 											</a>

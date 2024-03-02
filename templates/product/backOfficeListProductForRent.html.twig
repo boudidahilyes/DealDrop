@@ -80,6 +80,9 @@
 									{% if product.status == "Declined" %}
 										<span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-red-100 border-red-100 text-red-500 dark:bg-red-400/20 dark:border-transparent">Declined</span>
 									{% endif %}
+																		{% if product.status == "Removed" %}
+										<span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-red-100 border-red-100 text-red-500 dark:bg-red-400/20 dark:border-transparent">Removed</span>
+									{% endif %}
 								</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
 									<div class="flex gap-2">

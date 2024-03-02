@@ -41,7 +41,7 @@ public function findAllProductForSale($value)
     ->where('p.owner!=:id')
     ->andWhere('p.status = :status' )
     ->setParameter('id',$value)
-    ->setParameter('status','APPROVED')
+    ->setParameter('status','Approved')
     ->getQuery()
     ->getResult();
 }
@@ -53,6 +53,14 @@ public function setStatusSold($id)
     WHERE p.id=:id ")
     ->setParameter('id',$id);
     return $query->getResult();
+}
+public function findAllProductForSaleProfil($id)
+{
+    return $this->createQueryBuilder('p')
+    ->where('p.owner=:id')
+    ->setParameter('id',$id)
+    ->getQuery()
+    ->getResult();
 }
 
 //    public function findOneBySomeField($value): ?ProductForSale
