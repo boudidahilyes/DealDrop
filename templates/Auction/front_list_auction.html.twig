@@ -12,45 +12,73 @@
 				<div class="grid gap-y-7.5 grid-cols-12 sm:gap-x-7.5">
 					{% for auction in listAuction %}
 
-{% if auction.status == 'Approved' %}
-						<div class="col-span-full sm:col-span-6 md:col-span-4 lg:col-span-3">
-							     <figure class="group relative mb-5.5 overflow-hidden bg-gray-100">
-            <img class="aspect-[27/34] w-full object-cover transition-transform duration-300 group-hover:scale-110" src="{{ vich_uploader_asset(auction.productImages.first(), 'imageFile') }}" alt="Product Image">
-            <div class="vv-sale-label absolute left-0 top-0 bg-green font-bold uppercase text-base text-gray-900 w-28 h-[96px] pl-3 pt-2 leading-normal">
-                {# Calculate the remaining days #}
-                {% set now = "now"|date('U') %}
-                {% set startDate = auction.startDate|date('U') %}
-                {% set diff = startDate - now %}
-                {% set daysLeft = diff / (24 * 3600) %}
-                {{ daysLeft | round }} day{{ daysLeft > 1 ? 's' : '' }} Left
-            </div>
-            <div class="absolute inset-0 bg-white dark:bg-gray-900 opacity-0 group-hover:opacity-90 transition-opacity"></div>
-            <div class="flex absolute justify-center left-0 right-0 top-1/2 -translate-y-1/2 scale-90 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:transition-all [@media(hover:hover)]:duration-300 [@media(hover:hover)]:group-hover:scale-100 [@media(hover:hover)]:group-hover:opacity-100">
-                <a href="{{ path('app_front_single_auction', {'id': auction.id}) }}" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90">More Details</a>
-            </div>
-        </figure>
+						{% if auction.status == 'Approved' %}
+							<div class="col-span-full sm:col-span-6 md:col-span-4 lg:col-span-3">
+								<figure class="group relative mb-5.5 overflow-hidden bg-gray-100">
+									<img class="aspect-[27/34] w-full object-cover transition-transform duration-300 group-hover:scale-110" src="{{ vich_uploader_asset(auction.productImages.first(), 'imageFile') }}" alt="Product Image">
+									<div
+										class="vv-sale-label absolute left-0 top-0 bg-green font-bold uppercase text-base text-gray-900 w-28 h-[96px] pl-3 pt-2 leading-normal">
+										{# Calculate the remaining days #}
+										{% set now = "now"|date('U') %}
+										{% set startDate = auction.startDate|date('U') %}
+										{% set endDate = auction.endDate|date('U') %}
 
-							<div>
-								<h3 class="mb-1 font-bold leading-tight text-lg text-gray-900 dark:text-white">
-									<a class="text-gray-900 transition-colors hover:text-accent dark:text-white dark:hover:text-accent" href="_str1-single-product.html">{{auction.name}}</a>
-								</h3>
-								<div class="flex mb-2 font-medium gap-2 text-gray leading-snug dark:text-gray">
-									<div class="min-w-0">
-										<ul class="flex flex-col gap-y-1.5 text-sm leading-none font-medium">
-											<li>Start date:
-												{{auction.startDate|date('Y-m-d H:i:s')}}</li>
-											<li>End Date:
-												{{auction.endDate|date('Y-m-d H:i:s')}}</li>
-											<li class="text-accent">Owner Name:
-												{{auction.member.firstName|capitalize}}
-												{{auction.member.lastName|capitalize}}</li>
-										</ul>
+										{% if now < endDate %}
+											{# Auction is still ongoing, display remaining days #}
+											{% set diff = endDate - now %}
+											{% set daysLeft = diff / (24 * 3600) %}
+											{{ daysLeft | round }}
+											day{{ daysLeft > 1 ? 's' : '' }}
+											Left
+										{% else %}
+											{# Auction has ended, display "DONE" #}
+											DONE
+										{% endif %}
+									</div>
+									<div class="absolute inset-0 bg-white dark:bg-gray-900 opacity-0 group-hover:opacity-90 transition-opacity"></div>
+									<div class="flex absolute justify-center left-0 right-0 top-1/2 -translate-y-1/2 scale-90 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:transition-all [@media(hover:hover)]:duration-300 [@media(hover:hover)]:group-hover:scale-100 [@media(hover:hover)]:group-hover:opacity-100">
+										<a href="{{ path('app_front_single_auction', {'id': auction.id}) }}" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90">More Details</a>
+									</div>
+								</figure>
+
+								<div>
+									<h3 class="mb-1 font-bold leading-tight text-lg text-gray-900 dark:text-white">
+										<a class="text-gray-900 transition-colors hover:text-accent dark:text-white dark:hover:text-accent" href="{{ path('app_front_single_auction', {'id': auction.id}) }}">{{auction.name}}</a>
+									</h3>
+									<ul class="flex flex-col gap-y-1.5 text-sm leading-none font-medium">
+
+										<li class="flex flex-1 flex-col items-center gap-y-3.5 text-center">
+											<a id="reminder-icon">
+												<svg role="img" class="h-5 w-5 fill-accent">
+													<use xlink:href="/build/images/str1/sprite.svg#clock"></use>
+												</svg>
+											</a>
+										</li>
+
+									</ul>
+									<div class="flex mb-2 font-medium gap-2 text-gray leading-snug dark:text-gray">
+										<div class="min-w-0">
+											<ul class="flex flex-col gap-y-1.5 text-sm leading-none font-medium">
+												<li>Start date:
+													{{auction.startDate|date('Y-m-d H:i:s')}}
+												</li>
+												<li>End Date:
+													{{auction.endDate|date('Y-m-d H:i:s')}}
+												</li>
+												<li class="text-accent">Owner Name:
+													{{auction.member.firstName|capitalize}}
+													{{auction.member.lastName|capitalize}}
+												</li>
+
+												
+
+											</ul>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
 
-    {% endif %}
+						{% endif %}
 					{% endfor %}
 
 
@@ -58,6 +86,39 @@
 				<div class="flex items-center justify-center mt-10 md:mt-20 lg:mt-28">
 					<div class="vv-preloader-spikes-roll relative h-10 w-16 animate-spike-roll bg-spike-roll bg-no-repeat"></div>
 				</div>
+				<nav class="pt-10 md:pt-14 lg:pt-24">
+					<ul class="flex flex-wrap items-center justify-center gap-x-1.5 md:gap-x-2 lg:gap-x-4">
+						<li class="flex items-center">
+							<a class="inline-flex justify-center items-center border border-gray-200 dark:border-gray-600 w-8 lg:w-12.5 aspect-square text-gray-900 dark:text-white hover:bg-accent hover:border-accent dark:hover:border-accent transition-colors hover:text-gray-900 dark:hover:text-gray-900 pointer-events-none" href="#">
+								<svg class="w-1.5 h-2.5 rotate-180 opacity-40" fill="currentColor">
+									<use xlink:href="/build/images/str1/sprite.svg#arrow-right-pixel-alt"></use>
+								</svg>
+							</a>
+						</li>
+						<li>
+							<a class="inline-flex justify-center items-center w-8 lg:w-12.5 aspect-square border font-bold transition-colors text-gray-900 bg-accent border-accent dark:border-accent" href="#">1</a>
+						</li>
+						<li>
+							<a class="inline-flex justify-center items-center w-8 lg:w-12.5 aspect-square border font-bold transition-colors border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white hover:text-gray-900 hover:bg-accent dark:hover:text-gray-900 hover:border-accent dark:hover:border-accent" href="#">2</a>
+						</li>
+						<li>
+							<a class="inline-flex justify-center items-center w-8 lg:w-12.5 aspect-square border font-bold transition-colors border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white hover:text-gray-900 hover:bg-accent dark:hover:text-gray-900 hover:border-accent dark:hover:border-accent" href="#">3</a>
+						</li>
+						<li>
+							<a class="inline-flex justify-center items-center w-8 lg:w-12.5 aspect-square border font-bold transition-colors border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white hover:text-gray-900 hover:bg-accent dark:hover:text-gray-900 hover:border-accent dark:hover:border-accent" href="#">4</a>
+						</li>
+						<li class="flex items-center">
+							<a class="inline-flex justify-center items-center border border-gray-200 dark:border-gray-600 w-8 lg:w-12.5 aspect-square text-gray-900 dark:text-white hover:bg-accent hover:border-accent dark:hover:border-accent transition-colors hover:text-gray-900 dark:hover:text-gray-900" href="#">...</a>
+						</li>
+						<li class="flex items-center">
+							<a class="inline-flex justify-center items-center border border-gray-200 dark:border-gray-600 w-8 lg:w-12.5 aspect-square text-gray-900 dark:text-white hover:bg-accent hover:border-accent dark:hover:border-accent transition-colors hover:text-gray-900 dark:hover:text-gray-900" href="#">
+								<svg class="w-1.5 h-2.5" fill="currentColor">
+									<use xlink:href="/build/images/str1/sprite.svg#arrow-right-pixel-alt"></use>
+								</svg>
+							</a>
+						</li>
+					</ul>
+				</nav>
 			</section>
 		</div>
 	</div>

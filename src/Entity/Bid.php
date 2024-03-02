@@ -23,7 +23,7 @@ class Bid
 
     #[ORM\Column]
     #[Assert\NotBlank(message: 'This value should not be blank')]
-   // #[Assert\GreaterThan(propertyPath: "auction.highestBid", message: 'Bid value must be more that HighestBid ')]
+   #[Assert\GreaterThan(propertyPath: "auction.highestBid", message: 'Bid value must be more that HighestBid ')]
     private ?float $value = null;
 
     #[ORM\Column(length: 255)]

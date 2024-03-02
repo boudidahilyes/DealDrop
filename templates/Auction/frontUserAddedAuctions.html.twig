@@ -9,7 +9,7 @@
 			<section class="mb-20 lg:mb-32">
 				<div class="mb-10 md:mb-12 lg:mb-16 xl:mb-20">
 					<div class="grid grid-cols-[70px_1fr] grid-rows-2 lg:grid-rows-1 lg:auto-rows-auto lg:grid-cols-[70px_1fr_180px] gap-x-4 lg:gap-x-6 xl:gap-x-7.5 gap-y-6">
-					
+
 						<div class="col-span-full lg:col-auto">
 							<a href="{{ path('app_auction') }}" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-500/40 ring-1 ring-inset ring-gray-500/40 bg-transparent hover:bg-accent hover:text-gray-900 hover:ring-0 w-full">Add Auction</a>
 						</div>
@@ -28,14 +28,23 @@
 								{% elseif auction.status == 'Approved' %}
 									{% set now = "now"|date('U') %}
 									{% set startDate = auction.startDate|date('U') %}
-									{% set diff = startDate - now %}
-									{% set daysLeft = diff / (24 * 3600) %}
+									{% set endDate = auction.endDate|date('U') %}
 
-									<div class="vv-sale-label absolute left-0 top-0 bg-green font-bold uppercase text-base text-gray-900 w-28 h-[96px] pl-3 pt-2 leading-normal">
-										{{ daysLeft | round }}
-										day{{ daysLeft > 1 ? 's' : '' }}
-										Left
-									</div>
+									{% if now < endDate %}
+										{# Auction is still ongoing, display remaining days #}
+										{% set diff = endDate - now %}
+										{% set daysLeft = diff / (24 * 3600) %}
+										<div class="vv-sale-label absolute left-0 top-0 bg-green font-bold uppercase text-base text-gray-900 w-28 h-[96px] pl-3 pt-2 leading-normal">
+											{{ daysLeft | round }}
+											day{{ daysLeft > 1 ? 's' : '' }}
+											Left
+										</div>
+									{% else %}
+										{# Auction has ended, display "DONE" #}
+										<div class="vv-sale-label absolute left-0 top-0 bg-green font-bold uppercase text-base text-gray-900 w-28 h-[96px] pl-3 pt-2 leading-normal">
+											DONE
+										</div>
+									{% endif %}
 								{% endif %}
 
 

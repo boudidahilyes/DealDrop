@@ -1,0 +1,117 @@
+{% extends 'baseFrontOffice.html.twig' %}
+
+{% block title %}Auctions Participated
+{% endblock %}
+
+{% block body %}
+	<div class="pt-10 pb-16 lg:pt-20 lg:pb-44">
+		<div class="container">
+			<section class="mb-20 lg:mb-32">
+				<div class="mb-10 md:mb-12 lg:mb-16 xl:mb-20">
+					<div class="grid grid-cols-[70px_1fr] grid-rows-2 lg:grid-rows-1 lg:auto-rows-auto lg:grid-cols-[70px_1fr_180px] gap-x-4 lg:gap-x-6 xl:gap-x-7.5 gap-y-6"></div>
+				</div>
+				<div class="grid gap-y-7.5 grid-cols-12 sm:gap-x-7.5">
+					{% for auction in auctions %}
+						<div class="col-span-full sm:col-span-6 md:col-span-4 lg:col-span-3">
+							<figure class="group relative mb-5.5 overflow-hidden bg-gray-100">
+								<img class="aspect-[27/34] w-full object-cover transition-transform duration-300 group-hover:scale-110" src="{{ vich_uploader_asset(auction.productImages.first(), 'imageFile') }}" alt="Product Image">
+
+
+								<div class="absolute inset-0 bg-white dark:bg-gray-900 opacity-0 group-hover:opacity-90 transition-opacity"></div>
+								<div class="flex absolute justify-center left-0 right-0 top-1/2 -translate-y-1/2 scale-90 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:transition-all [@media(hover:hover)]:duration-300 [@media(hover:hover)]:group-hover:scale-100 [@media(hover:hover)]:group-hover:opacity-100">
+									<a href="{{ path('app_front_single_auction', {'id': auction.id}) }}" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90">More Details</a>
+								</div>
+							</figure>
+
+							<div>
+								<h3 class="mb-1 font-bold leading-tight text-lg text-gray-900 dark:text-white">
+									<span class="text-xs font-bold uppercase text-gray-300"></span><!-- Category / End--><!-- Title --><h4 class="mb-[2px] font-bold">
+
+										<a class="text-1.5xl" href="_str1-single-product.html">{{auction.name}}</a>
+									</h3>
+									<div class="flex mb-2 font-medium gap-2 text-gray leading-snug dark:text-gray">
+										<div class="min-w-0">
+											<ul class="flex flex-col gap-y-1.5 text-sm leading-none font-medium">
+												<li>Start date:
+													{{auction.startDate|date('Y-m-d H:i:s')}}</li>
+												<li>End Date:
+													{{auction.endDate|date('Y-m-d H:i:s')}}</li>
+
+												<td class="py-8 pl-4 lg:pl-6 text-left border-b border-gray-500/20">
+													<div class="flex items-center gap-6 min-w-[260px]"><!-- Thumb --><figure class="shrink-0">
+															<a class="group" href="_str1-single-product.html"><img class="transition-opacity duration-300 group-hover:opacity-75" src="/build/images/str1/samples/product-1-60x60.jpg" alt="Witch Hunters Art Print"></a>
+														</figure><!-- Thumb / End --><!-- Product Body --><div
+															class="flex flex-grow flex-col gap-1 leading-tight">
+															<!-- Category -->
+															<span class="text-xs font-bold uppercase text-gray-300"></span><!-- Category / End--><!-- Title --><h4 class="mb-[2px] font-bold">
+																<li class="text-accent">Owner:
+																	<a class="text-gray-900 transition-colors hover:text-accent dark:text-white dark:hover:text-accent" href="_str1-single-product.html">{{auction.member.firstName|capitalize}}
+																		{{auction.member.lastName|capitalize}}</a>
+																</li>
+															</h4>
+															<div class="flex items-center gap-x-4 relative text-sm leading-none stars-container" >
+																<div id="star-rating" class="relative inline-flex leading-none gap-1">
+																	<svg role="img" class="h-2.5 w-2.5 fill-gray-200 dark:fill-white/20">
+																		<use xlink:href="/build/images/str1/sprite.svg#star"></use>
+																	</svg>
+																	<svg role="img" class="h-2.5 w-2.5 fill-gray-200 dark:fill-white/20">
+																		<use xlink:href="/build/images/str1/sprite.svg#star"></use>
+																	</svg>
+																	<svg role="img" class="h-2.5 w-2.5 fill-gray-200 dark:fill-white/20">
+																		<use xlink:href="/build/images/str1/sprite.svg#star"></use>
+																	</svg>
+																	<svg role="img" class="h-2.5 w-2.5 fill-gray-200 dark:fill-white/20">
+																		<use xlink:href="/build/images/str1/sprite.svg#star"></use>
+																	</svg>
+																	<svg role="img" class="h-2.5 w-2.5 fill-gray-200 dark:fill-white/20">
+																		<use xlink:href="/build/images/str1/sprite.svg#star"></use>
+																	</svg>
+																</div>
+																
+															</div>
+
+														</div><!-- Product Body / End --></div>
+												</td>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+					<div class="flex items-center justify-center mt-10 md:mt-20 lg:mt-28">
+						<div class="vv-preloader-spikes-roll relative h-10 w-16 animate-spike-roll bg-spike-roll bg-no-repeat"></div>
+					</div>
+				</section>
+			</div>
+		</div>
+	{% endblock %}
+
+	{% block endbodyscripts %}
+    <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const auctionContainers = document.querySelectorAll('.stars-container');
+
+    auctionContainers.forEach((container, auctionIndex) => {
+        const reviewStars = container.querySelectorAll('.relative.inline-flex.leading-none.gap-1 svg');
+
+        reviewStars.forEach((star, index) => {
+            star.addEventListener("click", () => {
+                reviewStars.forEach((el) => el.classList.remove("fill-accent", "checked"));
+
+                for (let i = 0; i <= index; i++) {
+                    reviewStars[i].classList.remove("fill-gray-200", "dark:fill-white/20");
+                    reviewStars[i].classList.add("fill-accent", "checked");
+                }
+
+                const starscount = container.querySelectorAll(".relative.inline-flex.leading-none.gap-1 svg.checked").length;
+                console.log(`Auction ${auctionIndex + 1} - Stars count: ${starscount}`);
+								
+            });
+        });
+    });
+});
+
+
+    </script>
+{% endblock %}

@@ -14,12 +14,17 @@ use App\Form\BidFormType;
 use App\Form\OrderFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Notifier\Message\SmsMessage;
+use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Twilio\Rest\Client;
 
 use function Symfony\Component\Clock\now;
 
@@ -31,6 +36,48 @@ class AuctionController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
+
+
+    #[Route('/auction/reminder', name: 'app_auction_reminder')]
+    public function loginSuccess(TexterInterface $texter)
+    {
+        $twilioPhoneNumber = $_ENV['TWILIO_PHONE_NUMBER'];
+        $user = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
+
+       // $recipientPhoneNumber = '+21626852727'; 
+        $recipientPhoneNumber = '+216' .$user->getPhone();
+        //dd($recipientPhoneNumber);
+        $message = 'The auction that u wanted to be reminded of begans in few minutes';
+
+        $this->sendSms($recipientPhoneNumber, $message);
+
+        $sms = new SmsMessage($recipientPhoneNumber, $message);
+        $texter->send($sms);
+
+       
+    }
+
+    private function sendSms(string $to, string $message)
+    {
+        $twilio = new Client($_ENV['TWILIO_ACCOUNT_SID'], $_ENV['TWILIO_AUTH_TOKEN']);
+
+        $twilio->messages->create($to, [
+            'from' => $_ENV['TWILIO_PHONE_NUMBER'],
+            'body' => $message,
+        ]);
+    }
+   /* #[Route('/login/success')]
+    public function loginSuccess(TexterInterface $texter)
+    {
+        $sms = new SmsMessage(
+            '+21626852727',
+            
+            'A new login was detected!'
+        );
+         $texter->send($sms);
+       
+
+    }*/
 
     /////////////////////////////////////////////////////////////////////////Front Auction////////////////////////////////////////////////////////////////////////////////
     #[Route('/Auction/front_single_auction{id}', name: 'app_front_single_auction')]
@@ -72,6 +119,7 @@ class AuctionController extends AbstractController
         if($auction->getEndDate() <= $now)
         {     
             $highestBid =$this->entityManager->getRepository(Bid::class)->findOneBy(['value'=>$auction->getHighestBid(),'auction'=>$auction]);
+            if($highestBid != null){
             $member = $highestBid->getBidder();
            
             $order = new Order();
@@ -89,7 +137,9 @@ class AuctionController extends AbstractController
             return $this->render('order/frontAuctionOrder.html.twig', [
                 'form' => $form->createView(),
                 'product' => $auction
-            ]);}
+            ]);
+        } else{  return $this->redirectToRoute('app_front_auction_list');}
+    }
         return $this->render('Auction/front_single_auction.html.twig', [
             'auction' => $auction,
             'bidForm' => $form->createView(),
@@ -106,6 +156,26 @@ class AuctionController extends AbstractController
         $user = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
         $Product = $this->entityManager->getRepository(Auction::class)->findBy(['owner' => $user]);
         return $this->render('Auction/frontUserAddedAuctions.html.twig', [
+            'auctions' => $Product
+        ]);
+    }
+    #[Route('/Auction/frontParticipatedAuctions', name: 'app_front_user_participated_auctions')]
+    public function userParticipatedAuctions(): Response
+    {
+        $user = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
+
+$bids = $this->entityManager->getRepository(Bid::class)->findBy(['bidder' => $user]);
+
+// Extract the auctions from the bids using Bid as the owning side
+$Product = [];
+foreach ($bids as $bid) {
+    $auction = $bid->getAuction();
+    if ($auction) {
+        $Product[] = $auction;
+    }
+}
+               
+        return $this->render('Auction/frontParticipatedAuctions.html.twig', [
             'auctions' => $Product
         ]);
     }
@@ -264,5 +334,19 @@ class AuctionController extends AbstractController
         } else {
             return $this->redirectToRoute('app_back_auction_list');
         }
+    }
+
+    
+    #[Route('/auction/rating/update', name: 'app_rating_update', methods:"POST")]
+    public function updateRating(Request $request): JsonResponse
+    {
+        // Retrieve auction ID and rating from the AJAX request
+        $auctionId = $request->request->get('auction_id');
+        $rating = $request->request->get('rating');
+
+        // Perform any necessary actions to update the rating in your database
+
+        // Return a JSON response (you can customize this based on your needs)
+        return new JsonResponse(['message' => 'Rating updated successfully']);
     }
 }
