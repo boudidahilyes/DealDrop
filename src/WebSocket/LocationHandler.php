@@ -22,7 +22,6 @@ class LocationHandler implements MessageComponentInterface
 
     public function onOpen(ConnectionInterface $conn)
     {
-        
     }
 
     public function onMessage(ConnectionInterface $from, $msg)

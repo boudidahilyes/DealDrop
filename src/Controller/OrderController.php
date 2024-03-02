@@ -27,7 +27,7 @@ class OrderController extends AbstractController
     public function orderProductForSale(Request $req,$id,ProductForSaleRepository $rep,prdcon $prdcon): Response
     {
         $product=$this->entityManager->getRepository(ProductForSale::class)->findOneBy(['id' => $id]);
-        $member = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => $prdcon->getCookieID($req)]);
+        $member = $this->getUser();
         $order = new Order();
         $form = $this->createForm(OrderFormType::class, $order);
         $form->handleRequest($req);
@@ -52,7 +52,7 @@ class OrderController extends AbstractController
     #[Route('/account/orders', name: 'app_product_for_sale_orders')]
     public function ProductForSaleOrders(Request $req,prdcon $prdcon): Response
     {
-        $member=$this->entityManager->getRepository(Member::class)->findOneBy(['id'=>$prdcon->getCookieID($req)]);
+        $member=$this->getUser();
         $orders = $this->entityManager->getRepository(ProductForSale::class)->findBy(['member' => $member]);
         return $this->render('order/frontOfficeProductForSaleOrders.html.twig', [
             'orders' => $orders

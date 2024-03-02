@@ -71,7 +71,7 @@
 	var map = L.map('map').setView([{{ delivery.currentCoordinates }}], 14);
 	L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {attribution: '© OpenStreetMap contributors'}).addTo(map);
 	var markerGroup = L.featureGroup().addTo(map);
-	const socket = new WebSocket('ws://127.0.0.10:8000');
+	const socket = new WebSocket('ws://192.168.1.14:8443');
 	function getLocation()
 	{
 		socket.send(JSON.stringify({
