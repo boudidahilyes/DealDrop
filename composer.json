@@ -11,15 +11,28 @@
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.17",
+        "knpuniversity/oauth2-client-bundle": "^2.18",
+        "league/oauth2-google": "^4.0",
+        "scheb/2fa-bundle": "^5.0",
+        "scheb/2fa-email": "^5.0",
+        "scheb/2fa-trusted-device": "^5.13",
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",
         "symfony/flex": "^1.17|^2",
         "symfony/form": "5.4.*",
         "symfony/framework-bundle": "5.4.*",
-        "symfony/runtime": "5.4.*",
+        "symfony/intl": "5.4.*",
+        "symfony/mailer": "5.4.*",
+        "symfony/routing": "5.4.*",
+        "symfony/runtime": "^5.4.35",
+        "symfony/security-bundle": "5.4.*",
+        "symfony/security-core": "5.4.*",
+        "symfony/security-guard": "5.4.*",
         "symfony/twig-bundle": "5.4.*",
+        "symfony/validator": "5.4.*",
         "symfony/webpack-encore-bundle": "^2.1",
         "symfony/yaml": "5.4.*",
+        "symfonycasts/verify-email-bundle": "^1.16",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
         "vich/uploader-bundle": "^2.3"
@@ -70,10 +83,13 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.4.*"
+            "require": "5.4.*",
+            "docker": true
         }
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.50"
+        "symfony/maker-bundle": "^1.50",
+        "symfony/stopwatch": "5.4.*",
+        "symfony/web-profiler-bundle": "5.4.*"
     }
 }
