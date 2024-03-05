@@ -70,10 +70,10 @@
 						<nav class="tabs__header pb-4 font-bold leading-tight tracking-tight text-xl lg:text-2xl xl:text-[32px]">
 							<ul class="flex flex-col flex-wrap justify-between gap-y-3 sm:flex-row">
 								<li class="tabs__header-item is-active group">
-									<a href="#" class="text-gray-500/40 transition-colors hover:text-gray-900 group-[.is-active]:text-gray-900 dark:group-[.is-active]:text-white dark:hover:text-white before:content-['.'] before:mr-[0.15em] group-[.is-active]:before:text-accent">Bids</a>
+									<a href="#" class="text-gray-500/40 transition-colors hover:text-gray-900 group-[.is-active]:text-gray-900 dark:group-[.is-active]:text-white dark:hover:text-white  before:mr-[0.15em] group-[.is-active]:before:text-accent">Bids</a>
 								</li>
 								<li class="tabs__header-item group">
-									<a href="#" class="text-gray-500/40 transition-colors hover:text-gray-900 group-[.is-active]:text-gray-900 dark:group-[.is-active]:text-white dark:hover:text-white before:content-['.'] before:mr-[0.15em] group-[.is-active]:before:text-accent">Description</a>
+									<a href="#" class="text-gray-500/40 transition-colors hover:text-gray-900 group-[.is-active]:text-gray-900 dark:group-[.is-active]:text-white dark:hover:text-white  before:mr-[0.15em] group-[.is-active]:before:text-accent">Description</a>
 								</li>
 
 
@@ -98,10 +98,10 @@
 										<div class="flex items-center gap-x-4 relative text-sm leading-none mb-6 md:mb-12">
 											<div class="text-gray-500/60 uppercase font-bold text-sm leading-none mt-[1px]">Highest Bid:</div>
 											<div class="text-2xl font-bold text-accent md:text-2xl lg:text-[32px] lg:leading-none">
-												{% if auction.highestBid is null %}
-													<div>0 dt
+												{% if auction.highestBid.bidder is null %}
+													<div>No Bids Yet
 													{% else %}
-														{{auction.highestBid}}dt
+														{{auction.highestBid.value}}dt
 
 													{% endif %}
 
@@ -137,8 +137,11 @@
 											<dl class="grid grid-cols-8 gap-x-5 leading-normal md:gap-x-6 lg:gap-x-7.5">
 												{% set sortedBids = bid.value|default([])|sort %}
 												{% for bid in bids %}
-													<dt class="col-span-full text-gray-500 dark:text-gray sm:col-span-3">{{bid.bidder.firstName}}</dt>
-													<dd class="col-span-full mb-4 font-bold text-gray-900 dark:text-white sm:col-span-5 md:mb-7">{{bid.value}}</dd>
+													{% if bid.bidder is not null %}
+														<dt class="col-span-full text-gray-500 dark:text-gray sm:col-span-3">{{bid.bidder.firstName}}</dt>
+														<dd class="col-span-full mb-4 font-bold text-gray-900 dark:text-white sm:col-span-5 md:mb-7">{{bid.value}}</dd>
+													{% endif %}
+													
 												{% endfor %}
 												{% if bidder != auction.member %}
 													<dt class="col-span-full text-gray-500 dark:text-gray sm:col-span-3">My Bid:</dt>

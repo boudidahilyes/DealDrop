@@ -12,6 +12,9 @@ services:
             $accountSid: 'ACd94ca498f386e1edbcba3439135f72ff'
             $authToken: 'c413c8f1e8e5deca40c92f37cceceeb0'
 
+    App\Command\SendRemindersCommand:
+        arguments:
+            $twilioService: '@App\Service\TwilioService'
 
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

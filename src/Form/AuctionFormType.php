@@ -47,7 +47,7 @@ class AuctionFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Auction::class,
-            'validation_groups' => ['Default', 'YourCustomGroup'], 
+            
 
         ]);
     }

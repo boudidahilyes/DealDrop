@@ -30,6 +30,9 @@ class Member extends User
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Feedback::class, orphanRemoval: true)]
     private Collection $feedback;
 
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Reminder::class, orphanRemoval: true)]
+    private Collection $reminders;
+
     public function __construct()
     {
         parent::__construct();
@@ -38,6 +41,7 @@ class Member extends User
         $this->bids = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->feedback = new ArrayCollection();
+        $this->reminders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -189,6 +193,36 @@ class Member extends User
             // set the owning side to null (unless already changed)
             if ($feedback->getMember() === $this) {
                 $feedback->setMember(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reminder>
+     */
+    public function getReminders(): Collection
+    {
+        return $this->reminders;
+    }
+
+    public function addReminder(Reminder $reminder): static
+    {
+        if (!$this->reminders->contains($reminder)) {
+            $this->reminders->add($reminder);
+            $reminder->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReminder(Reminder $reminder): static
+    {
+        if ($this->reminders->removeElement($reminder)) {
+            // set the owning side to null (unless already changed)
+            if ($reminder->getOwner() === $this) {
+                $reminder->setOwner(null);
             }
         }
 

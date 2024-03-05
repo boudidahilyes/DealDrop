@@ -91,9 +91,11 @@ class AuctionController extends AbstractController
         $bidder = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
 
         $bid = $this->entityManager->getRepository(Bid::class)->findOneBy(['auction' => $auction, 'bidder' => $bidder]);
+        
         if (is_null($bid)) {
             $bid = new Bid();
         }
+        
         $form = $this->createForm(BidFormType::class, $bid);
         $form->handleRequest($request);
 
@@ -103,11 +105,9 @@ class AuctionController extends AbstractController
             $bid->setAuction($auction);
             $bid->setBidder($bidder);
             $bid = $form->getData();
-            if ($auction->getHighestBid() === null) {
-                $newHighestBid = new Bid();
-                $auction->setHighestBid($newHighestBid);
-            }
-            $auction->setHighestBid($bid->getValue());
+
+            
+            $auction->setHighestBid($bid);
             $this->entityManager->persist($bid);
             $this->entityManager->persist($auction);
             $this->entityManager->flush();
@@ -118,10 +118,11 @@ class AuctionController extends AbstractController
         $now= new \DateTimeImmutable();
         if($auction->getEndDate() <= $now)
         {     
-            $highestBid =$this->entityManager->getRepository(Bid::class)->findOneBy(['value'=>$auction->getHighestBid(),'auction'=>$auction]);
-            if($highestBid != null){
-            $member = $highestBid->getBidder();
-           
+            
+            if($auction->hightestBid != null){
+                ///////////////////big prob//////////
+                $member = $auction->hightestBid->getBidder();
+           /////////////////here/////////////////////
             $order = new Order();
             $form = $this->createForm(OrderFormType::class, $order);
             $form->handleRequest($request);
@@ -153,7 +154,7 @@ class AuctionController extends AbstractController
     #[Route('/Auction/frontUserAuctionList', name: 'app_front_user_added_auctions')]
     public function userAuctions(): Response
     {
-        $user = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
+        $user = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 2]);
         $Product = $this->entityManager->getRepository(Auction::class)->findBy(['owner' => $user]);
         return $this->render('Auction/frontUserAddedAuctions.html.twig', [
             'auctions' => $Product
@@ -205,8 +206,9 @@ foreach ($bids as $bid) {
         if ($form->isSubmitted() && $form->isValid()) {
             $au->setAddDate(new \DateTimeImmutable());
             $au->setMember($member);
-            $au->setHighestBid(0);
-          
+            $bid = new Bid();
+            $bid->setValue($au->getCurrentPrice());
+            $au->setHighestBid($bid);
             $au->setStatus('Pending');
             $ProductImages = $form->get("productImage")->getData();
             foreach ($ProductImages as $img) {
@@ -266,8 +268,6 @@ foreach ($bids as $bid) {
     public function back_list(): Response
     {
         $listAuction = $this->entityManager->getRepository(Auction::class)->findAll();
-
-
         $resultCount = count($listAuction);
         return $this->render('Auction/backListAuction.html.twig', [
             'listAuction' => $listAuction,
@@ -337,16 +337,12 @@ foreach ($bids as $bid) {
     }
 
     
-    #[Route('/auction/rating/update', name: 'app_rating_update', methods:"POST")]
+   /* #[Route('/auction/rating/update', name: 'app_rating_update', methods:"POST")]
     public function updateRating(Request $request): JsonResponse
     {
-        // Retrieve auction ID and rating from the AJAX request
         $auctionId = $request->request->get('auction_id');
         $rating = $request->request->get('rating');
 
-        // Perform any necessary actions to update the rating in your database
-
-        // Return a JSON response (you can customize this based on your needs)
         return new JsonResponse(['message' => 'Rating updated successfully']);
-    }
+    }*/
 }

@@ -37,12 +37,18 @@ class Auction extends Product{
     #[ORM\OneToMany(mappedBy: 'auction', targetEntity: Bid::class, orphanRemoval: true)]
     private Collection $bids;
 
-    #[ORM\Column(nullable: true)]
-    protected ?int $highestBid = null;
+
+
+    #[ORM\OneToMany(mappedBy: 'auction', targetEntity: Reminder::class, orphanRemoval: true)]
+    private Collection $reminders;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?bid $highestBid = null;
 
     public function __construct()
-    {
+    { 
         $this->bids = new ArrayCollection();
+        $this->reminders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -55,7 +61,7 @@ class Auction extends Product{
         return $this->startDate;
     }
 
-    public function setStartDate(\DateTimeInterface $startDate): static
+    public function setStartDate(?\DateTimeInterface $startDate): static
     {
         $this->startDate = $startDate;
 
@@ -79,23 +85,13 @@ class Auction extends Product{
         return $this->endDate;
     }
 
-    public function setEndDate(\DateTimeInterface $endDate): static
+    public function setEndDate(?\DateTimeInterface $endDate): static
     {
         $this->endDate = $endDate;
 
         return $this;
     }
-    public function getHighestBid(): ?int
-    {
-        return $this->highestBid;
-    }
-
-    public function setHighestBid(?int $highestBid): static
-    {
-        $this->highestBid = $highestBid;
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection<int, Bid>
@@ -123,6 +119,49 @@ class Auction extends Product{
                 $bid->setAuction(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reminder>
+     */
+    public function getReminders(): Collection
+    {
+        return $this->reminders;
+    }
+
+    public function addReminder(Reminder $reminder): static
+    {
+        if (!$this->reminders->contains($reminder)) {
+            $this->reminders->add($reminder);
+            $reminder->setAuction($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReminder(Reminder $reminder): static
+    {
+        if ($this->reminders->removeElement($reminder)) {
+            // set the owning side to null (unless already changed)
+            if ($reminder->getAuction() === $this) {
+                $reminder->setAuction(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getHighestBid(): ?bid
+    {
+        return $this->highestBid;
+    }
+
+    public function setHighestBid(?bid $highestBid): static
+    {
+        $this->highestBid = $highestBid;
+        $highestBid->setAuction($this);
 
         return $this;
     }
