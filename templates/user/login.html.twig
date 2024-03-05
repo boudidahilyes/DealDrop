@@ -41,8 +41,8 @@
 									{% if error %}
 											<div class="text-2xl" style="color: red">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 										{% endif %}
-										<p>You’ll receive a confirmation email in your inbox with a link so you can activate your account. If you have any problems,
-											<a class="text-accent hover:text-primary dark:hover:text-white transition-colors" href="_str1-contact.html">contact us</a>!</p>
+										<p>Forgot Your Password? 
+											<a class="text-accent hover:text-primary dark:hover:text-white transition-colors" href="{{path('app_reset')}}">Reset Password</a>!</p>
 										
 									</div>
 								</form>

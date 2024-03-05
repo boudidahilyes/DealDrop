@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Member;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -11,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType as TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 class MemberRegistrationFormType extends AbstractType
@@ -22,6 +24,18 @@ class MemberRegistrationFormType extends AbstractType
         ->add('lastName', TextType::class)
         ->add('cin', NumberType::class)
         ->add('adress', TextType::class)
+        ->add('birthDate', DateType::class, [
+            'widget' => 'single_text',
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Please enter a valid birthday.',
+                ]),
+                new LessThan([
+                    'value' => 'today',
+                    'message' => 'The birthday cannot be in the future.',
+                ]),
+            ],
+        ])
         ->add('phone', NumberType::class)
         ->add('email', EmailType::class)
         ->add('password', PasswordType::class, [
