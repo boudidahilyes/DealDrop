@@ -160,8 +160,10 @@ class ProductForTradeController extends AbstractController
     public function offerMoreDetails($id): Response
     {
         $product = $this->entityManager->getRepository(ProductForTrade::class)->findOneBy(['id' => $id]);
+        $offer = $this->entityManager->getRepository(Offer::class)->findOneBy(['productOffered' => $product]);
         return $this->render('product/frontOfficeProductForTradeOfferDetails.html.twig', [
-            'product' => $product
+            'product' => $product,
+            'offerId' => $offer->getId()
         ]);
     }
     #[Route('/profil/productForTrade/accept/{id}', name: 'app_product_for_trade_offer_accept')]
