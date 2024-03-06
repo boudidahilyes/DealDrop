@@ -71,22 +71,24 @@
 	var map = L.map('map').setView([{{ delivery.currentCoordinates }}], 14);
 	L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {attribution: '© OpenStreetMap contributors'}).addTo(map);
 	var markerGroup = L.featureGroup().addTo(map);
-	const socket = new WebSocket('ws://192.168.1.21:8443');
+	
 	function getLocation()
 	{
-		socket.send(JSON.stringify({
-                        type: 'get-location',
-                        id: {{delivery.id}}
-                    }));
+		$.ajax({
+                method: "POST",
+                url: "/get_delivery_position",
+                data:{
+                  id: {{delivery.id}}
+              }
+            }).then(function(data){
+							let coords = data.location.split(',');
+							markerGroup.clearLayers();
+							L.marker([coords[0], coords[1]]).addTo(markerGroup);
+                    });
 	}
 	
 	
-	socket.addEventListener('message',function(message){
-			markerGroup.clearLayers();
-			let coords = JSON.parse(message.data).location.split(',');
-			L.marker([coords[0], coords[1]]).addTo(markerGroup);
-		})
-	const interval = setInterval(getLocation, 1000);
+	const interval2 = setInterval(getLocation, 1000);
 
 	</script>
 {% endblock %}
