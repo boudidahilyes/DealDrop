@@ -25,7 +25,7 @@ class BidValueConstraintValidator extends ConstraintValidator
         // Access the specified attribute using property path
         $attributeValue = $propertyAccessor->getValue($object, $constraint->attribute);
 
-        if ($value > $attributeValue) {
+        if ($value < $attributeValue) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ value }}', $value)
                 ->addViolation();

@@ -95,14 +95,14 @@ class AuctionController extends AbstractController
         if (is_null($bid)) {
             $bid = new Bid();
         }
-        
+        $bid->setAuction($auction);
         $form = $this->createForm(BidFormType::class, $bid);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $bid->setbidDate(new \DateTimeImmutable());
             $bid->setState('Valid');
-            $bid->setAuction($auction);
+            
             $bid->setBidder($bidder);
             $bid = $form->getData();
 
