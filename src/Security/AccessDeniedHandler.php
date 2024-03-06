@@ -18,7 +18,7 @@ class AccessDeniedHandler implements AccessDeniedHandlerInterface
 
     public function handle(Request $request, AccessDeniedException $accessDeniedException)
     {
-        if ($this->security->isGranted('ROLE_USER')) {
+        if ($this->security->isGranted('ROLE_MEMBER')) {
             
             return new RedirectResponse('/home');
         } else {

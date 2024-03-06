@@ -1,0 +1,77 @@
+{% extends 'baseFrontOffice.html.twig' %}
+{% block body %}
+<div class="pt-10 pb-16 lg:pt-20 lg:pb-44">
+					<div class="container">
+						<nav class="mb-8 sm:mb-10 md:mb-12 lg:mb-16 xl:mb-20">
+							<ul class="flex flex-col flex-wrap sm:flex-row gap-y-4 font-bold md:text-lg gap-x-8">
+								<li>
+									<a class="transition-all text-accent" href="{{ path('app_home') }}">Personal Info</a>
+								</li>
+								<li>
+									<a class="transition-all text-accent" href="{{ path('app_user_edit') }}">Personal Info</a>
+								</li>
+								<li>
+									<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="_str1-account-orders.html">Orders</a>
+								</li>
+								<li>
+									<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{ path('app_logout') }}">Logout</a>
+								</li>
+							</ul>
+						</nav>
+							<fieldset class="col-span-full flex flex-col">
+								<h5 class="font-bold text-gray-500 uppercase text-sm mb-3">Profile Photo</h5>
+								<div class="flex gap-x-7.5 mb-3 items-start">
+									<figure><img src="assets/img/str1/samples/user-6-100x100.jpg" alt="April Valentine"></figure>
+									<label class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center py-4 px-4 lg:py-[18px] lg:px-10 text-sm text-gray-500/40 ring-1 ring-inset ring-gray-500/40 bg-transparent hover:bg-accent hover:text-gray-900 hover:ring-0 cursor-pointer" for="user-profile-img">Browse...
+										<input class="hidden" type="file" name="user-profile-img" id="user-profile-img"></label>
+								</div>
+								<div class="text-gray-500 text-xs opacity-60">100x100px minimum resolution</div>
+							</fieldset>
+							
+              
+							<div class="col-span-full md:col-span-4">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="first-name">Firstname</label>
+								<input readonly
+                class="group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full"
+                type="text" name="firstName" id="firstName" value={{user.firstName}} placeholder="">
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+							<div class="col-span-full md:col-span-4">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="first-name">lastName</label>
+								<input readonly
+                class="group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full"
+                type="text" name="lastname" id="lastname" value={{user.lastName}} placeholder="">
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+              <div class="col-span-full md:col-span-4">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="first-name">Cin</label>
+								<input readonly
+                class="group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full"
+                type="tetx" name="cin" id="cin" value={{user.cin}} placeholder="">
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+              <div class="col-span-full md:col-span-4">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="first-name">Email</label>
+                				<input readonly
+                class="group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full"
+                type="email" name="email" id="email" value={{user.email}} placeholder="">
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+              <div class="col-span-full md:col-span-4">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="first-name">phone</label>
+								<input readonly
+                class="group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full"
+                value={{user.phone}} placeholder="">
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+              <div class="col-span-full md:col-span-4">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="first-name">address </label>
+								<input readonly
+                class="group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full"
+                value={{user.adress}} placeholder="">
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+						
+					</div>
+				</div>
+{% endblock %}

@@ -92,7 +92,7 @@ class SecurityController extends AbstractController
             $user = $userRepository->findOneBy(['email' => $data['email']]);
             if (!$user){
                 $this->addFlash('danger', 'Email Inconnu');
-                return $this->redirectToRoute('app_resetPassword');
+                return $this->redirectToRoute('app_reset');
             }
             $resetToken = $token->generateToken();
             try {
@@ -100,7 +100,7 @@ class SecurityController extends AbstractController
                 $userRepository->save($user, true);
             }catch (\Exception $e){
                 $this->addFlash('warning', $e->getMessage());
-                return $this->redirectToRoute('app_resetPassword');
+                return $this->redirectToRoute('app_reset');
             }
             $url = $this->generateUrl('app_resetPassword', ['token' => $resetToken], UrlGeneratorInterface::ABSOLUTE_URL);
             $email = (new TemplatedEmail())

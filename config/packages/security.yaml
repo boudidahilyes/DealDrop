@@ -5,54 +5,45 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
+        users_in_memory: { memory: null }
         app_user_provider:
             entity:
-                class: App\Entity\Users
+                class: App\Entity\User
                 property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            
             lazy: true
             provider: app_user_provider
-            custom_authenticator: App\Security\LoginAuhenticatorAuthenticator
             access_denied_handler: App\Security\AccessDeniedHandler
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                default_target_path: /home
+                
+            entry_point: form_login
             logout:
                 path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
+                target: /home
+
             two_factor:
                 auth_form_path: 2fa_login
                 check_path: 2fa_login_check
                 trusted_parameter_name: _trusted  # Name of the parameter for the trusted device option
-            guard:
-                authenticators:
-                    - App\Security\GoogleAuthenticator 
-            
-            remember_me:
-                secret: '%kernel.secret%'
-                lifetime: 604800
-                path: /
-                always_remember_me: true
-            form_login:
-                login_path: app_login
-                check_path: app_login
-                enable_csrf: true   
-            entry_point: form_login
-            
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
-
+            guard:
+                authenticators:
+                    - App\Security\GoogleAuthenticator    
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

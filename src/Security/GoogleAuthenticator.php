@@ -1,8 +1,7 @@
 <?php
 namespace App\Security;
 
-
-use App\Entity\Users; // your user entity
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use KnpU\OAuth2ClientBundle\Security\Authenticator\SocialAuthenticator;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
@@ -62,10 +61,10 @@ class GoogleAuthenticator  extends SocialAuthenticator
         $email = $googleUser->getEmail();
 
         // 1) have they logged in with Facebook before? Easy!
-        $user = $this->em->getRepository(Users::class)
+        $user = $this->em->getRepository(User::class)
             ->findOneBy(['email' => $email]);
         if (!$user) {
-            $user=new Users();
+            $user=new User();
             $user->setEmail($googleUser->getEmail());
             $user->setFirstName($googleUser->getName());
             $user->setPassword('google_authenticated'); 

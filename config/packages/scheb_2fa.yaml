@@ -6,7 +6,7 @@ scheb_two_factor:
     email:
         digits: 6
         enabled: true
-        sender_email: blooperrr@outlook.com
+        sender_email: dealdrop.pidev@outlook.com
         sender_name: DealDrop  # Optional   
     trusted_device:
         enabled: true                 # If the trusted device feature should be enabled
@@ -16,5 +16,3 @@ scheb_two_factor:
         cookie_secure: false           # Set the 'Secure' (HTTPS Only) flag on the trusted device cookie
         cookie_same_site: "lax"        # The same-site option of the cookie, can be "lax" or "strict"   
         cookie_path: "/" 
-    
-        

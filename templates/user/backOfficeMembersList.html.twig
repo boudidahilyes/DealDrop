@@ -1,0 +1,143 @@
+{% extends 'baseBackOffice.html.twig' %}
+{% block pagecontent %}
+
+
+	<div class="container-fluid group-data-[content=boxed]:max-w-boxed mx-auto">
+
+		<div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+			<div class="grow">
+				<h5 class="text-16">List View</h5>
+			</div>
+			<ul class="flex items-center gap-2 text-sm font-normal shrink-0">
+				<li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
+					<a href="#!" class="text-slate-400 dark:text-zink-200">Users</a>
+				</li>
+				<li class="text-slate-700 dark:text-zink-100">
+					List View
+				</li>
+			</ul>
+		</div>
+		<div class="grid grid-cols-1 gap-x-5 xl:grid-cols-12">
+			<div class="xl:col-span-12">
+				<div class="card" id="usersTable">
+					<div class="card-body">
+						<div class="flex items-center">
+							<h6 class="text-15 grow">Users List</h6>
+							
+						</div>
+					</div>
+					<div class="!py-3.5 card-body border-y border-dashed border-slate-200 dark:border-zink-500">
+						<form action="#!">
+							<div class="grid grid-cols-1 gap-5 xl:grid-cols-12">
+								<div class="relative xl:col-span-2">
+									<input type="text" class="ltr:pl-8 rtl:pr-8 search form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="Search for name, email, phone number etc..." autocomplete="off">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="search" class="lucide lucide-search inline-block size-4 absolute ltr:left-2.5 rtl:right-2.5 top-2.5 text-slate-500 dark:text-zink-200 fill-slate-100 dark:fill-zink-600">
+										<circle cx="11" cy="11" r="8"></circle>
+										<path d="m21 21-4.3-4.3"></path>
+									</svg>
+								</div>
+								<!--end col-->
+								
+								<!--end col-->
+								<!--end col-->
+							</div>
+							<!--end grid-->
+						</form>
+					</div>
+					<div class="card-body">
+						<div class="-mx-5 -mb-5 overflow-x-auto">
+							<table class="w-full border-separate table-custom border-spacing-y-1 whitespace-nowrap">
+								<thead class="text-left">
+									<tr class="relative rounded-md bg-slate-100 dark:bg-zink-600 after:absolute ltr:after:border-l-2 rtl:after:border-r-2 ltr:after:left-0 rtl:after:right-0 after:top-0 after:bottom-0 after:border-transparent [&amp;.active]:after:border-custom-500 [&amp;.active]:bg-slate-100 dark:[&amp;.active]:bg-zink-600">
+										<th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold">
+											<div class="flex items-center h-full">
+												<input id="CheckboxAll" class="size-4 bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800 cursor-pointer" type="checkbox">
+											</div>
+										</th>
+										<th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold sort" data-sort="user-id">User ID</th>
+										<th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold sort" data-sort="name">Name</th>
+										<th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold sort" data-sort="location">Address</th>
+										<th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold sort" data-sort="email">Email</th>
+										<th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold sort" data-sort="phone-number">Date Of Birth</th>
+                                        <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold sort" data-sort="phone-number">Phone Number</th>
+										<th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold sort" data-sort="joining-date">Joining Date</th>
+										<th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold sort" data-sort="status">is Verified</th>
+                                        <th class="px-3.5 py-2.5 first:pl-5 last:pr-5 font-semibold">Action</th>
+									</tr>
+								</thead>
+								{% block users %}
+									<tbody class="list">
+										{% for user in users %}
+											<tr class="relative rounded-md after:absolute ltr:after:border-l-2 rtl:after:border-r-2 ltr:after:left-0 rtl:after:right-0 after:top-0 after:bottom-0 after:border-transparent [&amp;.active]:after:border-custom-500 [&amp;.active]:bg-slate-100 dark:[&amp;.active]:bg-zink-600">
+												<td class="px-3.5 py-2.5 first:pl-5 last:pr-5">
+													<div class="flex items-center h-full">
+														<input id="Checkbox1" class="size-4 bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800 cursor-pointer" type="checkbox">
+													</div>
+												</td>
+												<td class="px-3.5 py-2.5 first:pl-5 last:pr-5">
+													<a href="#!" class="transition-all duration-150 ease-linear text-custom-500 hover:text-custom-600 user-id">{{ user.id }}</a>
+												</td>
+												<td class="px-3.5 py-2.5 first:pl-5 last:pr-5">
+													<div class="flex items-center gap-2">
+														<div class="flex items-center justify-center font-medium rounded-full size-10 shrink-0 bg-slate-200 text-slate-800 dark:text-zink-50 dark:bg-zink-600">
+															<img src="/assets/images/avatar-2.png" alt="" class="h-10 rounded-full">
+														</div>
+														<div class="grow">
+															<h6 class="mb-1">
+																<a href="#!" class="name">{{ user.firstName}}{{ user.lastName}}</a>
+															</h6>
+															{#<p class="text-slate-500 dark:text-zink-200">Graphic Designer</p>#}
+														</div>
+													</div>
+												</td>
+												<td class="px-3.5 py-2.5 first:pl-5 last:pr-5 location">{{ user.adress}}</td>
+												<td class="px-3.5 py-2.5 first:pl-5 last:pr-5 email">{{ user.email}}</td>
+                                                <td class="px-3.5 py-2.5 first:pl-5 last:pr-5 joining-date">{{ user.birthDate|date('Y-m-d H:i:s') }}</td>
+												<td class="px-3.5 py-2.5 first:pl-5 last:pr-5 phone-number">{{ user.phone}}</td>
+												<td class="px-3.5 py-2.5 first:pl-5 last:pr-5 joining-date">{{ user.joiningDate|date('Y-m-d H:i:s') }}</td>
+												<td class="px-3.5 py-2.5 first:pl-5 last:pr-5">
+													<span class="px-2.5 py-0.5 text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent inline-flex items-center status">
+														<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-circle" class="lucide lucide-check-circle size-3 mr-1.5">
+															<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+															<path d="m9 11 3 3L22 4"></path>
+														</svg>
+														{{ user.isVerified }}</span>
+												</td>
+                                                <td>
+                                                <a href="{{ path('app_user_edit_delete', {'id': user.id}) }}" data-modal-target="deleteModal" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 text-slate-500 hover:text-red-500 hover:bg-red-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:text-red-500 dark:hover:bg-red-500/20">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash-2" class="lucide lucide-trash-2 size-4"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></svg>
+										</a>
+													{#<form action="{{ path('app_user_edit_delete', {'id': user.id}) }}" method="GET">
+														<input type="hidden" name="_method" value="DELETE">
+														<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+														<button class="link-animated" type="submit">Delete</button>
+													</form>#}
+												</td>
+											</tr>
+										</form>
+									</tbody>
+								</td>
+							</tr>
+						</tbody>
+					</tbody>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="20"><h5 class="mt-2">Sorry! No Result Found</h5></td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	{% endblock %}
+</tr></tbody></table></div></div></div><!--end card--></div><!--end col--></div><!--end grid--></div>{% endblock %}
+{% block endbodyjs %}
+<script src='/assets/libs/choices.js/public/assets/scripts/choices.min.js'></script>
+<script src="/assets/libs/%40popperjs/core/umd/popper.min.js"></script>
+<script src="/assets/libs/tippy.js/tippy-bundle.umd.min.js"></script>
+<script src="/assets/libs/simplebar/simplebar.min.js"></script>
+<script src="/assets/libs/prismjs/prism.js"></script>
+<script src="/assets/libs/lucide/umd/lucide.js"></script>
+<script src="/assets/js/tailwick.bundle.js"></script><!--apexchart js-->
+<script src="/assets/libs/apexcharts/apexcharts.min.js"></script><!--dashboard ecommerce init js-->
+<script src="/assets/js/pages/dashboards-ecommerce.init.js"></script><!-- App js -->
+<script src="/assets/js/app.js"></script>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends 'baseFrontOffice.html.twig' %}
+{% block body %}
+	<div class="page-heading py-6 md:py-12">
+		<div class="container">
+			<div class="mb-2 flex items-baseline gap-x-3 lg:gap-x-4.5">
+				<svg role="img" class="aspect-[6/9] w-3 fill-accent sm:w-4 md:w-5 lg:w-7 xl:w-9">
+					<use xlink:href="/build/images/str1/sprite.svg#arrow-right-pixel"></use>
+				</svg>
+				<h1 class="relative mb-3 text-3xl font-bold leading-none tracking-tighter text-gray-900 dark:text-white sm:text-4xl md:text-5xl lg:text-7xl xl:text-[84px]">
+					Product</h1>
+			</div>
+			<ol class="relative flex flex-wrap gap-x-6 text-sm leading-none text-gray-500 lg:gap-x-8 lg:text-lg [&>li>a]:text-gray-900 hover:[&>li>a]:text-accent dark:[&>li>a]:text-white dark:hover:[&>li>a]:text-accent [&>li]:relative">
+				<li class="font-bold">
+					<a href="{{ path('app_home') }}">Home</a>
+					<svg role="img" class="fill-gray absolute -right-4 top-1/2 aspect-[3/5] w-1.5 -translate-y-1/2 lg:-right-5">
+						<use xlink:href="/build/images/str1/sprite.svg#arrow-right-pixel-alt"></use>
+					</svg>
+				</li>
+				<li class="font-bold">
+					<a href="{{ path('app_product_for_sale') }}">Product</a>
+					<svg role="img" class="fill-gray absolute -right-4 top-1/2 aspect-[3/5] w-1.5 -translate-y-1/2 lg:-right-5">
+						<use xlink:href="/build/images/str1/sprite.svg#arrow-right-pixel-alt"></use>
+					</svg>
+				</li>
+				<li>Details</li>
+			</ol>
+		</div>
+	</div>
+	<main id="main-content" class="grow lg:pt-0">
+		<div class="pt-10 pb-16 lg:pt-20 lg:pb-44">
+			<div class="container">
+				<div class="grid grid-cols-12 gap-x-5 md:gap-x-6 lg:gap-x-7.5 gap-y-16">
+					<div class="col-span-full md:col-span-6 md:pr-7 lg:pr-[70px]">
+						<div class="sticky top-8">
+							<div class="swiper js-vv-product-swiper mb-9 aspect-[50/63] w-full">
+								<div class="swiper-wrapper">
+									{% for img in product.productImages %}
+										<div class="swiper-slide"><img class="h-full w-full object-cover" src="{{ vich_uploader_asset(img, 'imageFile') }}" alt=""></div>
+									{% endfor %}
+								</div>
+							</div>
+							<div class="swiper js-vv-product-swiper-nav w-full">
+								<div class="swiper-wrapper">
+									{% for img in product.productImages %}
+										<div class="swiper-slide"><img class="aspect-square w-full cursor-pointer object-cover opacity-100 transition-opacity duration-300 hover:opacity-20" src="{{vich_uploader_asset(img,'imageFile')}}" alt=""></div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-span-full md:col-span-6 lg:-ml-7.5">
+						<div class="mb-16 md:mb-20 lg:mb-24">
+							<div class="flex justify-between items-baseline mb-5 lg:mb-8">
+								<h2 class="text-2xl font-bold text-gray-900 md:text-2xl lg:text-4xl dark:text-white lg:leading-none">
+									{{product.name}}</h2>
+								<div class="text-2xl font-bold text-accent md:text-2xl lg:text-[32px] lg:leading-none">{{product.price}}
+									Dt</div>
+							</div>
+							<div class="flex items-center gap-x-4 relative text-sm leading-none mb-6 md:mb-12">
+								<div class="text-gray-500/60 uppercase font-bold text-sm leading-none mt-[1px]">Product Owner:
+									{{product.member.firstName}}
+									{{product.member.lastName}}
+								</div>
+							</div>
+							<div class="basis-1/2">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="product-quantity">Product Description</label>
+							</div>
+							<div class="mb-6 lg:mb-10">{{product.description}}</div>
+							<div class="grid grid-cols-2 gap-7.5 mb-9 lg:mb-14 xl:pr-12.5">
+								<div class="basis-1/2">
+									<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="product-quantity">Product Category</label>
+									<div class="mb-6 lg:mb-10">{{product.productCategory.name}}</div>
+								</div>
+							</div>
+							<div class="flex mb-10 lg:mb-20">
+									<a href='{{path('app_product_for_sale_order',{'id':product.id})}}' type="submit" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 basis-full md:basis-1/2 lg:basis-1/3">+ Buy Now </a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	{% endblock %}
