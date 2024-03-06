@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Member;
+use App\Entity\Auction;
 use App\Entity\ProductForSale;
 use App\Form\OrderFormType;
 use App\Repository\ProductForSaleRepository;
