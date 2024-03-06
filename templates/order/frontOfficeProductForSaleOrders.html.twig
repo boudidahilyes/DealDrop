@@ -61,7 +61,11 @@
 								</div>
 								<div class="inline-flex gap-x-0.5">
 									<dt>Status:</dt>
-									<dd class="text-gray-900 dark:text-white">Awaiting Pick Up</dd>
+									<dd class="text-gray-900 dark:text-white">{% for delivery in deliveries %}
+									{% if delivery.deliveryOrder.getId() == order.getId() %}
+											{{delivery.state}}
+									{% endif %}
+									{% else %}Awaiting Pick Up {% endfor %}</dd>
 								</div>
 							</dl>
 						</div>

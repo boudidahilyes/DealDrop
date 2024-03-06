@@ -13,9 +13,9 @@ class Member extends User
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
-    #[ORM\OneToMany(mappedBy: 'member', targetEntity: Product::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Product::class, orphanRemoval: true)]
     private Collection $products;
 
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Order::class)]

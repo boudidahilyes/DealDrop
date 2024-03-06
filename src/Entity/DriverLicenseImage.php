@@ -12,7 +12,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class DriverLicenseImage extends Image
 {
 
-    #[ORM\ManyToOne(inversedBy: 'driverLicenseImages', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'driverLicenseImages')]
     #[ORM\JoinColumn(nullable: true)]
     private ?DeliveryMan $DeliveryMan = null;
 

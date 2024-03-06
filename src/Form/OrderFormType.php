@@ -15,7 +15,17 @@ class OrderFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('deliveryAdress',TextType::class)
+            ->add('deliveryAdress',TextType::class , [
+                'attr' => [
+                    'id' => 'adress'
+                ]
+            ])
+            ->add('coordinates', TextType::class ,[
+                'mapped' => false,
+                'attr' => [
+                    'hidden' => true,
+                ]
+            ])
             ->add('paymentMethod',HiddenType::class, [
                 'mapped' => false])
             ->add('submit',SubmitType::class,['label'=>'Place

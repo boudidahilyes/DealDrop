@@ -219,15 +219,21 @@
 									{% endif %}
 								</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-									<span class="delivery_status px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20">Awaiting Pick Up</span>
+									<span class="delivery_status px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20">
+									{% for delivery in deliveries %}
+									{% if delivery.deliveryOrder.getId() == order.getId() %}
+											{{delivery.state}}
+									{% endif %}
+								 {% endfor %}
+								 {% if order.products.whoIAm() == 'ProductForTrade' %}
+									Awaiting Pick Up
+								 {% endif %}
+									</span>
 								</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
 									<div class="flex gap-2">
 										<a href="{{path('app_order_overview',{'id':order.id})}}" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 text-slate-500 bg-slate-100 hover:text-white hover:bg-slate-500 dark:bg-zink-600 dark:text-zink-200 dark:hover:text-white dark:hover:bg-zink-500">
 											<i data-lucide="eye" class="size-4"></i>
-										</a>
-										<a href="{{path('app_order_remove',{'id':order.id})}}" class="flex items-center justify-center text-red-500 transition-all duration-200 ease-linear bg-red-100 rounded-md size-8 hover:text-white hover:bg-red-500 dark:bg-red-500/20 dark:hover:bg-red-500">
-											<i data-lucide="trash-2" class="size-4"></i>
 										</a>
 									</div>
 								</td>

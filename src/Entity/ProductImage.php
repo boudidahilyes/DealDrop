@@ -12,7 +12,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class ProductImage extends Image
 {
 
-    #[ORM\ManyToOne(inversedBy: 'productImages',cascade:['remove','persist'])]
+    #[ORM\ManyToOne(inversedBy: 'productImages',cascade:['persist'])]
     #[ORM\JoinColumn(nullable: true)]
     protected ?product $product = null;
 
@@ -20,12 +20,12 @@ class ProductImage extends Image
     protected ?File $imageFile = null;
 
 
-    public function getProduct(): ?product
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
 
-    public function setProduct(?product $product): static
+    public function setProduct(?Product $product): static
     {
         $this->product = $product;
 

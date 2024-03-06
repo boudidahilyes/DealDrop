@@ -23,27 +23,13 @@ class ProductForSaleController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-    public function getCookieID(Request $req)
-    {
-        $cookie = new Cookie(
-            "user_id",                              // Cookie name
-            2,                                       // Cookie content
-            (new DateTime('now'))->modify("+1 day"), // Expiration date
-            "/",                                     // Path
-            "localhost",                             // Domain
-            $req->getScheme() === 'https',       // Secure
-            false,                                   // HttpOnly
-            true,                                    // Raw
-            'Strict'                                 // SameSite policy
-        );
-        return $cookie->getValue();
-    }
+    
     //-------------------------ProductForSale Begin----------------------
     #FrontOffice Begin#
     #[Route('/productForSale', name: 'app_product_for_sale')]
     public function index(Request $req, ProductForSaleRepository $productForSaleRepository): Response
     {
-        $listProduct = $productForSaleRepository->findAllProductForSale($this->getCookieID($req));
+        $listProduct = $productForSaleRepository->findAllProductForSale($this->getUser()->getId());
         return $this->render('product/frontOfficeListProductForSale.html.twig', [
             'listProduct' => $listProduct
         ]);
@@ -52,7 +38,7 @@ class ProductForSaleController extends AbstractController
     #[Route('/productForSale/add', name: 'app_product_for_sale_add')]
     public function addProductForSale(Request $req): Response
     {
-        $member = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
+        $member = $this->getUser();
         $pfs = new ProductForSale();
         $form = $this->createForm(ProductForSaleFormType::class, $pfs);
         $form->handleRequest($req);
@@ -86,7 +72,7 @@ class ProductForSaleController extends AbstractController
     #[Route('/profil/productForSale', name: 'app_product_for_sale_profil')]
     public function ProductForSaleProfil(ProductForSaleRepository $productForSaleRepository): Response
     {
-        $products = $productForSaleRepository->findAllProductForSaleProfil(1);
+        $products = $productForSaleRepository->findAllProductForSaleProfil($this->getUser()->getId());
         return $this->render('product/frontOfficeListProductForSaleProfil.html.twig', [
             'listProduct' => $products
         ]);

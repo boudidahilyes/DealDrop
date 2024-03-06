@@ -27,7 +27,7 @@ class ProductForTradeController extends AbstractController
     #[Route('/productForTrade', name: 'app_product_for_trade')]
     public function index(Request $req, ProductForTradeRepository $productForTradeRepository, prdcon $prdcon): Response
     {
-        $listProduct = $productForTradeRepository->findAllProductForTrade($prdcon->getCookieID($req));
+        $listProduct = $productForTradeRepository->findAllProductForTrade($this->getUser()->getId());
         return $this->render('product/frontOfficeListProductForTrade.html.twig', [
             'listProduct' => $listProduct
         ]);
@@ -35,7 +35,7 @@ class ProductForTradeController extends AbstractController
     #[Route('/productForTrade/add', name: 'app_product_for_trade_add')]
     public function addProductForTrade(Request $req): Response
     {
-        $member = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
+        $member=$this->getUser();
         $pft = new ProductForTrade();
         $form = $this->createForm(ProductForTradeFormType::class, $pft);
         $form->handleRequest($req);
@@ -69,7 +69,7 @@ class ProductForTradeController extends AbstractController
     #[Route('/profil/productForTrade', name: 'app_product_for_trade_profil')]
     public function ProductForTradeProfil(ProductForTradeRepository $productForTradeRepository): Response
     {
-        $products = $productForTradeRepository->findAllProductForTradeProfil(1);
+        $products = $productForTradeRepository->findAllProductForTradeProfil($this->getUser()->getId());
         return $this->render('product/frontOfficeListProductForTradeProfil.html.twig', [
             'listProduct' => $products
         ]);
@@ -115,7 +115,7 @@ class ProductForTradeController extends AbstractController
     public function offerProductForTrade(Request $req, prdcon $prdcon, $id): Response
     {
         $productPosted = $this->entityManager->getRepository(ProductForTrade::class)->findOneBy(['id' => $id]);
-        $member = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => $prdcon->getCookieID($req)]);
+        $member=$this->getUser();
         $pft = new ProductForTrade();
         $offer = new offer();
         $form = $this->createForm(ProductForTradeFormType::class, $pft);

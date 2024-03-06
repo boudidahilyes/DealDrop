@@ -16,7 +16,7 @@ class Chat
     private ?int $id = null;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?offer $offer = null;
+    private ?Offer $offer = null;
 
     #[ORM\OneToMany(mappedBy: 'chat', targetEntity: Message::class)]
     private Collection $messages;

@@ -10,7 +10,6 @@ use App\Repository\ProductForRentRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,27 +22,13 @@ class ProductForRentController extends AbstractController
     {
         $this->entityManager = $entityManager;
     }
-    private function getCookieID(Request $req)
-    {
-        $cookie = new Cookie(
-            "user_id",                              // Cookie name
-            2,                                       // Cookie content
-            (new DateTime('now'))->modify("+1 day"), // Expiration date
-            "/",                                     // Path
-            "localhost",                             // Domain
-            $req->getScheme() === 'https',       // Secure
-            false,                                   // HttpOnly
-            true,                                    // Raw
-            'Strict'                                 // SameSite policy
-        );
-        return $cookie->getValue();
-    }
+   
     //---------------------------------------ProductForRent Begin------------------------------
     #[Route('/productForRent', name: 'app_product_for_rent')]
     public function index1(Request $req, ProductForRentRepository $productForRentRepository): Response
     {
 
-        $listProduct = $productForRentRepository->findAllProductForRent($this->getCookieID($req));
+        $listProduct = $productForRentRepository->findAllProductForRent($this->getUser()->getId());
         return $this->render('product/frontOfficeListProductForRent.html.twig', [
             'listProduct' => $listProduct
         ]);
@@ -51,7 +36,7 @@ class ProductForRentController extends AbstractController
     #[Route('/productForRent/add', name: 'app_product_for_rent_add')]
     public function addProductForRent(Request $req): Response
     {
-        $member = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
+        $member=$this->getUser();
         $pfr = new ProductForRent();
         $form = $this->createForm(ProductForRentFormType::class, $pfr);
         $form->handleRequest($req);
@@ -85,7 +70,7 @@ class ProductForRentController extends AbstractController
     #[Route('/profil/productForRent', name: 'app_product_for_rent_profil')]
     public function ProductForRentProfil(ProductForRentRepository $productForRentRepository): Response
     {
-        $products = $productForRentRepository->findAllProductForRentProfil(1);
+        $products = $productForRentRepository->findAllProductForRentProfil($this->getUser()->getId());
         return $this->render('product/frontOfficeListProductForRentProfil.html.twig', [
             'listProduct' => $products
         ]);
