@@ -36,7 +36,7 @@ class TicketCategoryController extends AbstractController
             'form'=>$form->createView()
         ]);
     }
-    #[Route('/editcat/{id}', name: 'app_editcat')]
+    #[Route('/ticketcategorylist/editcat/{id}', name: 'app_editcat')]
     public function edit(Request $request, EntityManagerInterface $em, SupportTicketCategoryRepository $rep, int $id): Response
     {
         $SuppTicket= new SupportTicketCategory();

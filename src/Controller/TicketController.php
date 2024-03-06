@@ -2,21 +2,22 @@
 
 namespace App\Controller;
 
-use App\Entity\SupportTicket;
-use App\Entity\SupportTicketCategory;
 use App\Form\TicketType;
-use App\Repository\SupportTicketCategoryRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response as RP;
-use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\SupportTicketRepository;
-use App\Repository\UserRepository;
+use App\Entity\SupportTicket;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\Request;
+use App\Repository\UserRepository;
+use App\Entity\SupportTicketCategory;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\SupportTicketRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\SupportTicketCategoryRepository;
+use Symfony\Component\HttpFoundation\Response as RP;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TicketController extends AbstractController
 {
@@ -102,7 +103,7 @@ class TicketController extends AbstractController
             return $this->redirectToRoute('app_ticketlist');
         }
     #[Route('/Statistics', name: 'app_stats')]
-        public function DisplayStats(SupportTicketRepository $repository, SupportTicketCategoryRepository $u): RP
+        public function DisplayStats(SupportTicketRepository $repository, CategoryRepository $u): RP
         {
             $a=count($repository->findAll());
             $CatPro =count($repository->findBy(['supportTicketCategory' => $u->findBy(['name' => "Product"])]));
