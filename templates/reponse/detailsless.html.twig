@@ -1,0 +1,34 @@
+{% extends 'baseFrontOffice.html.twig' %}
+{% block body %}
+	<div>
+		<div class="container" style="margin-left:100px">
+			<div class="mb-2 flex items-baseline gap-x-3 lg:gap-x-4.5" style="margin-left:30%">
+				<h1 class="relative mb-3 text-3xl font-bold leading-none tracking-tighter text-gray-900 dark:text-white sm:text-4xl md:text-2xl lg:text-4xl xl:text-[80px]">Ticket Information</h1>
+			</div>
+			<div class="xl:col-span-12" style="margin-left: 60px">
+					<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5">Initial Description</label>
+					<textarea class="block border-base bg-white/40 w-1/2 px-4 py-2 tracking-tight text-gray-900 transition-all duration-150 placeholder:text-gray-500/60 focus:border-accent focus:outline-0 focus:ring-0 dark:border-gray-650 dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900" readonly>{{Ticket.description}}</textarea>
+				</div>
+		</div>
+		<div class="grid grid-cols-1 sm:grid-cols-2 gap-7">
+			<section class="mb-20 lg:mb-36">
+				{% for rep in LesReponses %}
+					{% if rep.user.getType() == "Admin" %}
+						<div class="xl:col-span-12" style="margin-left: 60px; margin-top: 10px">
+							<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5">Admin</label>
+							<textarea class="block border-base bg-white/40 w-1/2 px-4 py-2 tracking-tight text-gray-900 transition-all duration-150 placeholder:text-gray-500/60 focus:border-accent focus:outline-0 focus:ring-0 dark:border-gray-650 dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900" readonly>{{rep.content}}</textarea>
+						</div>
+					{% else %}
+						<div class="xl:col-span-12" style="margin-left: 100px; margin-top: 10px">
+							<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5">You</label>
+							<textarea class="block border-base bg-white/40 w-1/2 px-4 py-2 tracking-tight text-gray-900 transition-all duration-150 placeholder:text-gray-500/60 focus:border-accent focus:outline-0 focus:ring-0 dark:border-gray-650 dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900" readonly>{{rep.content}}</textarea>
+						</div>
+					{% endif %}
+				{% endfor %}
+				<div class="mt-6" style="margin-left:70px">
+					<a href="{{path('app_ticketlist')}}" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 col-span-full lg:col-start-10 lg:col-span-3">Go Back</a>
+				</div>
+			</section>
+		</div>
+		<div>
+		{% endblock %}

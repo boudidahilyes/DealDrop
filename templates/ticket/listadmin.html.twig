@@ -1,0 +1,138 @@
+{% extends 'baseBackOffice.html.twig' %}
+{% block  pagecontent %}
+
+	<div class="container-fluid group-data-[content=boxed]:max-w-boxed mx-auto">
+
+		<div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+			<div class="grow">
+				<h5 class="text-16">Ticket List</h5>
+			</div>
+			<ul class="flex items-center gap-2 text-sm font-normal shrink-0">
+				<li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
+					<a href="#!" class="text-slate-400 dark:text-zink-200">Tickets</a>
+				</li>
+				<li class="text-slate-700 dark:text-zink-100">
+					List
+				</li>
+			</ul>
+		</div>
+		<div class="card" id="productListTable">
+			<div class="card-body">
+				<div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-12">
+					<div class="xl:col-span-3">
+						<div class="relative">
+							<input type="text" id="myInput" onkeyup="myFunction()" class="ltr:pl-8 rtl:pr-8 search form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="Search for ..." autocomplete="off">
+							<i data-lucide="search" class="inline-block size-4 absolute ltr:left-2.5 rtl:right-2.5 top-2.5 text-slate-500 dark:text-zink-200 fill-slate-100 dark:fill-zink-600"></i>
+						</div>
+					</div>
+					<div class="xl:col-span-3">
+						<div class="mb-3">
+								<form method="get" action="{{ path('app_ticketlistadmin') }}" class="mb-4">
+									<select name="SortState" id="SortState" class="form-select border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" onchange="this.form.submit()">
+										<option value="" {% if not selectedState %} selected {% endif %}>Sort By State</option>
+										<option value="Pending" {% if selectedState == "Pending" %} selected {% endif %}>Pending</option>
+										<option value="Resolved" {% if selectedState == "Resolved" %} selected {% endif %}>Resolved</option>
+										<option value="Rejected" {% if selectedState == "Rejected" %} selected {% endif %}>Rejected</option>
+										<option value="Closed" {% if selectedState == "Closed" %} selected {% endif %}>Closed</option>
+									</select>
+								</form>
+							</div>
+						</div>
+						<div class="xl:col-span-3">
+							<div class="shrink-0">
+								<a data-modal-target="Stats" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20" href="{{path('app_stats')}}">
+									<span class="align-middle">Show Statistics</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="!pt-1 card-body">
+					<div class="overflow-x-auto">
+						<table class="w-full whitespace-nowrap" id="myTable">
+							<thead class="ltr:text-left rtl:text-right bg-slate-100 dark:bg-zink-600">
+								<tr>
+									<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500 sort product_code" data-sort="product_code">Ticket ID</th>
+									<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500 sort product_name" data-sort="product_name">Submitter Name</th>
+									<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500 sort category" data-sort="category">Category</th>
+									<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500 sort price" data-sort="price">Subject</th>
+									<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500 sort stock" data-sort="stock">Creation Date</th>
+									<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500 sort status" data-sort="status">Status</th>
+									<th class="px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500 action">Actions</th>
+								</tr>
+
+							</thead>
+							<tbody class="list" id="list">
+								{% for  ticket in pagination %}
+									<tr>
+										<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+											<a href="#!" class="transition-all duration-150 ease-linear product_code text-custom-500 hover:text-custom-600">{{ticket.id}}</a>
+										</td>
+										<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 product_name">
+											<a href="{{path('app_reponse',{'id':ticket.id})}}" class="flex items-center gap-2">
+												<h6 class="product_name">{{ticket.user.lastname}}
+													{{ticket.user.firstname}}</h6>
+											</a>
+										</td>
+										<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 category">
+											<span class="category px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-slate-100 border-slate-200 text-slate-500 dark:bg-slate-500/20 dark:border-slate-500/20 dark:text-zink-200">{{ticket.supportticketcategory.name}}</span>
+										</td>
+										<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 price">{{ticket.subject}}</td>
+										<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 stock">{{ticket.creationDate|date('Y-m-d')}}</td>
+										<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 status">
+											{% if ticket.state == "Pending" %}
+												<span class="status px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-orange-100 border-transparent text-orange-500 dark:bg-orange-500/20 dark:border-transparent">{{ticket.state}}</span>
+											{% endif %}
+											{% if ticket.state == "Resolved" %}
+												<span class="status px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent">{{ticket.state}}</span>
+											{% endif %}
+											{% if ticket.state == "Rejected" %}
+												<span class="status px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-red-100 border-transparent text-red-500 dark:bg-red-500/20 dark:border-transparent">{{ticket.state}}</span>
+											{% endif %}
+											{% if ticket.state == "Closed" %}
+												<span class="px-2.5 py-0.5 inline-block text-xs font-medium rounded border bg-slate-100 border-transparent text-slate-500 dark:bg-slate-500/20 dark:text-zink-200 dark:border-transparent">{{ticket.state}}</span>
+											{% endif %}
+										</td>
+										<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 action">
+											<div class="flex gap-3">
+												<a href="{{path('app_reponse',{'id':ticket.id})}}" class="flex items-center justify-center transition-all duration-200 ease-linear rounded-md size-8 bg-slate-100 text-slate-500 hover:text-custom-500 hover:bg-custom-100 dark:bg-zink-600 dark:text-zink-200 dark:hover:bg-custom-500/20 dark:hover:text-custom-500">
+													<i data-lucide="eye" class="inline-block size-3"></i>
+												</a>
+											</div>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					<div class="flex flex-col items-center gap-4 px-4 mt-4 md:flex-row" id="pagination-element">
+						<div class="flex gap-2 pagination-wrap justify-content-center">
+							{% if pagination.currentPageNumber > 1 %}
+								<li class="page-item">
+									<a class="inline-flex items-center justify-center bg-white dark:bg-zink-700 h-8 px-3 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-500 dark:[&.active]:text-custom-500 [&.active]:bg-custom-50 dark:[&.active]:bg-custom-500/10 [&.active]:border-custom-50 dark:[&.active]:border-custom-500/10 [&.active]:hover:text-custom-700 dark:[&.active]:hover:text-custom-700 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto page-item pagination-prev " href="{{ path('app_ticketlistadmin', {'page': pagination.currentPageNumber - 1}) }}">
+										<i class="mr-1 size-4 rtl:rotate-180" data-lucide="chevron-left"></i>
+										Prev
+									</a>
+								</li>
+							{% endif %}
+
+							{% for page in range(1, pagination.pageCount) %}
+								<li class="page-item">
+									<a class="inline-flex items-center justify-center bg-white dark:bg-zink-700 h-8 px-3 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-500 dark:[&.active]:text-custom-500 [&.active]:bg-custom-50 dark:[&.active]:bg-custom-500/10 [&.active]:border-custom-50 dark:[&.active]:border-custom-500/10 [&.active]:hover:text-custom-700 dark:[&.active]:hover:text-custom-700 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto page-item" href="{{ path('app_ticketlistadmin', {'page': page}) }}">{{ page }}</a>
+								</li>
+							{% endfor %}
+
+							{% if pagination.currentPageNumber < pagination.pageCount %}
+								<li class="page-item">
+									<a class="inline-flex items-center justify-center bg-white dark:bg-zink-700 h-8 px-3 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&.active]:text-custom-500 dark:[&.active]:text-custom-500 [&.active]:bg-custom-50 dark:[&.active]:bg-custom-500/10 [&.active]:border-custom-50 dark:[&.active]:border-custom-500/10 [&.active]:hover:text-custom-700 dark:[&.active]:hover:text-custom-700 [&.disabled]:text-slate-400 dark:[&.disabled]:text-zink-300 [&.disabled]:cursor-auto page-item pagination-next" href="{{ path('app_ticketlistadmin',{'page': pagination.currentPageNumber + 1}) }}">
+										Next
+										<i class="ml-1 size-4 rtl:rotate-180" data-lucide="chevron-right"></i>
+									</a>
+								</li>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
