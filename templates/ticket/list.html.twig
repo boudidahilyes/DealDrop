@@ -45,17 +45,28 @@
 									</td>
 									{% if ticketlist.state == "Resolved" %}
 										<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-											<div class="flex gap-2">
+											<div class="flex gap-2" style="margin-left: 25px">
 												<a href="{{path('app_detailsticket',{'id':ticketlist.id})}}">
-													View
-											</div>
-										</td>
+													<svg role="img" class="h-5 w-5 fill-accent">
+																<use xlink:href="build/images/str1/sprite.svg#screen"></use>
+															</svg>
+												</a>
+												</div>
+											</td>
 										{% else %}
-										<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
-										</td>
-										{% endif %}
-									</tr>
-								{% endfor %}
+											<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+													<div class="flex gap-2" style="margin-left: 25px">
+														<a href="{{path('app_detailslessticket',{'id':ticketlist.id})}}">
+															<svg role="img" class="h-5 w-5 fill-accent">
+																<use xlink:href="build/images/str1/sprite.svg#screen"></use>
+															</svg>
+														</a>
+													</div>
+												</td>
+											{% endif %}
+										</tr>
+									{% endfor %}
+								</tr>
 							</tbody>
 						</tbody>
 					</table>
