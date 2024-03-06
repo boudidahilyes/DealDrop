@@ -35,7 +35,13 @@ class ProductRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
-
+public function deleteById($id)
+{
+    $em=$this->getEntityManager();
+    $query=$em->createQuery('Delete from App\Entity\Product p where p.id=:id');
+    $query->setParameter('id',$id);
+    $query->execute();
+}
 //    public function findOneBySomeField($value): ?Product
 //    {
 //        return $this->createQueryBuilder('p')

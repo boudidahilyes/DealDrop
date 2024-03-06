@@ -4,16 +4,18 @@ namespace App\Entity;
 
 use App\Repository\ProductForSaleRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ProductForSaleRepository::class)]
 class ProductForSale extends Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'The price is required')]
+    #[Assert\Positive(message:'The price should be positive')]
     private ?float $price = null;
 
     public function getId(): ?int
@@ -31,5 +33,9 @@ class ProductForSale extends Product
         $this->price = $price;
 
         return $this;
+    }
+    public function whoIAm()
+    {
+        return 'ProductForSale';
     }
 }

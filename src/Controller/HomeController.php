@@ -28,11 +28,19 @@ class HomeController extends AbstractController
     {
         
 
-        return $this->render('user/signin-register.html.twig', [
-            
-        ]);
+        return $this->render('home/index.html.twig');
         
     }
+    #[Route('/homeDashboard', name: 'app_home_Dashboard')]
+    public function indexDashboard(): Response
+    {
+        
+
+        return $this->render('baseBackOffice.html.twig');
+        
+    }
+        
+}
     
 /*
     #[Route('/livreurs', name: 'listlivreur')]
@@ -44,4 +52,3 @@ class HomeController extends AbstractController
             'livreurs' => $livreurs,
         ]);
     }*/
-}

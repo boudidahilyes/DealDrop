@@ -21,16 +21,6 @@ class SupportTicketRepository extends ServiceEntityRepository
         parent::__construct($registry, SupportTicket::class);
     }
 
-    public function getBycreationDate($id)  {
-        $qb= $this->createQueryBuilder('f')
-            ->join('f.creationDate','c')
-            ->addSelect('c')
-            ->where('c.id=:id')
-            ->setParameter('id',$id);
-        return $qb->getQuery()
-            ->getResult();
-    }
-
 //    /**
 //     * @return SupportTicket[] Returns an array of SupportTicket objects
 //     */

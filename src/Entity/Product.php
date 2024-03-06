@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
@@ -17,16 +17,21 @@ abstract class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'The name is required')]
     protected ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'The description is required')]
+    #[Assert\Length(
+        min:50,
+        max:500,
+        minMessage : "Your description must be at least {{ limit }} characters long",
+        maxMessage : "Your description cannot be longer than {{ limit }} characters")]
     protected ?string $description = null;
 
-    #[ORM\Column(nullable: true)]
-    protected ?bool $approved = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     protected ?\DateTimeInterface $addDate = null;
@@ -35,19 +40,26 @@ abstract class Product
     #[ORM\JoinColumn(nullable: false)]
     protected ?ProductCategory $productCategory = null;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductImage::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductImage::class, cascade: ['persist', 'remove'])]
     protected Collection $productImages;
 
-    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\ManyToOne(inversedBy: 'products', fetch: 'EAGER')]
     #[ORM\JoinColumn(nullable: false)]
     protected ?Member $owner = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
+
+    #[ORM\OneToMany(mappedBy: 'products', targetEntity: Order::class)]
+    private Collection $orders;
 
     public function __construct()
     {
         $this->productImages = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
-    
+
 
     public function getId(): ?int
     {
@@ -78,17 +90,6 @@ abstract class Product
         return $this;
     }
 
-    public function isApproved(): ?bool
-    {
-        return $this->approved;
-    }
-
-    public function setApproved(?bool $approved): static
-    {
-        $this->approved = $approved;
-
-        return $this;
-    }
 
     public function getAddDate(): ?\DateTimeInterface
     {
@@ -156,4 +157,45 @@ abstract class Product
         return $this;
     }
 
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Order>
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): static
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders->add($order);
+            $order->setProducts($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): static
+    {
+        if ($this->orders->removeElement($order)) {
+            // set the owning side to null (unless already changed)
+            if ($order->getProducts() === $this) {
+                $order->setProducts(null);
+            }
+        }
+
+        return $this;
+    }
 }

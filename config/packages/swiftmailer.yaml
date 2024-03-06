@@ -1,0 +1,7 @@
+swiftmailer:
+    transport: smtp
+    host: 'smtp.gmail.com'
+    port: 587
+    encryption: tls
+    username: 'dealdrop.pidev@gmail.com'
+    password: 'zyoc uufc effl izrm'

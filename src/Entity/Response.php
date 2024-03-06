@@ -26,7 +26,7 @@ class Response
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
+    private ?user $user = null;
 
     public function getId(): ?int
     {
@@ -69,12 +69,12 @@ class Response
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): ?user
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(?user $user): static
     {
         $this->user = $user;
 

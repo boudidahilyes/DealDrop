@@ -1,0 +1,183 @@
+{% extends 'baseFrontOffice.html.twig' %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+	<style>
+    #map { height: 400px; }
+    .leaflet-marker-icon {
+      background: transparent;
+      border: none;
+    }
+  </style>
+{% endblock %}
+{% block body %}
+	<main id="main-content" class="grow lg:pt-0">
+		<div class="pt-10 pb-16 lg:pt-20 lg:pb-44">
+			<div class="container">
+				<div class="relative overflow-x-auto mb-10 lg:mb-14">
+					<table class="w-full table-auto">
+						<thead class="text-sm font-bold uppercase leading-tight text-gray-900 dark:text-white">
+							<tr>
+								<th class="pb-3 pr-4 border-b border-gray-500/20 text-left">Product</th>
+								<th class="pb-3 px-4 border-b border-gray-500/20">Price</th>
+								<th class="pb-3 px-4 border-b border-gray-500/20">Adress</th>
+								<th class="pb-3 pl-4 border-b border-gray-500/20">Start Date</th>
+								<th class="pb-3 pl-4 border-b border-gray-500/20">Arrival Date</th>
+								<th class="pb-3 pl-4 border-b border-gray-500/20">Status</th>
+								<th class="pb-3 pl-4 border-b border-gray-500/20 text-right">Details</th>
+							</tr>
+						</thead>
+						<tbody class="text-center">
+							{% for delivery in deliveries %}
+								<tr>
+
+									<td class="py-8 pl-4 lg:pl-6 text-left border-b border-gray-500/20">
+										<div class="flex items-center gap-6 min-w-[260px]"><!-- Thumb --><figure class="shrink-0">
+												<img class="transition-opacity duration-300 group-hover:opacity-75" width="150" src="{{ vich_uploader_asset(delivery.deliveryOrder.products.productImages|first, 'imageFile') }}" alt="">
+											</figure><!-- Thumb / End --><!-- Product Body --><div
+												class="flex flex-grow flex-col gap-1 leading-tight">
+												<!-- Category -->
+												<span class="text-xs font-bold uppercase text-gray-300"></span><!-- Category / End--><!-- Title --><h4 class="mb-[2px] font-bold">
+													<a class="text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="_str1-single-product.html">{{delivery.deliveryOrder.products.name}}</a>
+												</h4>
+												<!-- Title / End -->
+											</div><!-- Product Body / End --></div>
+									</td>
+									<td class="py-4 px-4 font-bold text-gray-900 dark:text-white border-b border-gray-500/20">{{delivery.deliveryOrder.products.price}}
+										DT</td>
+									<td class="py-4 pl-4 font-bold border-b border-gray-500/20 text-gray-900 dark:text-white">{{delivery.deliveryOrder.deliveryAdress}}</td>
+									<td class="py-4 pl-4 font-bold border-b border-gray-500/20 text-gray-900 dark:text-white">{{delivery.startTime|date('d-M-y H:mi:s')}}</td>
+									<td class="py-4 pl-4 font-bold border-b border-gray-500/20 text-gray-900 dark:text-white">
+									{% if delivery.arrivalTime is null %}
+										-
+										{% else %} 
+										{{delivery.arrivalTime|date('d-M-y H:i:s')}}
+									{% endif %}
+									</td>
+									<td class="py-4 pl-4 font-bold border-b border-gray-500/20 text-gray-900 dark:text-white">{{delivery.state}}</td>
+									<td class="py-4 pl-4 font-bold border-b border-gray-500/20 text-gray-900 dark:text-white text-right">
+									{% if delivery.state == "In Route" %}
+										<a href="{{path('app_claimed_delivery_details', {'id': delivery.id})}}" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-white bg-gray-500 hover:bg-accent/90 hover:text-gray-900">View Details</a>
+										{% else %}
+										<div class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm  bg-accent text-gray-900">Delivery Done</div>
+									{% endif %}	
+									</td>
+								</tr>
+							{% endfor %}
+
+
+						</tbody>
+					</table>
+
+				</div>
+
+
+				<div id="map" style="width:70vw;height:65vh"></div>
+
+			</div>
+
+		</div>
+	</main>
+{% endblock %}
+{% block endbodyjs %}
+	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://kit.fontawesome.com/9ee4261700.js" crossorigin="anonymous"></script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+  
+
+
+
+	var apiKey = '5b3ce3597851110001cf6248c7ddd0a26f424500a914813c8440fef9';
+	if (navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(function (position) {
+
+			
+			let currentLatitude = position.coords.latitude;
+			let currentLongitude = position.coords.longitude;
+			let currentPosition = [currentLatitude, currentLongitude];
+
+			var coords = [{% for delivery in deliveries %}{% if delivery.state == "In Route" %}
+		[{{ delivery.coordinates }}],
+	{% endif %} {% endfor %}];
+	var map = L.map('map').setView([{% if deliveries is not empty %}
+		{{ deliveries| first.coordinates }} {% else %} currentLatitude,currentLongitude
+	{% endif %}], 14);
+	L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', { attribution: '© OpenStreetMap contributors' }).addTo(map);
+	var markerGroup = L.featureGroup().addTo(map);
+			var pointDistance = [];
+			coords.forEach((coord) => {
+				let distance = Math.sqrt((currentPosition[0] - coord[0]) * (currentPosition[0] - coord[0]) + (currentPosition[1] - coord[1]) * (currentPosition[1] - coord[1]));
+				pointDistance.push([coord, distance]);
+			})
+
+    pointDistance.sort((a, b) => {
+      return a[1] - b[1]
+    });
+    const colors = [
+				{ name: 'Red', hex: '#FF5733' },
+				{ name: 'Blue', hex: '#3384FF' },
+				{ name: 'Green', hex: '#33FF57' },
+				{ name: 'Yellow', hex: '#FFD033' },
+				{ name: 'Orange', hex: '#FF9333' },
+				{ name: 'Purple', hex: '#7D33FF' },
+				{ name: 'Cyan', hex: '#33FFF2' },
+				{ name: 'Magenta', hex: '#FF33A5' },
+				{ name: 'Teal', hex: '#33FFD9' },
+				{ name: 'Indigo', hex: '#3343FF' },
+				{ name: 'Lime', hex: '#8EFF33' },
+				{ name: 'Pink', hex: '#FF33D5' },
+				{ name: 'Amber', hex: '#FFC133' },
+				{ name: 'Brown', hex: '#8B4513' },
+				{ name: 'Maroon', hex: '#800000' },
+				{ name: 'Navy', hex: '#000080' },
+				{ name: 'Olive', hex: '#808000' },
+				{ name: 'Peach', hex: '#FFDAB9' },
+				{ name: 'Slate', hex: '#708090' },
+				{ name: 'Violet', hex: '#9400D3' }
+			];
+		var a = 0;
+		console.log(pointDistance);
+    pointDistance.forEach((p) => {
+      var routingUrl = 'https://api.openrouteservice.org/v2/directions/driving-hgv?api_key=' + apiKey + '&start=' + currentPosition[1] + ',' + currentPosition[0] + '&end=' + p[0][1] + ',' + p[0][0];
+			
+      // Make the routing request
+      axios.get(routingUrl).then(function (response) {
+        var routeCoordinates = response.data.features[0].geometry.coordinates;
+        for (let i = 0; i < routeCoordinates.length; i++) {
+          let aux = routeCoordinates[i][0];
+          routeCoordinates[i][0] = routeCoordinates[i][1];
+          routeCoordinates[i][1] = aux;
+        }
+        // Create a polyline using the route coordinates
+
+				var customIcon = L.divIcon({
+					html: '<i class="fa-solid fa-location-dot" style="color: '+colors[a].hex+';font-size: 32px"></i>',
+					iconSize: [30, 32],
+					iconAnchor: [15, 32]
+				});
+				L.marker(p[0],{'icon':customIcon}).addTo(map);
+        var polyline = L.polyline(routeCoordinates, { color: colors[a].hex }).addTo(map);
+				console.log(routingUrl);
+				
+         a++;
+        // Fit the map view to the polyline bounds
+        map.fitBounds(polyline.getBounds());
+				lastCoords = routeCoordinates;
+      }).catch(function (error) {
+        console.error('Error getting route:', error);
+      });
+			
+			currentPosition = p[0];
+    })
+
+  }, function (error) {
+    console.error('Error getting location:', error.message);
+  });
+} else {
+  console.error('Geolocation is not supported by this browser.');
+}
+  })
+	</script>
+
+{% endblock %}

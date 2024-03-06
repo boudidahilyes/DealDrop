@@ -12,7 +12,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class UserImage extends Image
 {
 
-    #[ORM\OneToOne(inversedBy: 'userImage', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'userImage')]
     #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 

@@ -1,0 +1,92 @@
+{% extends 'baseFrontOffice.html.twig' %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+{% endblock %}
+{% block body %}
+	<main id="main-content" class="grow lg:pt-0">
+		<div class="pt-10 pb-16 lg:pt-20 lg:pb-44">
+			<div class="container">
+				<div class="grid grid-cols-12 gap-x-5 md:gap-x-6 lg:gap-x-7.5 gap-y-16">
+					<div class="col-span-full md:col-span-8 md:pr-[38px] lg:pr-[50px] xl:pr-[70px]">
+						<div class="mb-10 md:mb-12 lg:mb-16 xl:mb-[72px]">
+							<h3 class="text-xl font-bold tracking-tight text-gray-900 before:text-accent before:content-['.'] dark:text-white sm:text-1.5xl md:text-2xl lg:leading-none lg:text-[32px]">Delivery Route</h3>
+						</div>
+						<figure class="relative mb-6 md:mb-8 lg:mb-10 xl:mb-12">
+							<div id="map" class='w-full' style="height :50vh"></div>
+						</figure>
+
+						<div class="pt-5 lg:pt-9 grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-7.5 lg:max-w-xl">
+							<a href="_str1-single-event.html" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-white bg-primary hover:bg-primary/90 flex-1">Buy Tickets
+							</a>
+							<a href="{{path('app_claim_delivery', {'id' :delivery.id})}}" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 flex-1">Claim Delivery</a>
+						</div>
+					</div>
+					<div class="col-span-full md:col-span-4">
+						<div class="mb-10 md:mb-12 lg:mb-16 xl:mb-[72px]">
+							<h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-1.5xl md:text-2xl lg:leading-none lg:text-[32px]">Delivery Details</h3>
+						</div>
+						<dl class="mb-8 flex flex-col gap-y-3.5 font-medium md:mb-10 lg:mb-12">
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">Adress</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">{{delivery.deliveryOrder.deliveryAdress}}</dd>
+							</div>
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">Order Date</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">{{delivery.deliveryOrder.orderDate|date("d-M-Y")}}</dd>
+							</div>
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">Client Name</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">{{delivery.deliveryOrder.member.firstName}}
+									{{delivery.deliveryOrder.member.lastName}}
+								</dd>
+							</div>
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">Phone</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">
+									{{delivery.deliveryOrder.member.phone}}
+								</dd>
+							</div>
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">Product</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">{{delivery.deliveryOrder.products.name}}</dd>
+							</div>
+
+							<div class="flex flex-wrap justify-between">
+								<dt class="text-gray-500 opacity-60">Cost</dt>
+								<dd class="[&amp;_a]:text-accent [&amp;_a]:hover:text-gray-900 [&amp;_a]:dark:hover:text-white">{{delivery.deliveryOrder.products.price}}</dd>
+							</div>
+
+						</dl>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+{% block endbodyjs %}
+	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script>
+	var map = L.map('map').setView([{{ delivery.currentCoordinates }}], 14);
+	L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {attribution: '© OpenStreetMap contributors'}).addTo(map);
+	var markerGroup = L.featureGroup().addTo(map);
+	const socket = new WebSocket('ws://192.168.1.14:8443');
+	function getLocation()
+	{
+		socket.send(JSON.stringify({
+                        type: 'get-location',
+                        id: {{delivery.id}}
+                    }));
+	}
+	
+	
+	socket.addEventListener('message',function(message){
+			markerGroup.clearLayers();
+			let coords = JSON.parse(message.data).location.split(',');
+			L.marker([coords[0], coords[1]]).addTo(markerGroup);
+		})
+	const interval = setInterval(getLocation, 1000);
+
+	</script>
+{% endblock %}

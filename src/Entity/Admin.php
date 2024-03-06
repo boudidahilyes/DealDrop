@@ -32,7 +32,4 @@ class Admin extends User
 
         return $this;
     }
-    public function getType(){
-        return "Admin";
-    }
 }

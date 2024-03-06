@@ -5,9 +5,12 @@ namespace App\Entity;
 use App\Repository\DeliveryManRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Validator\Constraints as MyConstraints;
 #[ORM\Entity(repositoryClass: DeliveryManRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class DeliveryMan extends User
 {
     #[ORM\Id]
@@ -24,7 +27,9 @@ class DeliveryMan extends User
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $location = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[MyConstraints\VerticesConstraint()]
+     //#[MyConstraints\AreaConstraint()]
+    #[ORM\Column(type: Types::TEXT, nullable:true)]
     private ?string $area = null;
 
     #[ORM\OneToMany(mappedBy: 'DeliveryMan', targetEntity: DriverLicenseImage::class, cascade: ['persist', 'remove'])]
