@@ -7,11 +7,15 @@ use App\Entity\Bid;
 use App\Entity\Member;
 use App\Entity\Order;
 use App\Entity\ProductImage;
+use App\Entity\Reminder;
 use App\Entity\User;
 use App\Form\AuctionFormType;
 use App\Form\AuctionType;
 use App\Form\BidFormType;
 use App\Form\OrderFormType;
+use App\Repository\AuctionRepository;
+use App\Repository\MemberRepository;
+use App\Repository\ReminderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -37,33 +41,7 @@ class AuctionController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-
-    #[Route('/auction/reminder', name: 'app_auction_reminder')]
-    public function loginSuccess(TexterInterface $texter)
-    {
-        $twilioPhoneNumber = $_ENV['TWILIO_PHONE_NUMBER'];
-        $user = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
-
-        // $recipientPhoneNumber = '+21626852727'; 
-        $recipientPhoneNumber = '+216' . $user->getPhone();
-        //dd($recipientPhoneNumber);
-        $message = 'The auction that u wanted to be reminded of begans in few minutes';
-
-        $this->sendSms($recipientPhoneNumber, $message);
-
-        $sms = new SmsMessage($recipientPhoneNumber, $message);
-        $texter->send($sms);
-    }
-
-    private function sendSms(string $to, string $message)
-    {
-        $twilio = new Client($_ENV['TWILIO_ACCOUNT_SID'], $_ENV['TWILIO_AUTH_TOKEN']);
-
-        $twilio->messages->create($to, [
-            'from' => $_ENV['TWILIO_PHONE_NUMBER'],
-            'body' => $message,
-        ]);
-    }
+    
     /* #[Route('/login/success')]
     public function loginSuccess(TexterInterface $texter)
     {
@@ -219,6 +197,11 @@ class AuctionController extends AbstractController
             }
             $this->entityManager->persist($au);
             $this->entityManager->flush();
+            $reminder = new Reminder($au);
+            $this->entityManager->persist($reminder);
+            $this->entityManager->flush();
+
+
 
             return $this->redirectToRoute('app_front_user_added_auctions');
         }
@@ -312,22 +295,27 @@ class AuctionController extends AbstractController
     }
 
 
-    #[Route('/delete/back_single_auction{id}/{source}', name: 'app_auction_deleted')]
+    #[Route('/delete/back_single_auction/{id}/{source}', name: 'app_auction_deleted')]
     public function deleteAuction($id, $source): Response
     {
 
-        try {
+       
             $auction = $this->entityManager->getRepository(Auction::class)->find($id);
+            $hb = $auction->getHighestBid();
+     
+            $auction->setHighestBid(null);
+            $this->entityManager->persist($auction);
+            $this->entityManager->flush();
 
-            if (!$auction) {
-                $this->addFlash('error', 'Auction not found.');
-            } else {
-                $this->entityManager->remove($auction);
-                $this->entityManager->flush();
-            }
-        } catch (\Exception $e) {
-            $this->addFlash('error', 'An error occurred: ' . $e->getMessage());
-        }
+            
+
+            $this->entityManager->remove($auction);
+            $this->entityManager->flush();
+
+            $this->entityManager->remove($hb);
+            $this->entityManager->flush();
+            
+       
         if ($source == 'user') {
             return $this->redirectToRoute('app_front_user_added_auctions');
         } else {
@@ -336,12 +324,16 @@ class AuctionController extends AbstractController
     }
 
 
-    /* #[Route('/auction/rating/update', name: 'app_rating_update', methods:"POST")]
-    public function updateRating(Request $request): JsonResponse
+    #[Route('/auction/set_reminder', name: 'app_set_reminder')]
+    public function setReminder(Request $request, ReminderRepository $rep): JsonResponse
     {
-        $auctionId = $request->request->get('auction_id');
-        $rating = $request->request->get('rating');
+        $member = $this->getUser();
+        $reminder = $rep->findOneBy(['auction' => $request->get('id')]);
+        $reminder->addMember($member);
+        $this->entityManager->persist($reminder);
+        $this->entityManager->flush();
+        
 
         return new JsonResponse(['message' => 'Rating updated successfully']);
-    }*/
+    }
 }

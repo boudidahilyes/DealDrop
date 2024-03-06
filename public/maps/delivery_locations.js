@@ -2,7 +2,7 @@
 if(deliveryManId !== -1)
 {
   function sendLocation() {
-    console.log(deliveryManId);
+
       navigator.geolocation.getCurrentPosition(
           (position) => {
               socket.send(JSON.stringify({
@@ -16,7 +16,7 @@ if(deliveryManId !== -1)
           }
       );
   }
-  const socket = new WebSocket('ws://192.168.1.14:8443');
+  const socket = new WebSocket('ws://192.168.1.21:8443');
   socket.onerror = function(event) {
     console.error('WebSocket error:', event.reason );
 };

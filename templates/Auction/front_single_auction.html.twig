@@ -64,7 +64,13 @@
 						<div class="text-2xl font-bold text-accent md:text-2xl lg:text-[32px] lg:leading-none">{{auction.currentPrice}}dt</div>
 
 					</div>
-
+<li class="flex flex-1 flex-col items-center gap-y-3.5 text-center">
+											<a id="reminder-id" href="" >
+												<svg role="img" class="h-5 w-5 fill-accent">
+													<use xlink:href="/build/images/str1/sprite.svg#clock"></use>
+												</svg>
+											</a>
+										</li>
 
 					<div class="tabs">
 						<nav class="tabs__header pb-4 font-bold leading-tight tracking-tight text-xl lg:text-2xl xl:text-[32px]">
@@ -85,7 +91,8 @@
 
 							<ol class="flex flex-col gap-y-12 lg:gap-y-12 pb-5 my-0">
 								<li class="block">
-									{% if auction.startDate > "now" %}
+
+									{% if auction.startDate > "now" and auction.member == app.user %}
 										<a class="text-gray-500/40 transition-colors hover:text-gray-900 group-[.is-active]:text-gray-900 dark:group-[.is-active]:text-white dark:hover:text-white before:content-['.'] before:mr-[0.15em] group-[.is-active]:before:text-accent" href="{{path('app_auction_deleted',{'id':auction.id, 'source':'user'})}}">Delete</a>
 
 
@@ -106,43 +113,23 @@
 													{% endif %}
 
 												</div>
-												{#<div class="col-span-full flex flex-wrap items-center justify-center gap-y-4 self-center md:col-span-4 md:col-start-9 lg:gap-y-0">
-													<div class="js-vv-countdown-container mb-4 grid w-full basis-full grid-cols-4 font-bold lg:mb-5 xl:pt-2.5 [&amp;>div]:before:absolute [&amp;>div]:before:-left-0.5 [&amp;>div]:before:top-0 [&amp;>div]:before:text-xl [&amp;>div]:before:content-[':'] [&amp;>div]:md:before:text-3xl [&amp;>div]:lg:before:-left-1 [&amp;>div]:xl:before:text-[42px] [&amp;>div]:xl:before:leading-none [&amp;>div:first-child]:before:hidden">
-														<div class="relative flex flex-col items-center">
-															<div class="js-vv-days text-xl md:text-3xl xl:mb-1 xl:text-[42px] xl:leading-none">00</div>
-															<div class="days-label leading-none">Days</div>
-														</div>
-														<div class="relative flex flex-col items-center">
-															<div class="js-vv-hours text-xl md:text-3xl xl:mb-1 xl:text-[42px] xl:leading-none">00</div>
-															<div class="hours-label leading-none">Hours</div>
-														</div>
-														<div class="relative flex flex-col items-center">
-															<div class="js-vv-minutes text-xl md:text-3xl xl:mb-1 xl:text-[42px] xl:leading-none">00</div>
-															<div class="minutes-label leading-none">Mins</div>
-														</div>
-														<div class="relative flex flex-col items-center">
-															<div class="js-vv-seconds text-xl md:text-3xl xl:mb-1 xl:text-[42px] xl:leading-none">00</div>
-															<div class="seconds-label leading-none">Secs</div>
-														</div>
-													</div>
-													<div class="js-vv-countdown-progress h-2 basis-full overflow-hidden rounded-full bg-gray-900">
-														<div class="js-vv-countdown-progress-bar h-full rounded-full bg-accent" style="width: 376%;">test</div>
-													</div>
-												</div>#}
+
 												<div class="text-2xl font-bold text-accent md:text-2xl lg:text-[32px] lg:leading-none">
 													<div class="col-span-full text-gray-500 dark:text-gray sm:col-span-3" id="countdown"></div>
 												</div>
 
 											</div>
-											<dl class="grid grid-cols-8 gap-x-5 leading-normal md:gap-x-6 lg:gap-x-7.5">
+											<dl class="grid grid-cols-8 gap-x-5 leading-normal md:gap-x-6 lg:gap-x-7.5 dark:border-accent">
 												{% set sortedBids = bid.value|default([])|sort %}
+
 												{% for bid in bids %}
 													{% if bid.bidder is not null %}
 														<dt class="col-span-full text-gray-500 dark:text-gray sm:col-span-3">{{bid.bidder.firstName}}</dt>
 														<dd class="col-span-full mb-4 font-bold text-gray-900 dark:text-white sm:col-span-5 md:mb-7">{{bid.value}}</dd>
 													{% endif %}
-													
+
 												{% endfor %}
+
 												{% if bidder != auction.member %}
 													<dt class="col-span-full text-gray-500 dark:text-gray sm:col-span-3">My Bid:</dt>
 													<dd class="col-span-full mb-4 font-bold text-gray-900 dark:text-white sm:col-span-5 md:mb-7">
@@ -170,49 +157,50 @@
 													</div>
 
 												{% endif %}
-											</li>
+											</dl>
 										</li>
 									</li>
 								</li>
-							</ol>
-						</div>
+							</li>
+						</ol>
+					</div>
 
 
-						<div class="tabs__content vv-prose pt-6 pb-0 md:pt-9 lg:pt-10 xl:pt-12">
-							<div class="tabs__content-item">
-								<p class="lead">{{auction.description}}</p>
-							</div>
+					<div class="tabs__content vv-prose pt-6 pb-0 md:pt-9 lg:pt-10 xl:pt-12">
+						<div class="tabs__content-item">
+							<p class="lead">{{auction.description}}</p>
 						</div>
 					</div>
 				</div>
 			</div>
-
-
-			<div class="grid grid-cols-12 gap-x-4 md:gap-x-6 lg:gap-x-7.5 py-11 first:pt-0 last:pb-0">
-				<div class="col-span-2 md:col-span-1 lg:col-span-1">
-					<time class="flex flex-col text-center text-xs font-bold md:text-base text-white bg-primary" datetime="">
-						<span class="text-2xl lg:text-[32px] md:leading-none h-11 lg:h-[62px] flex items-center justify-center">{{auction.startDate|date('d')}}</span>
-						<span class="text-white leading-[28px] bg-primary-500">{{auction.startDate|date('M')}}</span>
-					</time>
-				</div>
-				<div class="col-span-10 md:col-span-6 lg:col-span-6">
-
-					<dl class="grid grid-cols-8 gap-x-5 leading-normal md:gap-x-6 lg:gap-x-7.5">
-						<dt class="col-span-full text-gray-500 dark:text-gray sm:col-span-3">Start Date</dt>
-						<dd class="col-span-full mb-4 font-bold text-gray-900 dark:text-white sm:col-span-5 md:mb-7">{{auction.startDate|date('Y-m-d H:i:s')}}</dd>
-						<dt class="col-span-full text-gray-500 dark:text-gray sm:col-span-3">End Date</dt>
-						<dd class="col-span-full mb-4 font-bold text-gray-900 dark:text-white sm:col-span-5 md:mb-7">{{auction.endDate|date('Y-m-d H:i:s')}}</dd>
-
-					</dl>
-				</div>
-			
-			</div>
 		</div>
-	{% endblock %}
-	{% block endbodyscripts %}
-		<script>
 
-			// Get the end time of the auction from Symfony
+
+		<div class="grid grid-cols-12 gap-x-4 md:gap-x-6 lg:gap-x-7.5 py-11 first:pt-0 last:pb-0">
+			<div class="col-span-2 md:col-span-1 lg:col-span-1">
+				<time class="flex flex-col text-center text-xs font-bold md:text-base text-white bg-primary" datetime="">
+					<span class="text-2xl lg:text-[32px] md:leading-none h-11 lg:h-[62px] flex items-center justify-center">{{auction.startDate|date('d')}}</span>
+					<span class="text-white leading-[28px] bg-primary-500">{{auction.startDate|date('M')}}</span>
+				</time>
+			</div>
+			<div class="col-span-10 md:col-span-6 lg:col-span-6">
+
+				<dl class="grid grid-cols-8 gap-x-5 leading-normal md:gap-x-6 lg:gap-x-7.5">
+					<dt class="col-span-full text-gray-500 dark:text-gray sm:col-span-3">Start Date</dt>
+					<dd class="col-span-full mb-4 font-bold text-gray-900 dark:text-white sm:col-span-5 md:mb-7">{{auction.startDate|date('Y-m-d H:i:s')}}</dd>
+					<dt class="col-span-full text-gray-500 dark:text-gray sm:col-span-3">End Date</dt>
+					<dd class="col-span-full mb-4 font-bold text-gray-900 dark:text-white sm:col-span-5 md:mb-7">{{auction.endDate|date('Y-m-d H:i:s')}}</dd>
+
+				</dl>
+			</div>
+
+		</div>
+	</div>
+{% endblock %}
+{% block endbodyjs %}
+	<script>
+
+		// Get the end time of the auction from Symfony
 const auctionEndTimeString = "{{ auction.endDate|date('Y-m-d\\TH:i:s') }}";
 console.log("Auction End Time String:", auctionEndTimeString);
 
@@ -246,6 +234,16 @@ clearInterval(countdownInterval);
 document.getElementById("countdown").innerHTML = "Auction has ended!";
 }
 }, 1000); // Update every 1 second
+	</script>
+	<script>
+		$('#reminder-id').on('click', function(event){
+			event.preventDefault();
+				$.ajax({
+					method: "POST",
+					url: "/auction/set_reminder?id="+{{auction.id}},
+				}).then(function(data){
+					console.log(data.message)
+				})
+		})
 		</script>
-	{% endblock %}
-	
+{% endblock %}

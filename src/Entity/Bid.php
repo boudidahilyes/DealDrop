@@ -37,7 +37,7 @@ class Bid
     private ?Member $bidder = null;
 
     #[ORM\ManyToOne(inversedBy: 'bids')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Auction $auction = null;
 
     
