@@ -42,6 +42,7 @@ class TicketController extends AbstractController
         if ($State) {
             $list = $repository->findBy(['state' => $State]);
         }
+        
         $pagination = $paginator->paginate(
             $list, 
             $request->query->getInt('page', 1),
@@ -50,6 +51,7 @@ class TicketController extends AbstractController
         return $this->render('ticket/listadmin.html.twig',[
             'pagination' => $pagination,
             'selectedState' => $State,
+            'list' => $list
         ]);
     }
 
@@ -57,7 +59,7 @@ class TicketController extends AbstractController
     #[Route('/ticketlist', name: 'app_ticketlist')]
     public function affiche(SupportTicketRepository $repository): RP
     {
-        $list=$repository->findAll();
+        $list=$repository->findBy(['user'=>$this->getUser()]);
         return $this->render('ticket/list.html.twig',[
             'list'=>$list
         ]);
@@ -65,6 +67,7 @@ class TicketController extends AbstractController
     #[Route('/addticket', name: 'app_addticket')]
     public function add(Request $request, EntityManagerInterface $em, UserRepository $u, MailerInterface $mailer): RP
     {
+        $member=$this->getUser();
         $SuppTicket= new SupportTicket();
         $form=$this->createForm(TicketType::class,$SuppTicket);
         $form->handleRequest($request);
@@ -72,14 +75,14 @@ class TicketController extends AbstractController
             $content = $SuppTicket->getDescription();
             $cleanedContenu = \ConsoleTVs\Profanity\Builder::blocker($content)->filter();
             $SuppTicket->setDescription($cleanedContenu);
-            $SuppTicket->setUser($u->findOneBy(['id'=> 1]));
+            $SuppTicket->setUser($member);
             $SuppTicket->setState('Pending');
             $SuppTicket->setCreationDate(new \DateTime());
             $em->persist($SuppTicket);
             $em->flush();
             $email = (new TemplatedEmail())
                 ->from('dealdrop.pidev@outlook.com')
-                ->to('mahdikhadher2001@gmail.com')
+                ->to($member->getEmail())
                 ->subject('Ticket Created')
                 ->htmlTemplate('ticket/email.html.twig')
                 ->context([
@@ -105,7 +108,10 @@ class TicketController extends AbstractController
     #[Route('/Statistics', name: 'app_stats')]
         public function DisplayStats(SupportTicketRepository $repository, CategoryRepository $u): RP
         {
-            $a=count($repository->findAll());
+            if(count($repository->findAll()) == 0)
+                $a=1;
+            else
+            $a=count($repository->findAll()); 
             $CatPro =count($repository->findBy(['supportTicketCategory' => $u->findBy(['name' => "Product"])]));
             $CatDel =count($repository->findBy(['supportTicketCategory' => $u->findBy(['name' => "Delivery"])]));
             $CatWeb =count($repository->findBy(['supportTicketCategory' => $u->findBy(['name' => "Website"])]));

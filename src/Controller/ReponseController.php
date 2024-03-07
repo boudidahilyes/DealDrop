@@ -20,6 +20,7 @@ class ReponseController extends AbstractController
     #[Route('/addreponse/{id}', name: 'app_reponse')]
     public function add(Request $request, EntityManagerInterface $em, int $id, SupportTicketRepository $SuppR, UserRepository $u, MailerInterface $mailer): RP
     {
+        $member=$this->getUser();
         $Ticket = $SuppR->findOneBy(['id' => $id]);
         $LesReponses= $Ticket->getResponses();
         $Response = new Response();
@@ -27,12 +28,14 @@ class ReponseController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $choice = $request->get('choice');
-            $Response->setUser($u->findOneBy(['id' => 3]));
+            $Response->setUser($member);
             $Response->setSupportTicket($SuppR->findOneBy(['id' => $id]));
             $Response->setAddDate(new \DateTime());
             $Ticket->setState($choice);
             $em->persist($Response);
             $em->flush();
+            if($member->getRoles()[0] == 'ROLE_MEMBER')
+            {
             $email = (new TemplatedEmail())
                 ->from('dealdrop.pidev@outlook.com')
                 ->to('mahdikhadher2001@gmail.com')
@@ -43,6 +46,7 @@ class ReponseController extends AbstractController
                     'info' => $Ticket,
                 ]);
             $mailer->send($email);
+            }
             $Ticket->addResponse($Response);
             return $this->redirectToRoute('app_ticketlistadmin');
         }
@@ -55,13 +59,14 @@ class ReponseController extends AbstractController
     #[Route('/details/{id}', name: 'app_detailsticket')]
     public function details(Request $request, EntityManagerInterface $em, SupportTicketRepository $SuppR, int $id, UserRepository $u): RP
     {
+        $member=$this->getUser();
         $Ticket = $SuppR->findOneBy(['id' => $id]);
         $LesReponses= $Ticket->getResponses();
         $Response = new Response();
         $form = $this->createForm(ReponseType::class, $Response);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $Response->setUser($u->findOneBy(['id' => 1]));
+            $Response->setUser($member);
             $Response->setSupportTicket($SuppR->findOneBy(['id' => $id]));
             $Response->setAddDate(new \DateTime());
             $em->persist($Response);

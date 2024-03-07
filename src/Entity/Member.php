@@ -228,4 +228,8 @@ class Member extends User
 
         return $this;
     }
+    public function getType()
+    {
+        return 'Member';
+    }
 }
