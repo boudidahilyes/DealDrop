@@ -11,8 +11,13 @@ use App\WebSocket\ChatServer;
 
 class StartWebSocketServerCommand extends Command
 {
-    protected static $defaultName = 'app:chatwebsocket:start';
-
+    protected static $defaultName = 'websocket:chat';
+    protected $chat;
+    public function __construct(ChatServer $chat)
+    {
+        parent::__construct();
+        $this->chat=$chat;
+    }
     protected function configure()
     {
         $this->setDescription('Starts the WebSocket server');
@@ -23,10 +28,10 @@ class StartWebSocketServerCommand extends Command
         $server = IoServer::factory(
             new HttpServer(
                 new WsServer(
-                    new ChatServer()
+                    $this->chat
                 )
             ),
-            8000
+            8800
         );
 
         $output->writeln('WebSocket server started.');

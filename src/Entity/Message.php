@@ -17,7 +17,7 @@ class Message
     private ?Chat $chat = null;
 
     #[ORM\ManyToOne(inversedBy: 'messages')]
-    private ?member $sender = null;
+    private ?Member $sender = null;
 
     #[ORM\Column(length: 255)]
     private ?string $content = null;

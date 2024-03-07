@@ -30,6 +30,10 @@ services:
         arguments:
             $entityManager: '@doctrine.orm.default_entity_manager'
             
+    App\WebSocket\ChatServer:
+        arguments:
+            $entityManager: '@doctrine.orm.default_entity_manager'
+            
             
 
    

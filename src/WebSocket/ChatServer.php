@@ -1,16 +1,22 @@
 <?php
 namespace App\WebSocket;
 
+use App\Entity\Chat;
+use App\Entity\Member;
+use App\Entity\Message;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
 class ChatServer implements MessageComponentInterface
 {
     protected $clients;
-
-    public function __construct()
+    protected $entityManager;
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->clients = new \SplObjectStorage;
+        $this->entityManager=$entityManager;
     }
 
     public function onOpen(ConnectionInterface $conn)
@@ -21,10 +27,26 @@ class ChatServer implements MessageComponentInterface
 
     public function onMessage(ConnectionInterface $from, $msg)
     {
-        foreach ($this->clients as $client) {
-            if ($client !== $from) {
-                $client->send($msg);
+        $data = json_decode($msg);
+        if($data->type == 'open')
+        {
+            $from->clientId = $data->id;
+        }
+        if($data->type == 'send')
+        {
+            foreach($this->clients as $client){
+                if($client->clientId == $data->id){
+                    $client->send($data->message);
+                }
             }
+            $chat=$this->entityManager->getRepository(Chat::class)->findOneBy(['id'=>$data->idChat]);
+            $message=new Message();
+            $message->setChat($chat);
+            $sender=$this->entityManager->getRepository(Member::class)->findOneBy(['id'=>$data->idSender]);
+            $message->setSender($sender);
+            $message->setContent($data->message);
+            $this->entityManager->persist($message);
+            $this->entityManager->flush();
         }
     }
 
