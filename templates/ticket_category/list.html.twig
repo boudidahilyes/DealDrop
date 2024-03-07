@@ -1,0 +1,102 @@
+{% extends 'baseBackOffice.html.twig' %}
+{% block  pagecontent %}
+	<div id='test' class="container-fluid group-data-[content=boxed]:max-w-boxed mx-auto">
+
+		<div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+			<div class="grow">
+				<h5 class="text-16">Category List</h5>
+			</div>
+			<ul class="flex items-center gap-2 text-sm font-normal shrink-0">
+				<li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
+					<a href="#!" class="text-slate-400 dark:text-zink-200">Tickets</a>
+				</li>
+				<li class="text-slate-700 dark:text-zink-100">
+					Categories
+				</li>
+			</ul>
+		</div>
+
+		<div class="card" id="customerList">
+			<div class="card-body">
+				<div class="grid grid-cols-1 gap-5 mb-5 xl:grid-cols-2">
+					<div>
+						<div class="relative xl:w-3/6">
+							<input type="text" id="myInput" onkeyup="myFunction()" class="ltr:pl-8 rtl:pr-8 search form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="Search for ..." autocomplete="off">
+							<i data-lucide="search" class="inline-block size-4 absolute ltr:left-2.5 rtl:right-2.5 top-2.5 text-slate-500 dark:text-zink-200 fill-slate-100 dark:fill-zink-600"></i>
+						</div>
+					</div>
+					<div class="ltr:md:text-end rtl:md:text-start">
+						<a href="#!" id="add-category-button" type="button" data-modal-target="showModal" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20 add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal">
+							<i class="align-bottom ri-add-line me-1"></i>Add Category</a>
+					</div>
+
+				</div>
+
+				<div class="overflow-x-auto">
+					<table class="w-full whitespace-nowrap" id="myTable">
+						<thead class="bg-slate-100 dark:bg-zink-600">
+							<tr>
+
+								<th class="sort px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500 ltr:text-left rtl:text-right" data-sort="customer_name">Category ID</th>
+								<th class="sort px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500 ltr:text-left rtl:text-right" data-sort="email">Name</th>
+								<th class="sort px-3.5 py-2.5 font-semibold border-b border-slate-200 dark:border-zink-500 ltr:text-left rtl:text-right" data-sort="action">Action</th>
+							</tr>
+						</thead>
+						<tbody class="list form-check-all">
+							{% for  suppcatlist in list %}
+								<tr>
+									<td class="px-8 py-2.5 border-y border-slate-200 dark:border-zink-500 customer_name">{{suppcatlist.id}}</td>
+									<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 email">{{suppcatlist.name}}</td>
+									<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+										<div class="flex gap-2">
+											<a id="edit-category-button" date-category-id="suppcatlist.id" type="button" data-modal-target="editModal" href="{{path('app_editcat',{'id':suppcatlist.id})}}">
+												<div class="flex items-center justify-center border rounded-md size-9 border-slate-200 dark:border-zink-500">
+													<i data-lucide="pencil" class="inline-block text-green-500 size-5 fill-green-100  dark:fill-green-500/20"></i>
+												</div>
+											</a>
+											<a href="{{path('app_deletecat',{'id':suppcatlist.id} )}}">
+												<div class="flex items-center justify-center border rounded-md size-9 border-slate-200 dark:border-zink-500">
+													<i data-lucide="trash-2" class="inline-block text-red-500 size-5 fill-red-100 dark:fill-red-500/20"></i>
+												</div>
+											</a>
+										</div>
+									</td>
+								</tr>
+							</td>
+						</tbody>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="showModal" modal-center class="fixed flex flex-col hidden transition-all duration-300 ease-in-out left-2/4 z-drawer -translate-x-2/4 -translate-y-2/4 show ">
+<div class="w-screen md:w-[30rem] bg-white shadow rounded-md dark:bg-zink-600">
+<div class="flex items-center justify-between p-4 border-b dark:border-zink-500">
+	<h5 class="text-16">Add Category</h5>
+	<button data-modal-close="showModal" class="transition-all duration-200 ease-linear text-slate-400 hover:text-red-500">
+		<i data-lucide="x" class="w-5 h-5"></i>
+	</button>
+</div>
+<div class="max-h-[calc(theme('height.screen')_-_180px)] p-4 overflow-y-auto">
+	{{ form_start(form) }}
+	<div class="grid grid-cols-1 gap-4 xl:grid-cols-12">
+		<div class="xl:col-span-12">
+			{{ form_label(form.name, 'Category Name', {'label_attr': {'class': 'inline-block mb-2 text-base font-medium'}}) }}
+			{{ form_widget(form.name,{'attr':{'class':'form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200'}}) }}
+		</div>
+	</div>
+	<div class="flex justify-end gap-2 mt-4">
+		<button type="reset" data-modal-close="showModal" class="text-red-500 bg-white btn hover:text-red-500 hover:bg-red-100 focus:text-red-500 focus:bg-red-100 active:text-red-500 active:bg-red-100 dark:bg-zink-600 dark:hover:bg-red-500/10 dark:focus:bg-red-500/10 dark:active:bg-red-500/10">Cancel</button>
+		{{ form_widget(form.save,{'attr':{'class':'text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20'}}) }}
+	</div>
+	{{ form_end(form) }}
+</div>
+</div>
+</div>
+{% endblock %}

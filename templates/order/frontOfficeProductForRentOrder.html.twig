@@ -1,4 +1,7 @@
 {% extends 'baseFrontOffice.html.twig' %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+{% endblock %}
 {% form_theme form 'form_theme_frontOffice.html.twig' %}
 {% block body %}
 	<main id="main-content" class="grow lg:pt-0">
@@ -19,9 +22,11 @@
 							</div>
 							<div class="col-span-full">
 								{{ form_label(form.deliveryAdress,'Full Address',{'attr':{'class':'block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5'}}) }}
-								{{ form_widget(form.deliveryAdress, {'attr': {'class': 'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full mb-3'}}) }}
+								{{ form_widget(form.deliveryAdress, {'attr': {'class': 'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full mb-3','id' : form.deliveryAdress.vars.id}, 'id' : 'adress'}) }}
 								{{ form_errors(form.deliveryAdress) }}
+								{{ form_widget(form.coordinates, {'id': 'coordinates'}) }}
 							</div>
+							<div id="map" style="height: 400px; width: 500px"></div>
 						</div>
 					</div>
 				</div>
@@ -85,18 +90,103 @@
 			</div>
 		</div>
 	</main>
+{% endblock %}
+{% block endbodyjs %}
+	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+	<script>
+		// using the geolocation to get current position
+var currentLatitude;
+var currentLongitude;
+var map;
+var markerGroup;
+function getCurrentLocation() {
+if (navigator.geolocation) {
+navigator.geolocation.getCurrentPosition(function (position) {
+currentLatitude = position.coords.latitude;
+currentLongitude = position.coords.longitude;
+map = L.map('map').setView([
+currentLatitude, currentLongitude
+], 16);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '© OpenStreetMap contributors'}).addTo(map);
+var markerGroup = L.featureGroup().addTo(map);
+map.on('click', function (event) {
+let lat = event.latlng.lat;
+let lng = event.latlng.lng;
+$('#coordinates').val(lat + ',' + lng)
+markerGroup.clearLayers();
+L.marker([lat, lng]).addTo(markerGroup);
+
+})
+}, function (error) {
+console.error('Error getting location:', error.message);
+});
+} else {
+console.error('Geolocation is not supported by this browser.');
+}
+}
+getCurrentLocation()
+
+
+// klet baadhha
+
+
+// converting adress to gealocation :(
+let timeout;
+var api_key = 'a029185938ae4a94bc3b8e9f0a20cd1b';
+$('#adress').on('input', function () {
+clearTimeout(timeout);
+timeout = setTimeout(function () {
+let query = $('#adress').val();
+var api_url = 'https://api.opencagedata.com/geocode/v1/json'
+
+var request_url = api_url + '?' + 'key=' + api_key + '&q=' + encodeURIComponent(query) + '&pretty=1' + '&no_annotations=1';
+var request = new XMLHttpRequest();
+request.open('GET', request_url, true);
+
+request.onload = function () {
+// see full list of possible response codes:
+// https://opencagedata.com/api#codes
+
+if (request.status === 200) { // Success!
+var data = JSON.parse(request.responseText);
+let lat = data.results[0].geometry.lat;
+let lng = data.results[0].geometry.lng;
+map.setView([
+lat, lng
+], 13);
+
+
+} else if (request.status <= 500) { // We reached our target server, but it returned an error
+
+console.log("unable to geocode! Response code: " + request.status);
+var data = JSON.parse(request.responseText);
+console.log('error msg: ' + data.status.message);
+} else {
+console.log("server error");
+}
+};
+
+request.onerror = function () { // There was a connection error of some sort
+console.log("unable to connect to server");
+};
+
+request.send(); // make the request
+
+}, 1000)
+});
+	</script>
 	<script>
 		$('#rentDays').on('input', function () {
 $('#Days').text($('#rentDays').val());
 $('#fullPrice').text(parseInt(($('#pricePerDay').text()) * parseInt($('#Days').text())) + 8);
 });
-var value ='onDelivery';
-            $('#{{ form.paymentMethod.vars.id }}').val(value);
-    $(document).ready(function() {
-        $('input[type=radio]').change(function() {
-             value = $(this).val();
-            $('#{{ form.paymentMethod.vars.id }}').val(value);
-        });
-    });
+var value = 'onDelivery';
+$('# {{ form.paymentMethod.vars.id }}').val(value);
+$(document).ready(function () {
+$('input[type=radio]').change(function () {
+value = $(this).val();
+$('# {{ form.paymentMethod.vars.id }}').val(value);
+});
+});
 	</script>
 {% endblock %}

@@ -1,0 +1,12 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h1>Your Ticket has been submitted successfully!</h1>
+  <p>Subject: {{ info.subject }}</p>
+  <p>Description: {{ info.description }}</p>
+  <p>Creation Date: {{ info.creationDate|date('Y-m-d') }}</p>
+  <p>State: {{ info.state }}</p>
+</body>
+</html>

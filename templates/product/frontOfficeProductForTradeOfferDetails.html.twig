@@ -16,7 +16,7 @@
 						<use xlink:href="/build/images/str1/sprite.svg#arrow-right-pixel-alt"></use>
 					</svg>
 				</li>
-				<li class="font-bold">
+				<li class="font-bold">																										
 					<a href="#!">Account</a>
 					<svg role="img" class="fill-gray absolute -right-4 top-1/2 aspect-[3/5] w-1.5 -translate-y-1/2 lg:-right-5">
 						<use xlink:href="/build/images/str1/sprite.svg#arrow-right-pixel-alt"></use>
@@ -78,6 +78,10 @@
 							</div>
 							<div class="flex mb-10 lg:mb-20">
 								<a href='{{path('app_product_for_trade_offer_accept',{'id':product.id})}}' type="submit" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 basis-full md:basis-1/2 lg:basis-1/3">+ Accept Offer
+								</a>
+							</div>
+							<div class="flex mb-10 lg:mb-20">
+								<a href='{{path('app_chat',{'offerId':offerId})}}' type="submit" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 basis-full md:basis-1/2 lg:basis-1/3">Negotiate
 								</a>
 							</div>
 						</div>

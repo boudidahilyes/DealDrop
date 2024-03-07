@@ -7,7 +7,7 @@
 						<div class="card">
 							<div class="card-body">
 
-								<form id='checkout-form' method='post' action="{{ path('app_stripe_charge_rent',{'price':price})}}">
+								<form id='checkout-form' method='post' action="{{ path('app_stripe_charge',{'price':price,'type':type})}}">
 									<input type='hidden' name='stripeToken' id='stripe-token-id' >
 									<label for="card-element" class="text-2xl font-bold text-gray-900 dark:text-white md:text-3xl md:tracking-tight lg:text-3.5xl">Payment Checkout</label>
 									<br><br>

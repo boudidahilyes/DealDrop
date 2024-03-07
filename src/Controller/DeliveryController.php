@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+
+use App\Entity\Delivery;
 use Location\Polygon;
 use Location\Coordinate;
 use App\Entity\DeliveryMan;
@@ -168,5 +170,15 @@ class DeliveryController extends AbstractController
         return new JsonResponse(['location' => $delivery->getCurrentCoordinates()]);
     }
     
+            
+    #[Route('/Delivered/{id}',name:'app_set_delivered')]
+    public function setDeliveryDelivered($id):Response
+    {
+        $delivery=$this->entityManager->getRepository(Delivery::class)->findOneBy(['deliveryOrder'=>$id]);
+        $delivery->setState('Delivered');
+        $this->entityManager->persist($delivery);
+        $this->entityManager->flush();
+        return $this->render('Order/thankyou.html.twig');
+    }
 
 }

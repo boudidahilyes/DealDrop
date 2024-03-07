@@ -34,12 +34,17 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            
     App\Validator\Constraints\VerticesConstraintValidator:
         tags: [validator.constraint_validator]
+
+        
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     App\WebSocket\LocationHandler:
         arguments:
             $entityManager: '@doctrine.orm.default_entity_manager'
+            
+            
 
    

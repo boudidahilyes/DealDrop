@@ -34,6 +34,8 @@ class Member extends User
     #[ORM\ManyToMany(targetEntity: Reminder::class, mappedBy: 'members')]
     private Collection $reminders;
 
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]
+    private Collection $messages;
 
     public function __construct()
     {
@@ -44,6 +46,7 @@ class Member extends User
         $this->events = new ArrayCollection();
         $this->feedback = new ArrayCollection();
         $this->reminders = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,6 +230,36 @@ class Member extends User
 
         return $this;
     }
+    public function getType()
+    {
+        return 'Member';
+    }
 
-    
+    /**
+     *@return Collection<int, Message>
+     */
+
+  public function getMessages(): Collection{
+    return $this->messages;}
+
+  public function addMessage(Message $message): static
+  {
+      if (!$this->messages->contains($message)) {
+          $this->messages->add($message);
+          $message->setSender($this);
+      }
+
+      return $this;
+  }
+  public function removeMessage(Message $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getSender() === $this) {
+                $message->setSender(null);
+            }
+        }
+
+        return $this;
+    }
 }

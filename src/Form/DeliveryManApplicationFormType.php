@@ -30,7 +30,7 @@ class DeliveryManApplicationFormType extends AbstractType
         'attr' => ['hidden'=>true], 'label'=>false, 'error_bubbling' => true])
         ->add('lastName', TextType::class , ['data' => 'aaaaaaaaaaa','attr' => ['hidden'=>true], 'label'=>false])
         ->add('cin', NumberType::class , ['data' => 11111111,'attr' => ['hidden'=>true] ,'label'=>false])
-        ->add('birthDate', DateType::class)
+        
         ->add('adress', TextType::class, ['data' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa','attr' => ['hidden'=>true], 'label'=>false])
         ->add('phone', NumberType::class, ['data' => 11111111,'attr' => [
             'hidden' => true,
@@ -62,7 +62,8 @@ class DeliveryManApplicationFormType extends AbstractType
                     new Image(['mimeTypes' => ["image/jpeg", "image/jpg", "image/png"]])
                 ],
                 'mapped' => false,
-            ]);
+            ])
+            ->add('birthDate', DateType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
