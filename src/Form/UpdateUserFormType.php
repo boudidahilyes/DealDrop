@@ -23,21 +23,10 @@ class UpdateUserFormType extends AbstractType
             ->add('cin', NumberType::class)
             ->add('adress', TextType::class)
             ->add('phone', NumberType::class)
-            ->add('email', EmailType::class)
-            ->add('password', PasswordType::class, [
-                'label' => 'Password',
-                'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
-                'constraints' => [
-                    
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
-            ])
+            ->add('email', EmailType::class, ['attr' => [
+                'readonly' => true,
+            ]])
+            
             ;
     }
 

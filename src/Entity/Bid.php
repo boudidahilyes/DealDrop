@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use App\Validator\Constraints as MyConstraints;
+use Proxies\__CG__\App\Entity\Auction;
 
 #[ORM\Entity(repositoryClass: BidRepository::class)]
 class Bid
@@ -105,5 +106,4 @@ class Bid
 
         return $this;
     }
-    
 }

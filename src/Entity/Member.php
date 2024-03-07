@@ -6,6 +6,7 @@ use App\Repository\MemberRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Proxies\__CG__\App\Entity\Bid;
 
 #[ORM\Entity(repositoryClass: MemberRepository::class)]
 class Member extends User
@@ -15,7 +16,7 @@ class Member extends User
     #[ORM\Column]
     protected ?int $id = null;
 
-    #[ORM\OneToMany(mappedBy: 'member', targetEntity: Product::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Product::class, orphanRemoval: true)]
     private Collection $products;
 
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Order::class)]

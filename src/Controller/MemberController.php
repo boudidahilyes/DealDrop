@@ -35,6 +35,9 @@ class MemberController extends AbstractController
     #[Route('/register', name: 'app_member_register')]
     public function register(UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, MemberRepository $rep, Request $request): Response
     {
+        if ($this->getUser() !== null) {
+            return $this->redirectToRoute('app_home');
+        }
         $user = new Member();
         $form = $this->createForm(MemberRegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -61,7 +64,7 @@ class MemberController extends AbstractController
             );
 
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('member/register.html.twig', [
@@ -80,12 +83,12 @@ class MemberController extends AbstractController
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $exception->getReason());
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_member_register');
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRoute('app_login');
     }
 }

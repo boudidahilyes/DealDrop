@@ -14,6 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Email as ConstraintsEmail;
 
 class MemberRegistrationFormType extends AbstractType
 {
@@ -37,7 +38,12 @@ class MemberRegistrationFormType extends AbstractType
             ],
         ])
         ->add('phone', NumberType::class)
-        ->add('email', EmailType::class)
+        ->add('email', EmailType::class, [
+            'constraints' => [
+                new NotBlank(['message' => 'Email cannot be blank']),
+                new ConstraintsEmail(['message' => 'Email is not valid']),
+            ],
+        ])
         ->add('password', PasswordType::class, [
             // instead of being set onto the object directly,
             // this is read and encoded in the controller

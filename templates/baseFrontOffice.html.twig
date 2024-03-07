@@ -141,11 +141,16 @@
 									</a>
 									<ul class="sub-menu invisible absolute right-full z-20 -mr-9 flex w-40 origin-top-right flex-col bg-white dark:bg-gray-700 py-3 text-sm font-bold opacity-0 shadow-2xl transition-all">
 										<li class="px-5.5">
-											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="_str1-account-info.html">Personal Info</a>
+											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="{% if app.user is not null %}{{path('app_profile')}}
+												{% else %}{{path('app_login')}}
+											{% endif %}">Personal Info</a>
 										</li>
-										<li class="px-5.5">
-											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="_str1-account-billing.html">Billing Details</a>
+										
+											<li class="px-5.5">
+											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="">My Deliveries</a>
 										</li>
+										
+										
 										<li class="px-5.5">
 											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="_str1-account-shipping.html">Shipping Details</a>
 										</li>
@@ -390,7 +395,7 @@
 		<dialog id="login-register" class="js-vv-modal mx-auto w-[470px] max-w-[90%] border-none bg-transparent p-0 backdrop:bg-gray-900/90">
 			<div class="pt-[22px]">
 				<div class="bg-white dark:bg-gray-700 shadow-3xl overflow-y-auto">
-					<div class="relative flex h-28 items-center bg-[url('../../..//build/images/str1/samples/modal-header-bg.jpg')] bg-cover bg-center bg-no-repeat px-6 md:px-10 lg:h-[140px]">
+					<div class="relative flex h-28 items-center bg-[url('../../../assets/img/str1/samples/modal-header-bg.jpg')] bg-cover bg-center bg-no-repeat px-6 md:px-10 lg:h-[140px]">
 						<div class="relative z-[4] text-white">
 							<h4 class="text-2xl font-bold lg:mb-0.5 lg:text-3xl xl:text-[32px] xl:leading-none">Login & Register</h4>
 							<div class="font-bold leading-none">I’m glad to see you here!</div>

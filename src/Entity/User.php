@@ -11,6 +11,7 @@ use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -18,6 +19,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
 #[ORM\DiscriminatorMap(['DeliveryMan' => DeliveryMan::class, 'Member' => Member::class, 'Admin' => Admin::class])]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
 {
     #[ORM\Id]
@@ -30,7 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
     protected ?string $email = null;
 
     #[ORM\Column]
-    protected array $roles = [];
+    protected array $roles = ['ROLE_MEMBER','ROLE_ADMIN','ROLE_DELIVERY_MAN'];
 
     /**
      * @var string The hashed password
@@ -59,7 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         minMessage: 'Your Lastname must be at least {{ limit }} characters long',
         maxMessage: 'Your Lastname cannot be longer than {{ limit }} characters',
     )]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable:true)]
     protected ?string $lastName = null;
 
     #[Assert\Length(
@@ -68,7 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         minMessage: 'Your CIN must be {{ limit }} characters long',
         maxMessage: 'Your CIN must be {{ limit }} characters',
     )]
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     protected ?int $cin = null;
 
     #[Assert\Length(
@@ -77,7 +79,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         minMessage: 'Your Adress must be at least {{ limit }} characters long',
         maxMessage: 'Your Adress cannot be longer than {{ limit }} characters',
     )]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable:true)]
     protected ?string $adress = null;
 
     #[Assert\Length(
@@ -86,7 +88,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFact
         minMessage: 'Your Phone number must be {{ limit }} characters long',
         maxMessage: 'Your Phone number must be {{ limit }} characters',
     )]
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     protected ?int $phone = null;
 
     #[ORM\Column(type: Types::STRING, nullable: true)]

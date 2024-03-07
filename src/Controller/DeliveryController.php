@@ -168,6 +168,5 @@ class DeliveryController extends AbstractController
         return new JsonResponse(['location' => $delivery->getCurrentCoordinates()]);
     }
     
-    
 
 }

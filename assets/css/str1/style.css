@@ -3139,9 +3139,12 @@ select {
 .h-\[10px\] {
   height: 10px;
 }
+<<<<<<< HEAD
 .h-\[96px\] {
   height: 96px;
 }
+=======
+>>>>>>> origin/gestionUser
 .h-\[115px\] {
   height: 115px;
 }
@@ -4261,6 +4264,9 @@ select {
   background-color: rgb(var(--color-accent) / var(--tw-bg-opacity));
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/gestionUser
 .bg-yellow {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 0 / var(--tw-bg-opacity));
@@ -4269,11 +4275,14 @@ select {
 {
   --tw-bg-opacity: 1;
   background-color: rgb(220 20 60 / var(--tw-bg-opacity));
+<<<<<<< HEAD
 =======
 .bg-green {
   --tw-bg-opacity: 1;
   background-color: rgb(34 204 17/ var(--tw-bg-opacity));
 >>>>>>> origin/gestionAuction
+=======
+>>>>>>> origin/gestionUser
 }
 .bg-accent\/80 {
   background-color: rgb(var(--color-accent) / 0.8);
