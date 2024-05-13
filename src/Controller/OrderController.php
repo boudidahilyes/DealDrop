@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Member;
+use App\Entity\Auction;
 use App\Entity\ProductForSale;
 use App\Form\OrderFormType;
 use App\Repository\ProductForSaleRepository;
@@ -66,10 +67,10 @@ class OrderController extends AbstractController
                 $order->setPayment('onDelivery');
                 $this->entityManager->persist($order);
                 $this->entityManager->flush();
-                $this->sendEmailWithPDF($member,$mailer,$product, $order,$customQrCodeBuilder);
                 $delivery = new Delivery($order, $req->get('order_form')["coordinates"]);
                 $this->entityManager->persist($delivery);
                 $this->entityManager->flush();
+                $this->sendEmailWithPDF($member,$mailer,$product, $order,$customQrCodeBuilder);
                 $rep->setStatusSold($id);
                 return $this->redirectToRoute('app_product_for_sale');
             }
@@ -100,10 +101,10 @@ class OrderController extends AbstractController
                 $order->setPayment('bank');
                 $this->entityManager->persist($order);
                 $this->entityManager->flush();
-                $this->sendEmailWithPDF($member,$mailer,$product, $order,$customQrCodeBuilder);
                 $delivery = new Delivery($order, $req->get('order_for_rent_form')["coordinates"]);
                 $this->entityManager->persist($delivery);
                 $this->entityManager->flush();
+                $this->sendEmailWithPDF($member,$mailer,$product, $order,$customQrCodeBuilder);
                 $rep->setAvailabilityUnavailable($id);
                 return $this->render('stripe/index.html.twig', [
                     'stripe_key' => $_ENV["STRIPE_KEY"],
@@ -206,12 +207,13 @@ class OrderController extends AbstractController
 
     public function sendEmailWithPDF($member, $mailer, $product, $order,$customQrCodeBuilder)
     {
+        $deliveryId=$this->entityManager->getRepository(Delivery::class)->findOneBy(['deliveryOrder'=>$order])->getId();
         $pdfFileName = 'MGX' . $order->getId() . 'N.pdf'; 
         $pdfFilePath = $this->getParameter('kernel.project_dir') . '/public/pdfs/' . $pdfFileName;
         $result = $customQrCodeBuilder
         ->size(100)
         ->margin(20)
-        ->data('http://192.168.1.18:8000/Delivered/' . $order->getId())
+        ->data('https://172.18.5.70:443/Delivered/' . $order->getId())
         ->build();
 
     $imageData = $result->getString();
@@ -237,7 +239,7 @@ class OrderController extends AbstractController
         $dompdf->render();
         // Save PDF to file
         file_put_contents($pdfFilePath, $dompdf->output());
-        $content = '<center><h1>YOUR ORDER WAS SHIPPED!</h1><center>Dear ' . $member->getFirstName() . ' ' . $member->getLastName() . "<p>We know you can't wait for your package to arrive .That is why you can track your order here :</p><a href='#'>TRACK PACKAGE</a><h6>please note , it could take some time for the tracking information to show on the above</h6></center>";
+        $content = '<center><h1>YOUR ORDER WAS SHIPPED!</h1><center>Dear ' . $member->getFirstName() . ' ' . $member->getLastName() . '<p>We know you cant wait for your package to arrive .That is why you can track your order here :</p><a href="https://172.18.5.70:443/track_delivery/'.$deliveryId.'">TRACK PACKAGE</a><h6>please note , it could take some time for the tracking information to show on the above</h6></center>';
         $email = (new Email())
             ->from('dealdrop.pidev@outlook.com')
             ->to($member->getEmail())

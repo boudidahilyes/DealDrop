@@ -3,14 +3,19 @@
 namespace App\Form;
 
 use App\Entity\DeliveryMan;
+use DateTime;
+use DateTimeImmutable;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -25,6 +30,7 @@ class DeliveryManApplicationFormType extends AbstractType
         'attr' => ['hidden'=>true], 'label'=>false, 'error_bubbling' => true])
         ->add('lastName', TextType::class , ['data' => 'aaaaaaaaaaa','attr' => ['hidden'=>true], 'label'=>false])
         ->add('cin', NumberType::class , ['data' => 11111111,'attr' => ['hidden'=>true] ,'label'=>false])
+        
         ->add('adress', TextType::class, ['data' => 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa','attr' => ['hidden'=>true], 'label'=>false])
         ->add('phone', NumberType::class, ['data' => 11111111,'attr' => [
             'hidden' => true,
@@ -56,7 +62,8 @@ class DeliveryManApplicationFormType extends AbstractType
                     new Image(['mimeTypes' => ["image/jpeg", "image/jpg", "image/png"]])
                 ],
                 'mapped' => false,
-            ]);
+            ])
+            ->add('birthDate', DateType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

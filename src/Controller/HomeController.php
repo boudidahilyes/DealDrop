@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\ImagePermit;
 use App\Entity\Livreur;
 use App\Entity\Membre;
+use App\Entity\User;
 use App\Form\LivreurFormType;
 use App\Repository\LivreurRepository;
 use Doctrine\ORM\EntityManager;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,9 +28,24 @@ class HomeController extends AbstractController
     #[Route('/home', name: 'app_home')]
     public function index(Request $req): Response
     {
-        
+        $user=$this->getUser();
+        if ($user instanceof User) {
+        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            return $this->redirectToRoute('app_home_admin');
 
-        return $this->render('home/index.html.twig');
+        }
+        if (in_array('ROLE_DELIVERY_MAN', $user->getRoles(), true)) {
+            return $this->render('home/index.html.twig', [
+                'user' => $user,
+            ]);
+        }
+        
+        return $this->render('home/index.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    return $this->redirectToRoute('app_login');
         
     }
     #[Route('/homeDashboard', name: 'app_home_Dashboard')]

@@ -1,0 +1,28 @@
+{% extends 'baseFrontOffice.html.twig' %}
+{% block body %}
+<div class="js-vv-modal mx-auto max-w-[90%] border-none bg-transparent p-0 backdrop:bg-gray-900/90" style="width:65vw">
+	<div class="pt-[22px]">
+		<div class="bg-white dark:bg-gray-700 shadow-3xl overflow-y-auto">
+			<div class="relative flex h-28 items-center bg-[url('../../../assets/img/str1/samples/modal-header-bg.jpg')] bg-cover bg-center bg-no-repeat px-6 md:px-10 lg:h-[140px]">
+				<div class="relative z-[4] text-white">
+					<h4 class="text-2xl font-bold lg:mb-0.5 lg:text-3xl xl:text-[32px] xl:leading-none">Login & Register</h4>
+					<div class="font-bold leading-none">I’m glad to see you here!</div>
+				</div>
+				<div class="absolute inset-0 z-[1] bg-black mix-blend-color"></div>
+				<div class="absolute inset-0 z-[2] bg-primary mix-blend-multiply"></div>
+				<div class="absolute inset-0 z-[3] bg-gray-900 mix-blend-lighten"></div><img class="absolute right-0 bottom-0 z-[5] -mt-[22px] max-w-[41%]" src="/build/images/str1/samples/modal-header-hero.png" alt=""></div>
+			<div>
+				<div class="tabs">
+                {% block nav %}
+					
+                {% endblock %}
+					<div class="tabs__content py-6 px-6 lg:px-10 lg:py-9"> 
+                    {% block login %}{% endblock %}
+                    {% block register %}{% endblock %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

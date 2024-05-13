@@ -37,12 +37,23 @@
 									<div class="mt-2">
 										<button type="submit" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-white bg-primary hover:bg-primary/90 w-full">Login</button>
 									</div>
+									<div class="col-span-full lg:col-span-4">
+
+									<a href="{{path('connect_google')}}" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-white bg-social-twitch hover:bg-social-twitch/90 w-full">
+										<svg class="h-[14px] w-[14px]" fill="currentColor">
+											<use xlink:href="/assets/images/icons8-google.svg"></use>
+										</svg>
+										Connect with google
+									</a>
+
+
+								</div>
 									<div class="text-sm leading-loose text-gray text-center">
 									{% if error %}
 											<div class="text-2xl" style="color: red">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 										{% endif %}
-										<p>You’ll receive a confirmation email in your inbox with a link so you can activate your account. If you have any problems,
-											<a class="text-accent hover:text-primary dark:hover:text-white transition-colors" href="_str1-contact.html">contact us</a>!</p>
+										<p>Forgot Your Password? 
+											<a class="text-accent hover:text-primary dark:hover:text-white transition-colors" href="{{path('app_reset')}}">Reset Password</a>!</p>
 										
 									</div>
 								</form>

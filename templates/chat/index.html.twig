@@ -47,6 +47,15 @@
 <script>
 
 	const webSocket = new WebSocket("ws://127.0.0.4:8800");
+<<<<<<< HEAD
+=======
+	const myname='{{app.user.firstName}}'+' {{app.user.lastName}}';
+	const hisname={% if app.user == chat.offer.productPosted.member %}
+'{{ chat.offer.productOffered.member.firstName }}'+' {{chat.offer.productOffered.member.lastName}}'
+{% else %}
+'{{ chat.offer.productPosted.member.firstName }}'+' {{chat.offer.productPosted.member.lastName}}'
+{% endif %};
+>>>>>>> gestionLivraison
 const receiver ={% if app.user == chat.offer.productPosted.member %}
 {{ chat.offer.productOffered.member.id }}
 {% else %}
@@ -73,11 +82,20 @@ webSocket.send(JSON.stringify({
 'idChat': {{ chat.id }},
 'idSender': sender
 }))
+<<<<<<< HEAD
+=======
+	const html = '<li class="mb-12 lg:mb-20"><div><div class="flex gap-x-5 md:gap-x-7 mb-7"><div class="flex-grow"><div><h5 class="mb-1 text-lg md:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">'+myname+'</h5></div></div></div><div class="mb-7 leading-relaxed md:text-lg md:leading-9">' + mess.value + '</div></div></li></li>';
+document.getElementById('chatbox').insertAdjacentHTML('beforeend', html);
+>>>>>>> gestionLivraison
 mess.value='';
 })
 webSocket.onmessage=function(data)
 {
+<<<<<<< HEAD
 	const html = '<li class="mb-12 lg:mb-20"><div><div class="flex gap-x-5 md:gap-x-7 mb-7"><div class="flex-grow"><div><h5 class="mb-1 text-lg md:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white"></h5></div></div></div><div class="mb-7 leading-relaxed md:text-lg md:leading-9">' + data.data + '</div></div></li></li>';
+=======
+	const html = '<li class="mb-12 lg:mb-20"><div><div class="flex gap-x-5 md:gap-x-7 mb-7"><div class="flex-grow"><div><h5 class="mb-1 text-lg md:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">'+hisname+'</h5></div></div></div><div class="mb-7 leading-relaxed md:text-lg md:leading-9">' + data.data + '</div></div></li></li>';
+>>>>>>> gestionLivraison
 document.getElementById('chatbox').insertAdjacentHTML('beforeend', html);
 }
 // Clear the input field

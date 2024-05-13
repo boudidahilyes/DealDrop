@@ -69,10 +69,7 @@
 									</ul>
 								</li>
 								<li class="">
-									<a class="group text-gray-900 dark:text-white relative inline-flex items-center gap-x-3 leading-10 px-3.5 xl:px-4.5 after:absolute after:top-[15px] after:left-0 after:bg-current-marker-dark after:transition-transform after:w-1.5 after:h-[9px] dark:after:bg-current-marker after:origin-right hover:after:origin-left after:scale-x-0 hover:after:scale-x-100" href="_str1-about.html">Auction</a>
-								</li>
-								<li class="">
-									<a class="group text-gray-900 dark:text-white relative inline-flex items-center gap-x-3 leading-10 px-3.5 xl:px-4.5 after:absolute after:top-[15px] after:left-0 after:bg-current-marker-dark after:transition-transform after:w-1.5 after:h-[9px] dark:after:bg-current-marker after:origin-right hover:after:origin-left after:scale-x-0 hover:after:scale-x-100" href="_str1-sponsors.html">Events</a>
+									<a class="group text-gray-900 dark:text-white relative inline-flex items-center gap-x-3 leading-10 px-3.5 xl:px-4.5 after:absolute after:top-[15px] after:left-0 after:bg-current-marker-dark after:transition-transform after:w-1.5 after:h-[9px] dark:after:bg-current-marker after:origin-right hover:after:origin-left after:scale-x-0 hover:after:scale-x-100" href="{{path('app_front_auction_list')}}">Auction</a>
 								</li>
 								<li class="relative [&>.sub-menu]:hover:visible [&>.sub-menu]:hover:animate-popper-pop-in [&>.sub-menu]:hover:opacity-100">
 									<a class="group text-gray-900 dark:text-white relative inline-flex items-center gap-x-3 leading-10 px-3.5 xl:px-4.5 after:absolute after:top-[15px] after:left-0 after:bg-current-marker-dark after:transition-transform after:w-1.5 after:h-[9px] dark:after:bg-current-marker after:origin-right hover:after:origin-left after:scale-x-0 hover:after:scale-x-100" href="{{ path('app_addticket') }}">Support
@@ -140,21 +137,27 @@
 										</svg>
 									</a>
 									<ul class="sub-menu invisible absolute right-full z-20 -mr-9 flex w-40 origin-top-right flex-col bg-white dark:bg-gray-700 py-3 text-sm font-bold opacity-0 shadow-2xl transition-all">
+									{% if app.user is not null %}
+										
+
 										<li class="px-5.5">
-											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="_str1-account-info.html">Personal Info</a>
+											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="{% if app.user is not null %}{{path('app_profile')}}
+												{% else %}{{path('app_login')}}
+											{% endif %}">Personal Info</a>
 										</li>
-										<li class="px-5.5">
-											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="_str1-account-billing.html">Billing Details</a>
-										</li>
-										<li class="px-5.5">
-											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="_str1-account-shipping.html">Shipping Details</a>
-										</li>
-										<li class="px-5.5">
-											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="{{path('app_product_for_sale_orders')}}">Orders</a>
-										</li>
+																	
 										<li class="px-5.5">
 											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="{{path('app_logout')}}">Logout</a>
 										</li>
+																			
+																			{% else %}
+										<li class="px-5.5">
+											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="{{path('app_register')}}">Register</a>
+										</li>
+																			<li class="px-5.5">
+											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="{{path('app_login')}}">login</a>
+										</li>
+																			{% endif %}
 									</ul>
 								</div>
 								<button class="js-menu-toggle -mr-2 inline-flex py-4 px-2 sm:px-3 lg:hidden xl:px-4">

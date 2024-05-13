@@ -66,7 +66,9 @@
 									<td class="px-3.5 py-3 first:pl-0 last:pr-0 text-slate-500 dark:text-zink-200">
 										Delivery Man
 									</td>
-									<td class="px-3.5 py-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">{{delivery.deliveryMan.firstName}} {{delivery.deliveryMan.lastName}}</td>
+									<td class="px-3.5 py-3 first:pl-0 last:pr-0 ltr:text-right rtl:text-left">{% if delivery.deliveryMan is not null %}
+										
+									{{delivery.deliveryMan.firstName}} {{delivery.deliveryMan.lastName}}{% else %} -{% endif %}</td>
 								</tr>
 								<tr>
 									<td class="px-3.5 py-3 first:pl-0 last:pr-0 text-slate-500 dark:text-zink-200">

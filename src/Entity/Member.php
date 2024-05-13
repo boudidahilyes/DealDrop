@@ -30,6 +30,9 @@ class Member extends User
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Feedback::class, orphanRemoval: true)]
     private Collection $feedback;
 
+    #[ORM\ManyToMany(targetEntity: Reminder::class, mappedBy: 'members')]
+    private Collection $reminders;
+
     #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]
     private Collection $messages;
 
@@ -41,6 +44,7 @@ class Member extends User
         $this->bids = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->feedback = new ArrayCollection();
+        $this->reminders = new ArrayCollection();
         $this->messages = new ArrayCollection();
     }
 
@@ -200,24 +204,53 @@ class Member extends User
     }
 
     /**
-     * @return Collection<int, Message>
+     * @return Collection<int, Reminder>
      */
-    public function getMessages(): Collection
+    public function getReminders(): Collection
     {
-        return $this->messages;
+        return $this->reminders;
     }
 
-    public function addMessage(Message $message): static
+    public function addReminder(Reminder $reminder): static
     {
-        if (!$this->messages->contains($message)) {
-            $this->messages->add($message);
-            $message->setSender($this);
+        if (!$this->reminders->contains($reminder)) {
+            $this->reminders->add($reminder);
+            $reminder->addMember($this);
         }
 
         return $this;
     }
 
-    public function removeMessage(Message $message): static
+    public function removeReminder(Reminder $reminder): static
+    {
+        if ($this->reminders->removeElement($reminder)) {
+            $reminder->removeMember($this);
+        }
+
+        return $this;
+    }
+    public function getType()
+    {
+        return 'Member';
+    }
+
+    /**
+     *@return Collection<int, Message>
+     */
+
+  public function getMessages(): Collection{
+    return $this->messages;}
+
+  public function addMessage(Message $message): static
+  {
+      if (!$this->messages->contains($message)) {
+          $this->messages->add($message);
+          $message->setSender($this);
+      }
+
+      return $this;
+  }
+  public function removeMessage(Message $message): static
     {
         if ($this->messages->removeElement($message)) {
             // set the owning side to null (unless already changed)
@@ -227,9 +260,5 @@ class Member extends User
         }
 
         return $this;
-    }
-    public function getType()
-    {
-        return 'Member';
     }
 }

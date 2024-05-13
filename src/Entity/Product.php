@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
-#[ORM\DiscriminatorMap(['ProductForRent' => ProductForRent::class, 'ProductForSale' => ProductForSale::class, 'ProductForTrade' => ProductForTrade::class])]
+#[ORM\DiscriminatorMap(['ProductForRent' => ProductForRent::class, 'ProductForSale' => ProductForSale::class, 'ProductForTrade' => ProductForTrade::class, "Auction" => Auction::class])]
 abstract class Product
 {
     #[ORM\Id]

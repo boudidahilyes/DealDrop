@@ -1,0 +1,61 @@
+{% extends 'back/dashboard.html.twig' %}
+{% block users %}
+	<tbody class="list">
+		{% for user in users %}
+			<tr class="relative rounded-md after:absolute ltr:after:border-l-2 rtl:after:border-r-2 ltr:after:left-0 rtl:after:right-0 after:top-0 after:bottom-0 after:border-transparent [&amp;.active]:after:border-custom-500 [&amp;.active]:bg-slate-100 dark:[&amp;.active]:bg-zink-600">
+				<td class="px-3.5 py-2.5 first:pl-5 last:pr-5">
+					<div class="flex items-center h-full">
+						<input id="Checkbox1" class="size-4 bg-white border border-slate-200 checked:bg-none dark:bg-zink-700 dark:border-zink-500 rounded-sm appearance-none arrow-none relative after:absolute after:content-['\eb7b'] after:top-0 after:left-0 after:font-remix after:leading-none after:opacity-0 checked:after:opacity-100 after:text-custom-500 checked:border-custom-500 dark:after:text-custom-500 dark:checked:border-custom-800 cursor-pointer" type="checkbox">
+					</div>
+				</td>
+				<td class="px-3.5 py-2.5 first:pl-5 last:pr-5">
+					<a href="#!" class="transition-all duration-150 ease-linear text-custom-500 hover:text-custom-600 user-id">{{ user.id }}</a>
+				</td>
+				<td class="px-3.5 py-2.5 first:pl-5 last:pr-5">
+					<div class="flex items-center gap-2">
+						<div class="flex items-center justify-center font-medium rounded-full size-10 shrink-0 bg-slate-200 text-slate-800 dark:text-zink-50 dark:bg-zink-600">
+							<img src="/assets/images/avatar-2.png" alt="" class="h-10 rounded-full">
+						</div>
+						<div class="grow">
+							<h6 class="mb-1">
+								<a href="#!" class="name">{{ user.firstName}}{{ user.lastName}}</a>
+							</h6>
+							{#<p class="text-slate-500 dark:text-zink-200">Graphic Designer</p>#}
+						</div>
+					</div>
+				</td>
+				<td class="px-3.5 py-2.5 first:pl-5 last:pr-5 location">{{ user.address}}</td>
+				<td class="px-3.5 py-2.5 first:pl-5 last:pr-5 email">{{ user.email}}</td>
+				<td class="px-3.5 py-2.5 first:pl-5 last:pr-5 phone-number">{{ user.phone}}</td>
+				<td class="px-3.5 py-2.5 first:pl-5 last:pr-5">
+					<span class="px-2.5 py-0.5 text-xs font-medium rounded border bg-green-100 border-transparent text-green-500 dark:bg-green-500/20 dark:border-transparent inline-flex items-center status">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-circle" class="lucide lucide-check-circle size-3 mr-1.5">
+							<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+							<path d="m9 11 3 3L22 4"></path>
+						</svg>
+						{{ user.isVerified }}</span>
+				</td>
+				<td>
+																		
+				<a href="{{ path('app_user_edit_delete', {'id': user.id}) }}" class="link-animated" >Delete</a>
+
+																		
+				{#<form action="{{ path('app_user_edit_delete', {id: user.id, '_method': 'DELETE'}) }}" >
+						<input type="hidden" name="token" value="{{ csrf_token('delete' ~ user.id) }}">
+						<button class="link-animated" type="submit">Delete</button>
+					</form>#}
+
+					{#{{ form_start(deleteForms[user.id], {'action': path('app_user_edit_delete', {'id': user.id, '_method': 'DELETE'})}) }}#}
+					{#{{ form_start(deleteForms[user.id], {'method': 'POST'},{'action': path('app_user_edit_delete', {'id': user.id})}) }}
+					{{ form_widget(deleteForms[user.id]) }}
+					{{ form_end(deleteForms[user.id]) }}#}
+
+
+				</td>
+			</tr>
+		</tbody>
+	</tbody>
+</tr>{% else %}
+<tr>
+	<td colspan="20">no records found</td>
+</tr>{% endfor %}</tbody>{% endblock %}

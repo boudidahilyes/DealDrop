@@ -5,6 +5,11 @@ namespace App\Entity;
 use App\Repository\BidRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\PropertyAccess\PropertyPath;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use App\Validator\Constraints as MyConstraints;
 
 #[ORM\Entity(repositoryClass: BidRepository::class)]
 class Bid
@@ -14,23 +19,28 @@ class Bid
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable:true)]
     private ?\DateTimeInterface $bidDate = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'This value should not be blank')]
+
+    #[MyConstraints\BidValueConstraint("auction.highestBid.value")]
+
     private ?float $value = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable:true)]
     private ?string $state = null;
 
     #[ORM\ManyToOne(inversedBy: 'bids')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Member $bidder = null;
 
     #[ORM\ManyToOne(inversedBy: 'bids')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Auction $auction = null;
 
+    
     public function getId(): ?int
     {
         return $this->id;
