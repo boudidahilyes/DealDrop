@@ -94,9 +94,9 @@ class AuctionController extends AbstractController
         $now = new \DateTimeImmutable();
         if ($auction->getEndDate() <= $now) {
 
-            if ($auction->hightestBid != null) {
+            if ($auction->getHighestBid() != null) {
                 ///////////////////big prob//////////
-                $member = $auction->hightestBid->getBidder();
+                $member = $auction->getHighestBid()->getBidder();
                 /////////////////here/////////////////////
                 $order = new Order();
                 $form = $this->createForm(OrderFormType::class, $order);

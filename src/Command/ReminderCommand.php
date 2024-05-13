@@ -44,7 +44,6 @@ class ReminderCommand extends Command
     {
         $reminders = $this->rep->findBy(["status" => "waiting"]);
         $currentDateTime = (new DateTimeImmutable())->format('Y-m-d H:i:s');
-        dump($currentDateTime);
         for ($i = 0;  $i < count($reminders); $i++) {
             if ($reminders[$i]->getReminderDate()->format('Y-m-d H:i:s') < $currentDateTime) {
                 $twilioPhoneNumber = $_ENV['TWILIO_PHONE_NUMBER'];

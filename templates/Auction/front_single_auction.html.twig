@@ -64,14 +64,18 @@
 						<div class="text-2xl font-bold text-accent md:text-2xl lg:text-[32px] lg:leading-none">{{auction.currentPrice}}dt</div>
 
 					</div>
+					{% if app.user != auction.member %}
+						
+					
 <li class="flex flex-1 flex-col items-center gap-y-3.5 text-center">
+
 											<a id="reminder-id" href="" >
 												<svg role="img" class="h-5 w-5 fill-accent">
 													<use xlink:href="/build/images/str1/sprite.svg#clock"></use>
 												</svg>
 											</a>
 										</li>
-
+{% endif %}
 					<div class="tabs">
 						<nav class="tabs__header pb-4 font-bold leading-tight tracking-tight text-xl lg:text-2xl xl:text-[32px]">
 							<ul class="flex flex-col flex-wrap justify-between gap-y-3 sm:flex-row">

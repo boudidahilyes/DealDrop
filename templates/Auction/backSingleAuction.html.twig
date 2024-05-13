@@ -173,7 +173,10 @@
 													</li>
 
 
-													 {% for bid in bids %}<li>
+													 {% for bid in bids %}
+													 {% if bid.bidder is not null %}
+														
+													 <li>
 														<a href="#!" class="flex items-center gap-3 px-5 py-2 [&amp;.active]:bg-slate-50 dark:[&amp;.active]:bg-zink-600 group/item active online">
 														  	<div class="relative flex items-center justify-center font-semibold rounded-full text-slate-500 dark:text-zink-200 size-9 bg-slate-100 dark:bg-zink-600">
 																<img src="assets/images/avatar-5.png" alt="" class="rounded-full h-9">
@@ -181,13 +184,14 @@
 															</div>
                                                          
 															<div class="overflow-hidden grow">
-																<h6 class="mb-1">{{bid.bidder.firstName|capitalize}} {{bid.bidder.lastName|capitalize}}</h6>
+																<h6 class="mb-1">if{{bid.bidder.firstName|capitalize}} {{bid.bidder.lastName|capitalize}}</h6>
 																<p class="text-xs truncate text-slate-500 dark:text-zink-200">Added bid: {{bid.value}}</p>
 															</div>
 															<div class="self-start shrink-0 text-slate-500 dark:text-zink-200">
 																<small>{{bid.bidDate|date('Y-m-d H:i:s')}}</small>
 															</div>
 														</a>
+														{% endif %}
 													</li>{% endfor %}
 												</ul>
 											</div>

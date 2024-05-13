@@ -476,7 +476,9 @@
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 order_date">{{delivery.deliveryOrder.products.name}}</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 delivery_date">{{delivery.deliveryOrder.member.firstName}} {{delivery.deliveryOrder.member.lastName}}</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">{{delivery.deliveryOrder.deliveryAdress}}</td>
-                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">{{delivery.deliveryMan.firstName}} {{delivery.deliveryMan.lastName}}</td>
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">{% if delivery.deliveryMan is not null %}
+										
+									{{delivery.deliveryMan.firstName}} {{delivery.deliveryMan.lastName}}{% else %} -{% endif %}</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
                                 
                                 {% if delivery.state == "Awaiting Pick Up" %}

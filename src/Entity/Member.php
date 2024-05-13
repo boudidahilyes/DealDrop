@@ -6,7 +6,6 @@ use App\Repository\MemberRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Proxies\__CG__\App\Entity\Bid;
 
 #[ORM\Entity(repositoryClass: MemberRepository::class)]
 class Member extends User

@@ -28,7 +28,7 @@
 						<div class="font-medium">
 							<div class="flex flex-wrap justify-between mb-3.5">
 								<h4>Sub total</h4>
-								<div class="font-bold text-gray-900 dark:text-white">{{product.highestBid}}
+								<div class="font-bold text-gray-900 dark:text-white">{{product.highestBid.value}}
 									Dt</div>
 							</div>
 							<div class="flex flex-col gap-y-3.5 mb-3.5">
@@ -39,7 +39,7 @@
 							</div>
 							<div class="flex flex-wrap justify-between mb-4 lg:mb-8">
 								<div>Total</div>
-								<div class="text-accent font-bold">{{product.highestBid + 8}}
+								<div class="text-accent font-bold">{{product.highestBid.value + 8}}
 									Dt</div>
 							</div>
 						</div>
