@@ -1,0 +1,122 @@
+{% extends 'baseBackOffice.html.twig' %}
+{% block pagecontent %}
+	<div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+		<div class="grow">
+			<h5 class="text-16">Collapse</h5>
+		</div>
+		<ul class="flex items-center gap-2 text-sm font-normal shrink-0">
+			<li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
+				<a href="#!" class="text-slate-400 dark:text-zink-200">UI Elements</a>
+			</li>
+			<li class="text-slate-700 dark:text-zink-100">
+				Collapse
+			</li>
+		</ul>
+	</div>
+	<div class="card">
+		<div class="card-body">
+			<div class="inline-block max-w-max mb-4 px-4 py-3 text-xl text-purple-500 border border-purple-200 rounded-md bg-purple-50 dark:bg-purple-400/20 dark:border-purple-500/50">
+				<span class="font-bold">E-mail:
+				</span>
+				{{application.email}}</div>
+			<div class="grid grid-cols-3 gap-x-5 lg:grid-cols-2 2xl:grid-cols-3 mb-4">
+				<div class=" rounded-md w-64 h-64">
+					<img style="width:100%; height:100%" src="{{ vich_uploader_asset(application.userImage, 'imageFile') }}" alt="" class="rounded-md">
+				</div>
+				{% for image in application.driverLicenseImages %}
+					<div class=" rounded-md w-64 h-64">
+						<img style="width:100%; height:100%" src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="" class="rounded-md">
+					</div>
+
+				{% endfor %}
+			</div>
+
+
+			<div class="collapsible">
+				<div class="flex gap-4">
+					<a class="flex text-center flex-none text-white bg-green-500 border-green-500 btn hover:text-white hover:bg-green-600 hover:border-green-600 focus:text-white focus:bg-green-600 focus:border-green-600 focus:ring focus:ring-green-100 active:text-white active:bg-green-600 active:border-green-600 active:ring active:ring-green-100 dark:ring-green-400/10 inline-block max-w-max cursor-pointer" href="{{path('app_send_application_decision_email', {'id': application.id, 'email' :application.email})}}">
+						<span class=" min-w-[1.75rem] group-data-[sidebar-size=sm]:h-[1.75rem] inline-block text-start text-[16px] group-data-[sidebar-size=md]:block group-data-[sidebar-size=sm]:flex group-data-[sidebar-size=sm]:items-center">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-badge-check"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>
+						</span>
+						<span class="text-[16px]">Accept Application</span>
+					</a>
+					<a href="#!" class="flex text-[16px] btn cursor-pointer group/item collapsible-header text-white bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-custom-400/20 ">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+						<span class="text-[16px]">Decline Application</span>
+						<div class="ltr:ml-2 rtl:mr-2 shrink-0">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-down" class="lucide lucide-chevron-down hidden size-4 group-[.show]/item:inline-block">
+								<path d="m6 9 6 6 6-6"></path>
+							</svg>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-up" class="lucide lucide-chevron-up inline-block size-4 group-[.show]/item:hidden">
+								<path d="m18 15-6-6-6 6"></path>
+							</svg>
+						</div>
+					</a>
+
+				</div>
+				<div class="hidden flex gap-4 mt-12 mb-0 collapsible-content card ">
+
+					<div class="w-2/3" >
+						<div id="editor_content" class="ckeditor-inline" style="min-height:40vh;border:2px  solid grey"></div>
+						<div class="flex">
+							<form id="email_form" action="{{path('app_send_application_decision_email', {'id': application.id})}}" method="POST">
+								<textarea name="content" id="email_content" cols="30" rows="10" class="hidden"></textarea>
+								<input type="text" id="email_adress" name="email" class="hidden" value="{{application.email}}">
+								<input type="text" id="email_adress" name="decision" class="hidden" value="Refused">
+								<div class="ml-4 grow">
+									<button type="submit" class="text-white bg-red-500 border-red-500 btn hover:text-white hover:bg-red-600 hover:border-red-600 focus:text-white focus:bg-red-600 focus:border-red-600 focus:ring focus:ring-red-100 active:text-white active:bg-red-600 active:border-red-600 active:ring active:ring-red-100 dark:ring-custom-400/20 m-4 ">Send</button>
+								</div>
+							</form>
+						</div>
+					</div>
+
+					<div class="w-1/3 grow">
+						<div>
+							<span class="px-2.5 py-0.5 text-l font-medium inline-block rounded border bg-orange-500 border-orange-500 text-orange-50">Response Templates</span>
+						</div>
+						<div class="flex p-2">
+							<textarea type="text" id="clipboard" aria-describedby="button-addon2" rows="4" class="ltr:rounded-r-none rtl:rounded-l-none form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="">We are writing to kindly inquire about [specific topic or reason for reaching out], and would appreciate your assistance or guidance on the matter</textarea>
+							<button type="button" id="copyButton" data-clipboard-action="copy" data-clipboard-target="#clipboard" class="flex items-center justify-center w-[39px] h-[39px] ltr:rounded-l-none rtl:rounded-r-none p-0 text-slate-500 btn bg-slate-200 border-slate-200 hover:text-slate-600 hover:bg-slate-300 hover:border-slate-300 focus:text-slate-600 focus:bg-slate-300 focus:border-slate-300 focus:ring focus:ring-slate-100 active:text-slate-600 active:bg-slate-300 active:border-slate-300 active:ring active:ring-slate-100 dark:bg-zink-600 dark:hover:bg-zink-500 dark:border-zink-600 dark:hover:border-zink-500 dark:text-zink-200 dark:ring-zink-400/50">
+								<i data-lucide="clipboard-list" class="inline-block size-4"></i>
+							</button>
+						</div>
+						<div class="flex p-2">
+							<textarea type="text" id="clipboard2" aria-describedby="button-addon2" rows="6" class="ltr:rounded-r-none rtl:rounded-l-none form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="">Unfortunately, we are unable to proceed with [action/request] at this time due to [reason]. We appreciate your [understanding/patience/cooperation] in this matter.</textarea>
+							<button type="button" id="copyButton" data-clipboard-action="copy" data-clipboard-target="#clipboard2" class="flex items-center justify-center w-[39px] h-[39px] ltr:rounded-l-none rtl:rounded-r-none p-0 text-slate-500 btn bg-slate-200 border-slate-200 hover:text-slate-600 hover:bg-slate-300 hover:border-slate-300 focus:text-slate-600 focus:bg-slate-300 focus:border-slate-300 focus:ring focus:ring-slate-100 active:text-slate-600 active:bg-slate-300 active:border-slate-300 active:ring active:ring-slate-100 dark:bg-zink-600 dark:hover:bg-zink-500 dark:border-zink-600 dark:hover:border-zink-500 dark:text-zink-200 dark:ring-zink-400/50">
+								<i data-lucide="clipboard-list" class="inline-block size-4"></i>
+							</button>
+						</div>
+
+						<div class="flex p-2">
+							<textarea type="text" id="clipboard3" aria-describedby="button-addon2" rows="4" class="ltr:rounded-r-none rtl:rounded-l-none form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="">We regret to inform you that your application [mention the application type or purpose] has been declined.</textarea>
+							<button type="button" id="copyButton" data-clipboard-action="copy" data-clipboard-target="#clipboard3" class="flex items-center justify-center w-[39px] h-[39px] ltr:rounded-l-none rtl:rounded-r-none p-0 text-slate-500 btn bg-slate-200 border-slate-200 hover:text-slate-600 hover:bg-slate-300 hover:border-slate-300 focus:text-slate-600 focus:bg-slate-300 focus:border-slate-300 focus:ring focus:ring-slate-100 active:text-slate-600 active:bg-slate-300 active:border-slate-300 active:ring active:ring-slate-100 dark:bg-zink-600 dark:hover:bg-zink-500 dark:border-zink-600 dark:hover:border-zink-500 dark:text-zink-200 dark:ring-zink-400/50">
+								<i data-lucide="clipboard-list" class="inline-block size-4"></i>
+							</button>
+						</div>
+
+
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	{% endblock %}
+
+	{% block endbodyjs %}
+
+		<script src="/assets/libs/%40ckeditor/ckeditor5-build-inline/build/ckeditor.js"></script>
+
+		<script src="/assets/js/pages/form-editor-inline.init.js"></script>
+		<script src="/assets/js/pages/swiper.init.js"></script>
+		<script src="/assets/libs/clipboard/clipboard.min.js"></script>
+		<script src="/assets/js/pages/clipbord.init.js"></script>
+
+		<script>
+			$('#email_form').on('submit',function(event){
+				//event.preventDefault();
+				$('#email_content').val($('#editor_content').html());
+				alert('aa')
+			})
+		</script>
+	{% endblock %}

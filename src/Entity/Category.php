@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 
 #[ORM\InheritanceType('SINGLE_TABLE')]
@@ -19,6 +19,7 @@ class Category
     protected ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'The name is required')]
     protected ?string $name = null;
 
     public function getId(): ?int

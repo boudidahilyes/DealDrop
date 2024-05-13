@@ -20,15 +20,7 @@ class ReminderRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Reminder::class);
     }
-    public function findByUpcomingReminders()
-    {
-        return $this->createQueryBuilder('r')
-            ->where('r.reminderTime <= :now AND r.reminderTime > :fiveMinutesAgo')
-            ->setParameter('now', new \DateTimeImmutable())
-            ->setParameter('fiveMinutesAgo', new \DateTimeImmutable('-5 minutes'))
-            ->getQuery()
-            ->getResult();
-    }
+
 //    /**
 //     * @return Reminder[] Returns an array of Reminder objects
 //     */
@@ -43,14 +35,14 @@ class ReminderRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
-/*
-    public function findOneBySomeField($value): ?Reminder
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }*/
+
+//    public function findOneBySomeField($value): ?Reminder
+//    {
+//        return $this->createQueryBuilder('r')
+//            ->andWhere('r.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->getQuery()
+//            ->getOneOrNullResult()
+//        ;
+//    }
 }

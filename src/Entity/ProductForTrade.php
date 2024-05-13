@@ -88,4 +88,8 @@ class ProductForTrade extends Product
 
         return $this;
     }
+    public function whoIAm()
+    {
+        return 'ProductForTrade';
+    }
 }

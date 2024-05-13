@@ -47,7 +47,9 @@
 									{{auction.endDate|date('Y-m-d H:i:s')}}</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">{{auction.currentPrice}}</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">{{ auction.bids|length }}</td>
-								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">{{auction.highestBid}}</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">{% if auction.highestBid.bidder is not null %}
+									{{auction.highestBid.value}} {% else %} -
+								{% endif %}</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
 									{% if auction.status == "Pending" %}
 										<span class="px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20">{{auction.status}}</span>

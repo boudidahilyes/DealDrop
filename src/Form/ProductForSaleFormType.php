@@ -26,12 +26,6 @@ class ProductForSaleFormType extends AbstractType
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $categories = $this->entityManager->getRepository(ProductCategory::class)->findAll();
-        $categoryName['-']='-';
-        foreach($categories as $category)
-        {
-            $categoryName[$category->getName()]=$category->getName();
-        }
         $builder
             ->add('productCategory', EntityType::class, [
                 'class'  => ProductCategory::class,

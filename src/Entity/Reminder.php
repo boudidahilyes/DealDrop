@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\ReminderRepository;
+use DateInterval;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,14 +20,23 @@ class Reminder
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?\DateTimeImmutable $reminderTime = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $reminderDate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'reminders',cascade: ['persist', 'remove'])]
-    private ?Member $owner = null;
-
-    #[ORM\ManyToOne(inversedBy: 'reminders',cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'reminder')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Auction $auction = null;
+
+    #[ORM\ManyToMany(targetEntity: Member::class, inversedBy: 'reminders')]
+    private Collection $members;
+
+    public function __construct(Auction $auction)
+    {
+        $this->members = new ArrayCollection();
+        $this->auction = $auction;
+        $this->reminderDate = date_sub($auction->getStartDate(), new DateInterval('PT5M'));
+        $this->status = "waiting";
+    }
 
     public function getId(): ?int
     {
@@ -43,26 +55,14 @@ class Reminder
         return $this;
     }
 
-    public function getReminderTime(): ?\DateTimeImmutable
+    public function getReminderDate(): ?\DateTimeInterface
     {
-        return $this->reminderTime;
+        return $this->reminderDate;
     }
 
-    public function setReminderTime(\DateTimeImmutable $reminderTime): static
+    public function setReminderDate(\DateTimeInterface $reminderDate): static
     {
-        $this->reminderTime = $reminderTime;
-
-        return $this;
-    }
-
-    public function getOwner(): ?Member
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(?Member $owner): static
-    {
-        $this->owner = $owner;
+        $this->reminderDate = $reminderDate;
 
         return $this;
     }
@@ -72,9 +72,33 @@ class Reminder
         return $this->auction;
     }
 
-    public function setAuction(?Auction $auction): static
+    public function setAuction(Auction $auction): static
     {
         $this->auction = $auction;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Member>
+     */
+    public function getMembers(): Collection
+    {
+        return $this->members;
+    }
+
+    public function addMember(Member $member): static
+    {
+        if (!$this->members->contains($member)) {
+            $this->members->add($member);
+        }
+
+        return $this;
+    }
+
+    public function removeMember(Member $member): static
+    {
+        $this->members->removeElement($member);
 
         return $this;
     }

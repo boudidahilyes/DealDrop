@@ -20,7 +20,7 @@ class ProductCategory extends Category
     }
 
     /**
-     * @return Collection<int, product>
+     * @return Collection<int, Product>
      */
     public function getProducts(): Collection
     {

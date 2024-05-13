@@ -7,11 +7,15 @@ use App\Entity\Bid;
 use App\Entity\Member;
 use App\Entity\Order;
 use App\Entity\ProductImage;
+use App\Entity\Reminder;
 use App\Entity\User;
 use App\Form\AuctionFormType;
 use App\Form\AuctionType;
 use App\Form\BidFormType;
 use App\Form\OrderFormType;
+use App\Repository\AuctionRepository;
+use App\Repository\MemberRepository;
+use App\Repository\ReminderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -37,36 +41,8 @@ class AuctionController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-
-    #[Route('/auction/reminder', name: 'app_auction_reminder')]
-    public function loginSuccess(TexterInterface $texter)
-    {
-        $twilioPhoneNumber = $_ENV['TWILIO_PHONE_NUMBER'];
-        $user = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
-
-       // $recipientPhoneNumber = '+21626852727'; 
-        $recipientPhoneNumber = '+216' .$user->getPhone();
-        //dd($recipientPhoneNumber);
-        $message = 'The auction that u wanted to be reminded of begans in few minutes';
-
-        $this->sendSms($recipientPhoneNumber, $message);
-
-        $sms = new SmsMessage($recipientPhoneNumber, $message);
-        $texter->send($sms);
-
-       
-    }
-
-    private function sendSms(string $to, string $message)
-    {
-        $twilio = new Client($_ENV['TWILIO_ACCOUNT_SID'], $_ENV['TWILIO_AUTH_TOKEN']);
-
-        $twilio->messages->create($to, [
-            'from' => $_ENV['TWILIO_PHONE_NUMBER'],
-            'body' => $message,
-        ]);
-    }
-   /* #[Route('/login/success')]
+    
+    /* #[Route('/login/success')]
     public function loginSuccess(TexterInterface $texter)
     {
         $sms = new SmsMessage(
@@ -88,14 +64,14 @@ class AuctionController extends AbstractController
         if (!$auction) {
             throw $this->createNotFoundException('Auction not found');
         }
-        $bidder = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
+        $bidder = $this->getUser();
 
         $bid = $this->entityManager->getRepository(Bid::class)->findOneBy(['auction' => $auction, 'bidder' => $bidder]);
-        
+
         if (is_null($bid)) {
             $bid = new Bid();
         }
-        $bid->setAuction($auction);
+
         $form = $this->createForm(BidFormType::class, $bid);
         $form->handleRequest($request);
 
@@ -106,41 +82,42 @@ class AuctionController extends AbstractController
             $bid->setBidder($bidder);
             $bid = $form->getData();
 
-            
+
             $auction->setHighestBid($bid);
             $this->entityManager->persist($bid);
             $this->entityManager->persist($auction);
             $this->entityManager->flush();
-              
+
             return $this->redirectToRoute('app_front_single_auction', ['id' => $auction->getId()]);
         }
         $bids = $this->entityManager->getRepository(Bid::class)->findBy(['auction' => $auction]);
-        $now= new \DateTimeImmutable();
-        if($auction->getEndDate() <= $now)
-        {     
-            
-            if($auction->hightestBid != null){
+        $now = new \DateTimeImmutable();
+        if ($auction->getEndDate() <= $now) {
+
+            if ($auction->hightestBid != null) {
                 ///////////////////big prob//////////
                 $member = $auction->hightestBid->getBidder();
-           /////////////////here/////////////////////
-            $order = new Order();
-            $form = $this->createForm(OrderFormType::class, $order);
-            $form->handleRequest($request);
-            
-            if ($form->isSubmitted() && $form->isValid()) {
-                $order->setMember($member);
-                $order->setProduct($auction);
-                $order->setOrderDate(new \DateTimeImmutable());
-                $this->entityManager->persist($order);
-                $this->entityManager->flush();
+                /////////////////here/////////////////////
+                $order = new Order();
+                $form = $this->createForm(OrderFormType::class, $order);
+                $form->handleRequest($request);
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $order->setMember($member);
+                    $order->setProduct($auction);
+                    $order->setOrderDate(new \DateTimeImmutable());
+                    $this->entityManager->persist($order);
+                    $this->entityManager->flush();
+                    return $this->redirectToRoute('app_front_auction_list');
+                }
+                return $this->render('order/frontAuctionOrder.html.twig', [
+                    'form' => $form->createView(),
+                    'product' => $auction
+                ]);
+            } else {
                 return $this->redirectToRoute('app_front_auction_list');
             }
-            return $this->render('order/frontAuctionOrder.html.twig', [
-                'form' => $form->createView(),
-                'product' => $auction
-            ]);
-        } else{  return $this->redirectToRoute('app_front_auction_list');}
-    }
+        }
         return $this->render('Auction/front_single_auction.html.twig', [
             'auction' => $auction,
             'bidForm' => $form->createView(),
@@ -154,7 +131,7 @@ class AuctionController extends AbstractController
     #[Route('/Auction/frontUserAuctionList', name: 'app_front_user_added_auctions')]
     public function userAuctions(): Response
     {
-        $user = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 2]);
+        $user = $this->getUser();
         $Product = $this->entityManager->getRepository(Auction::class)->findBy(['owner' => $user]);
         return $this->render('Auction/frontUserAddedAuctions.html.twig', [
             'auctions' => $Product
@@ -163,19 +140,19 @@ class AuctionController extends AbstractController
     #[Route('/Auction/frontParticipatedAuctions', name: 'app_front_user_participated_auctions')]
     public function userParticipatedAuctions(): Response
     {
-        $user = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 1]);
+        $user = $this->getUser();
 
-$bids = $this->entityManager->getRepository(Bid::class)->findBy(['bidder' => $user]);
+        $bids = $this->entityManager->getRepository(Bid::class)->findBy(['bidder' => $user]);
 
-// Extract the auctions from the bids using Bid as the owning side
-$Product = [];
-foreach ($bids as $bid) {
-    $auction = $bid->getAuction();
-    if ($auction) {
-        $Product[] = $auction;
-    }
-}
-               
+        // Extract the auctions from the bids using Bid as the owning side
+        $Product = [];
+        foreach ($bids as $bid) {
+            $auction = $bid->getAuction();
+            if ($auction) {
+                $Product[] = $auction;
+            }
+        }
+
         return $this->render('Auction/frontParticipatedAuctions.html.twig', [
             'auctions' => $Product
         ]);
@@ -198,7 +175,7 @@ foreach ($bids as $bid) {
     #[Route('/Auction/add', name: 'app_auction')]
     public function addAuction(Request $req): Response
     {
-        $member = $this->entityManager->getRepository(Member::class)->findOneBy(['id' => 2]);
+        $member = $this->getUser();
         $au = new Auction();
         $form = $this->createForm(AuctionFormType::class, $au);
 
@@ -220,14 +197,19 @@ foreach ($bids as $bid) {
             }
             $this->entityManager->persist($au);
             $this->entityManager->flush();
-            
+            $reminder = new Reminder($au);
+            $this->entityManager->persist($reminder);
+            $this->entityManager->flush();
+
+
+
             return $this->redirectToRoute('app_front_user_added_auctions');
         }
         return $this->render('Auction/add.html.twig', ['form' => $form->createView()]);
     }
 
-    
-    
+
+
 
 
 
@@ -313,22 +295,27 @@ foreach ($bids as $bid) {
     }
 
 
-    #[Route('/delete/back_single_auction{id}/{source}', name: 'app_auction_deleted')]
+    #[Route('/delete/back_single_auction/{id}/{source}', name: 'app_auction_deleted')]
     public function deleteAuction($id, $source): Response
-    {       
+    {
 
-        try {
+       
             $auction = $this->entityManager->getRepository(Auction::class)->find($id);
+            $hb = $auction->getHighestBid();
+     
+            $auction->setHighestBid(null);
+            $this->entityManager->persist($auction);
+            $this->entityManager->flush();
 
-            if (!$auction) {
-                $this->addFlash('error', 'Auction not found.');
-            } else {
-                $this->entityManager->remove($auction);
-                $this->entityManager->flush();
-            }
-        } catch (\Exception $e) {
-            $this->addFlash('error', 'An error occurred: ' . $e->getMessage());
-        }
+            
+
+            $this->entityManager->remove($auction);
+            $this->entityManager->flush();
+
+            $this->entityManager->remove($hb);
+            $this->entityManager->flush();
+            
+       
         if ($source == 'user') {
             return $this->redirectToRoute('app_front_user_added_auctions');
         } else {
@@ -336,13 +323,17 @@ foreach ($bids as $bid) {
         }
     }
 
-    
-   /* #[Route('/auction/rating/update', name: 'app_rating_update', methods:"POST")]
-    public function updateRating(Request $request): JsonResponse
+
+    #[Route('/auction/set_reminder', name: 'app_set_reminder')]
+    public function setReminder(Request $request, ReminderRepository $rep): JsonResponse
     {
-        $auctionId = $request->request->get('auction_id');
-        $rating = $request->request->get('rating');
+        $member = $this->getUser();
+        $reminder = $rep->findOneBy(['auction' => $request->get('id')]);
+        $reminder->addMember($member);
+        $this->entityManager->persist($reminder);
+        $this->entityManager->flush();
+        
 
         return new JsonResponse(['message' => 'Rating updated successfully']);
-    }*/
+    }
 }

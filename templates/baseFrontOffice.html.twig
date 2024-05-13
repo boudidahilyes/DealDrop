@@ -13,14 +13,18 @@
 		<!-- CSS
 								  ================================================== -->
 		<!-- Vendor CSS-->
-		<link href="assets/vendors/common/glightbox/css/glightbox.min.css" rel="stylesheet"> <link href="assets/vendors/common/swiper/css/swiper-bundle.min.css" rel="stylesheet"><!-- Template CSS--><link href="assets/css/str1/style.css" rel="stylesheet">
-		{% block stylesheets %}
-			{{ encore_entry_link_tags('app') }}
-		{% endblock %}
+		<link href="assets/vendors/common/glightbox/css/glightbox.min.css" rel="stylesheet"> <link
+		href="assets/vendors/common/swiper/css/swiper-bundle.min.css" rel="stylesheet">
+		<!-- Template CSS-->
+		<link href="assets/css/str1/style.css" rel="stylesheet">
+
+		{{ encore_entry_link_tags('app') }}
+		{% block stylesheets %}{% endblock %}
 
 		{% block javascripts %}
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	</head>
 	<body class="relative z-10 antialiased font-base text-gray-500 text-sm font-medium lg:text-base h-full bg-white dark:bg-gray-900 overflow-x-hidden dark:text-gray">
 		<div id="site-wrapper" class="flex flex-col h-full js-site-wrapper">
@@ -57,10 +61,10 @@
 											<a class="flex items-center justify-between py-1.5 transition-colors text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{ path('app_product_for_sale', {'ProductType': 'ProductForSale'}) }}">Product for Sale</a>
 										</li>
 										<li class="px-5.5">
-											<a class="flex items-center justify-between py-1.5 transition-colors text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{ path('app_product_for_sale', {'ProductType': 'ProductForTrade'}) }}">Product For Trade</a>
+											<a class="flex items-center justify-between py-1.5 transition-colors text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{ path('app_product_for_trade', {'ProductType': 'ProductForTrade'}) }}">Product For Trade</a>
 										</li>
 										<li class="px-5.5">
-											<a class="flex items-center justify-between py-1.5 transition-colors text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{ path('app_product_for_sale') }}">Product For Rent</a>
+											<a class="flex items-center justify-between py-1.5 transition-colors text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{ path('app_product_for_rent') }}">Product For Rent</a>
 										</li>
 									</ul>
 								</li>
@@ -85,6 +89,36 @@
 										</li>
 									</ul>
 								</li>
+
+								{% if app.user is not null  and app.user.area is defined  %}
+									<li class="relative [&>.sub-menu]:hover:visible [&>.sub-menu]:hover:animate-popper-pop-in [&>.sub-menu]:hover:opacity-100">
+										<a class="group text-gray-900 dark:text-white relative inline-flex items-center gap-x-3 leading-10 px-3.5 xl:px-4.5 after:absolute after:top-[15px] after:left-0 after:bg-current-marker-dark after:transition-transform after:w-1.5 after:h-[9px] dark:after:bg-current-marker after:origin-right hover:after:origin-left after:scale-x-0 hover:after:scale-x-100" href="{{ path('app_available_deliveries') }}">Deliveries
+											<svg role="img" class="h-1.5 w-1.5 fill-gray-500 group-hover:fill-accent">
+												<use xlink:href="/build/images/str1/sprite.svg#plus"></use>
+											</svg>
+										</a>
+										<ul class="sub-menu invisible absolute z-20 flex w-40 flex-col bg-white dark:bg-gray-700 py-2.5 text-sm font-bold opacity-0 shadow-2xl transition-all">
+											<li class="px-5.5">
+												<a class="flex items-center justify-between py-1.5 transition-colors text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{ path('app_my_claimed_deliveries') }}">Claimed Deliveries</a>
+											</li>
+											<li class="px-5.5">
+												<a class="flex items-center justify-between py-1.5 transition-colors text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{ path('app_available_deliveries') }}">Available Deliveries</a>
+											</li>
+											<li class="px-5.5">
+												<a class="flex items-center justify-between py-1.5 transition-colors text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{ path('app_available_deliveries_in_my_area') }}">Available Deliveries In My Area</a>
+											</li>
+										</ul>
+									</li>
+								{% else %}
+									<li class="relative [&>.sub-menu]:hover:visible [&>.sub-menu]:hover:animate-popper-pop-in [&>.sub-menu]:hover:opacity-100">
+										<a class="group text-gray-900 dark:text-white relative inline-flex items-center gap-x-3 leading-10 px-3.5 xl:px-4.5 after:absolute after:top-[15px] after:left-0 after:bg-current-marker-dark after:transition-transform after:w-1.5 after:h-[9px] dark:after:bg-current-marker after:origin-right hover:after:origin-left after:scale-x-0 hover:after:scale-x-100" href="{{ path('app_delivery_man_application') }}">Delivery Man Application
+											<svg role="img" class="h-1.5 w-1.5 fill-gray-500 group-hover:fill-accent">
+												<use xlink:href="/build/images/str1/sprite.svg#plus"></use>
+											</svg>
+										</a>
+
+									</li>
+								{% endif %}
 
 
 							</ul><!-- Navigation (Desktop) / End --><!-- Header Controls --><div class="flex ml-auto -mr-3">
@@ -116,10 +150,13 @@
 											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="_str1-account-shipping.html">Shipping Details</a>
 										</li>
 										<li class="px-5.5">
-											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="{{path('app_front_user_added_auctions')}}">My Auctions</a>
+											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="{{path('app_product_for_sale_orders')}}">Orders</a>
 										</li>
+<li class="px-5.5">
+										<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="{{path('app_front_user_added_auctions')}}">My Auctions</a>
+</li>
 										<li class="px-5.5">
-											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="#.html">Logout</a>
+											<a class="flex flex-row-reverse items-center justify-between py-1.5 text-gray-900 dark:text-white transition-colors hover:text-accent dark:hover:text-accent" href="{{path('app_logout')}}">Logout</a>
 										</li>
 									</ul>
 								</div>
@@ -229,6 +266,35 @@
 								</li>
 							</ul>
 						</li>
+						{% if app.user is not null  and app.user.area is defined  %}
+							<li class="relative [&>.sub-menu]:hover:visible [&>.sub-menu]:hover:animate-popper-pop-in [&>.sub-menu]:hover:opacity-100">
+								<a class="group text-gray-900 dark:text-white relative inline-flex items-center gap-x-3 leading-10 px-3.5 xl:px-4.5 after:absolute after:top-[15px] after:left-0 after:bg-current-marker-dark after:transition-transform after:w-1.5 after:h-[9px] dark:after:bg-current-marker after:origin-right hover:after:origin-left after:scale-x-0 hover:after:scale-x-100" href="{{ path('app_available_deliveries') }}">Deliveries
+									<svg role="img" class="h-1.5 w-1.5 fill-gray-500 group-hover:fill-accent">
+										<use xlink:href="/build/images/str1/sprite.svg#plus"></use>
+									</svg>
+								</a>
+								<ul class="sub-menu invisible absolute z-20 flex w-40 flex-col bg-white dark:bg-gray-700 py-2.5 text-sm font-bold opacity-0 shadow-2xl transition-all">
+									<li class="px-5.5">
+										<a class="flex items-center justify-between py-1.5 transition-colors text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{ path('app_my_claimed_deliveries') }}">Claimed Deliveries</a>
+									</li>
+									<li class="px-5.5">
+										<a class="flex items-center justify-between py-1.5 transition-colors text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{ path('app_available_deliveries') }}">Available Deliveries</a>
+									</li>
+									<li class="px-5.5">
+										<a class="flex items-center justify-between py-1.5 transition-colors text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{ path('app_available_deliveries_in_my_area') }}">Available Deliveries In My Area</a>
+									</li>
+								</ul>
+							</li>
+						{% else %}
+							<li class="relative [&>.sub-menu]:hover:visible [&>.sub-menu]:hover:animate-popper-pop-in [&>.sub-menu]:hover:opacity-100">
+								<a class="group text-gray-900 dark:text-white relative inline-flex items-center gap-x-3 leading-10 px-3.5 xl:px-4.5 after:absolute after:top-[15px] after:left-0 after:bg-current-marker-dark after:transition-transform after:w-1.5 after:h-[9px] dark:after:bg-current-marker after:origin-right hover:after:origin-left after:scale-x-0 hover:after:scale-x-100" href="{{ path('app_delivery_man_application') }}">Delivery Man Application
+									<svg role="img" class="h-1.5 w-1.5 fill-gray-500 group-hover:fill-accent">
+										<use xlink:href="/build/images/str1/sprite.svg#plus"></use>
+									</svg>
+								</a>
+
+							</li>
+						{% endif %}
 					</ul><!-- Navigation (Mobile) / End --></div>
 			</div>
 			{% block body %}{% endblock %}
@@ -413,9 +479,18 @@
 				</div>
 			</div>
 		</dialog>
-		{% block endbodyscripts %}{% endblock %}
+		{% block endbody %}{% endblock %}
+		{% block endbodyjs %}{% endblock %}
 		<script src="assets/vendors/common/glightbox/js/glightbox.min.js"></script>
 		<script src="assets/vendors/common/swiper/js/swiper-bundle.min.js"></script><!-- Template JS --><script src="assets/js/common.js"></script>
 		<script src="assets/js/str1/init.js"></script>
+		<script>
+			var deliveryManId = {% if app.user is not null  and app.user.area is defined %}
+{{ app.user.id }}
+{% else %}
+-1
+{% endif %};
+		</script>
+		<script src="/maps/delivery_locations.js"></script>
 	</body>
 </html>
