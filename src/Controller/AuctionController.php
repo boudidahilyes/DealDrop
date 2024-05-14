@@ -102,18 +102,6 @@ class AuctionController extends AbstractController
                 $form = $this->createForm(OrderFormType::class, $order);
                 $form->handleRequest($request);
 
-                if ($form->isSubmitted() && $form->isValid()) {
-                    $order->setMember($member);
-                    $order->setProduct($auction);
-                    $order->setOrderDate(new \DateTimeImmutable());
-                    $this->entityManager->persist($order);
-                    $this->entityManager->flush();
-                    return $this->redirectToRoute('app_front_auction_list');
-                }
-                return $this->render('order/frontAuctionOrder.html.twig', [
-                    'form' => $form->createView(),
-                    'product' => $auction
-                ]);
             } else {
                 return $this->redirectToRoute('app_front_auction_list');
             }
@@ -197,11 +185,11 @@ class AuctionController extends AbstractController
             }
             $this->entityManager->persist($au);
             $this->entityManager->flush();
-            $reminder = new Reminder($au);
+/*             $reminder = new Reminder($au);
             $this->entityManager->persist($reminder);
             $this->entityManager->flush();
 
-
+ */
 
             return $this->redirectToRoute('app_front_user_added_auctions');
         }

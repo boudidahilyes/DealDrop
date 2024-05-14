@@ -13,6 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ProductForRentFormType extends AbstractType
 {
@@ -27,8 +30,19 @@ class ProductForRentFormType extends AbstractType
             ->add('description', TextareaType::class)
             ->add('pricePerDay', NumberType::class)
             ->add('productImage', FileType::class, [
-                'mapped' => false,
                 'multiple' => true,
+                'mapped' => false,
+                'constraints' => [
+                    new NotBlank(['message' => 'Please select at least one image']),
+                    new All([
+                        'constraints' => [
+                            new Image([
+                                'mimeTypes' => ["image/jpeg", "image/jpg", "image/png"],
+                                'mimeTypesMessage' => 'Please upload only JPEG, JPG, or PNG images.'
+                            ])
+                        ]
+                    ])
+                ]
             ])
             ->add('submit',SubmitType::class,['label'=>'Add Product']);
     }

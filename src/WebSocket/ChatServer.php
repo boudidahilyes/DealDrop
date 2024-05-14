@@ -48,6 +48,14 @@ class ChatServer implements MessageComponentInterface
             $this->entityManager->persist($message);
             $this->entityManager->flush();
         }
+/*         if($data->type == 'sendPrice')
+        {
+            foreach($this->clients as $client){
+                if($client->clientId == $data->id){
+                    $client->send($data);
+                }
+            }
+        } */
     }
 
     public function onClose(ConnectionInterface $conn)

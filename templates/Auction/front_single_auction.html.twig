@@ -147,7 +147,7 @@
 
 												<div>
 													{% if auction.startDate|date('Y-m-d H:i:s') > "now"|date('Y-m-d H:i:s')  %}
-														<p>The auction hasn't started yet. Bids are not allowed.
+														<p>The auction hasn't started yet. Bids are not allowed.</p>
 														{% elseif  "now"|date('Y-m-d H:i:s') > auction.endDate|date('Y-m-d H:i:s')  %}
 															<p>The auction has ended. No more bids can be added.</p>
 														{% else  %}

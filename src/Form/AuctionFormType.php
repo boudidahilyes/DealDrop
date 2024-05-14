@@ -15,9 +15,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Callback;
-use Symfony\Component\Validator\Constraints\GreaterThan;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class AuctionFormType extends AbstractType
 {
@@ -36,8 +36,19 @@ class AuctionFormType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('productImage', FileType::class, [
-                'mapped' => false,
                 'multiple' => true,
+                'mapped' => false,
+                'constraints' => [
+                    new NotBlank(['message' => 'Please select at least one image']),
+                    new All([
+                        'constraints' => [
+                            new Image([
+                                'mimeTypes' => ["image/jpeg", "image/jpg", "image/png"],
+                                'mimeTypesMessage' => 'Please upload only JPEG, JPG, or PNG images.'
+                            ])
+                        ]
+                    ])
+                ]
             ])
             ->add('submit',SubmitType::class,['label'=>'Add Auction']);
         ;

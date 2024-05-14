@@ -42,6 +42,9 @@ class Order
     #[ORM\ManyToOne(inversedBy: 'orders',cascade: ['persist', 'remove'])]
     private ?Product $products = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $priceAdded = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -116,6 +119,18 @@ class Order
     public function setProducts(?product $products): static
     {
         $this->products = $products;
+
+        return $this;
+    }
+
+    public function getPriceAdded(): ?float
+    {
+        return $this->priceAdded;
+    }
+
+    public function setPriceAdded(?float $priceAdded): static
+    {
+        $this->priceAdded = $priceAdded;
 
         return $this;
     }
