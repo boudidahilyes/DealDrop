@@ -25,7 +25,7 @@ class Bid
     #[ORM\Column]
     #[Assert\NotBlank(message: 'This value should not be blank')]
 
-    #[MyConstraints\BidValueConstraint("auction.highestBid.value")]
+    //#[MyConstraints\BidValueConstraint("auction.bids")]
 
     private ?float $value = null;
 
@@ -39,6 +39,9 @@ class Bid
     #[ORM\ManyToOne(inversedBy: 'bids')]
     #[ORM\JoinColumn(nullable: true)]
     private ?Auction $auction = null;
+
+    #[ORM\Column]
+    private ?bool $isHighest = null;
 
     
     public function getId(): ?int
@@ -102,6 +105,18 @@ class Bid
     public function setAuction(?Auction $auction): static
     {
         $this->auction = $auction;
+
+        return $this;
+    }
+
+    public function isIsHighest(): ?bool
+    {
+        return $this->isHighest;
+    }
+
+    public function setIsHighest(bool $isHighest): static
+    {
+        $this->isHighest = $isHighest;
 
         return $this;
     }

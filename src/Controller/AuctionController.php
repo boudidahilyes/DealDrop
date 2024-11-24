@@ -27,6 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\Message\SmsMessage;
 use Symfony\Component\Notifier\TexterInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Twilio\Rest\Client;
 
@@ -80,10 +81,17 @@ class AuctionController extends AbstractController
             $bid->setState('Valid');
             $bid->setAuction($auction);
             $bid->setBidder($bidder);
+            $bid->setIsHighest(true);
+            for($i = 0; $i < $auction->getBids()->count(); $i ++)
+            {
+                if($auction->getBids()[$i]->isIsHighest())
+                {
+                    $auction->getBids()[$i]->setIsHighest(false);
+                    break;
+                }
+            }
             $bid = $form->getData();
 
-
-            $auction->setHighestBid($bid);
             $this->entityManager->persist($bid);
             $this->entityManager->persist($auction);
             $this->entityManager->flush();
@@ -93,18 +101,19 @@ class AuctionController extends AbstractController
         $bids = $this->entityManager->getRepository(Bid::class)->findBy(['auction' => $auction]);
         $now = new \DateTimeImmutable();
         if ($auction->getEndDate() <= $now) {
-
-            if ($auction->getHighestBid() != null) {
-                ///////////////////big prob//////////
-                $member = $auction->getHighestBid()->getBidder();
-                /////////////////here/////////////////////
-                $order = new Order();
-                $form = $this->createForm(OrderFormType::class, $order);
-                $form->handleRequest($request);
-
-            } else {
-                return $this->redirectToRoute('app_front_auction_list');
+            foreach($auction->getBids() AS $bid){
+                if($bid->isIsHighest()){
+                    $member = $bid->getBidder();
+                    $order = new Order();
+                    $order->setMember($member);
+                    $order->setProducts($auction);
+                    $order->setOrderDate(new \DateTimeImmutable());
+                    $order->setDeliveryAdress($member->getAdress());
+                }
             }
+            
+                //return $this->redirectToRoute('app_front_auction_list');
+            
         }
         return $this->render('Auction/front_single_auction.html.twig', [
             'auction' => $auction,
@@ -171,9 +180,7 @@ class AuctionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $au->setAddDate(new \DateTimeImmutable());
             $au->setMember($member);
-            $bid = new Bid();
-            $bid->setValue($au->getCurrentPrice());
-            $au->setHighestBid($bid);
+        
             $au->setStatus('Pending');
             $ProductImages = $form->get("productImage")->getData();
             foreach ($ProductImages as $img) {

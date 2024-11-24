@@ -109,12 +109,13 @@
 										<div class="flex items-center gap-x-4 relative text-sm leading-none mb-6 md:mb-12">
 											<div class="text-gray-500/60 uppercase font-bold text-sm leading-none mt-[1px]">Highest Bid:</div>
 											<div class="text-2xl font-bold text-accent md:text-2xl lg:text-[32px] lg:leading-none">
-												{% if auction.highestBid.bidder is null %}
-													<div>No Bids Yet
-													{% else %}
-														{{auction.highestBid.value}}dt
-
-													{% endif %}
+												{% if auction.bids is empty %}
+									no bids yet
+								{% endif %}{% for bid in auction.bids %}
+									{% if bid.isHighest == true %}
+										{{bid.value}}
+									{% endif %}
+								{% endfor %}
 
 												</div>
 

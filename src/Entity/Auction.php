@@ -39,9 +39,7 @@ class Auction extends Product{
     private Collection $bids;
 
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?bid $highestBid = null;
+    
 
     #[ORM\OneToOne(mappedBy: 'auction', cascade: ['persist', 'remove'])]
     private ?Reminder $reminder = null;
@@ -124,19 +122,6 @@ class Auction extends Product{
         return $this;
     }
 
-    public function getHighestBid(): ?bid
-    {
-        return $this->highestBid;
-    }
-
-    public function setHighestBid(?bid $highestBid): static
-    {
-        $this->highestBid = $highestBid;
-        if(!is_null($highestBid))
-        $highestBid->setAuction($this);
-
-        return $this;
-    }
 
     public function getReminder(): ?Reminder
     {

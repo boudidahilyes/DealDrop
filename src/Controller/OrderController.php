@@ -213,7 +213,7 @@ class OrderController extends AbstractController
         $result = $customQrCodeBuilder
         ->size(100)
         ->margin(20)
-        ->data('https://172.18.5.70:443/Delivered/' . $order->getId())
+        ->data('https://172.15.1.162:8000/Delivered/' . $order->getId())
         ->build();
 
     $imageData = $result->getString();
@@ -239,7 +239,7 @@ class OrderController extends AbstractController
         $dompdf->render();
         // Save PDF to file
         file_put_contents($pdfFilePath, $dompdf->output());
-        $content = '<center><h1>YOUR ORDER WAS SHIPPED!</h1><center>Dear ' . $member->getFirstName() . ' ' . $member->getLastName() . '<p>We know you cant wait for your package to arrive .That is why you can track your order here :</p><a href="https://172.18.5.70:443/track_delivery/'.$deliveryId.'">TRACK PACKAGE</a><h6>please note , it could take some time for the tracking information to show on the above</h6></center>';
+        $content = '<center><h1>YOUR ORDER WAS SHIPPED!</h1><center>Dear ' . $member->getFirstName() . ' ' . $member->getLastName() . '<p>We know you cant wait for your package to arrive .That is why you can track your order here :</p><a href="http://172.15.1.162:8000/track_delivery/'.$deliveryId.'">TRACK PACKAGE</a><h6>please note , it could take some time for the tracking information to show on the above</h6></center>';
         $email = (new Email())
             ->from('dealdrop.pidev@outlook.com')
             ->to($member->getEmail())

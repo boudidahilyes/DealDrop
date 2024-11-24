@@ -28,9 +28,6 @@
 					<!-- Swiper -->
 					<div class="swiper pagination-slider">
 						<div class="swiper-wrapper w-64 h-64">
-							<div class="swiper-slide ">
-								<img  style="width:100%; height:100%" src="{{ vich_uploader_asset(application.userImage, 'imageFile') }}" alt="">
-							</div>
 							{% for image in application.driverLicenseImages %}
 								<div class="swiper-slide ">
 									<img style="width:100%; height:100%" src="{{ vich_uploader_asset(image, 'imageFile') }}" alt="">

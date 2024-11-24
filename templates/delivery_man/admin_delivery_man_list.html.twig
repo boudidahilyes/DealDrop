@@ -26,7 +26,6 @@
 						<tr>
 
 							<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="order_id">Delivery Man ID</th>
-              <th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="order_date">Image</th>
 							<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="order_date">Full Name</th>
 							<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="delivery_date">Cin</th>
 							<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="customer_name">Email</th>
@@ -44,7 +43,6 @@
 
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">{{deliveryMan.id}}</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 customer_name">{{deliveryMan.firstName}}
-                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 customer_name"><div class="flex items-center justify-center rounded-md size-28 bg-slate-100 shrink-0"><img class="h-28 rounded-md" src="{{vich_uploader_asset(deliveryMan.userImage,'imageFile')}}" alt=""></div></td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 order_date">{{deliveryMan.cin}}</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 delivery_date">{{deliveryMan.email}}</td>
 								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">{{deliveryMan.adress}}</td>
