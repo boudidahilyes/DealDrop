@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\OrderRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
 class Order
@@ -16,6 +16,12 @@ class Order
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'The adress is required')]
+    #[Assert\Length(
+        min:5,
+        max:150,
+        minMessage : "Your Adress is too short",
+        maxMessage : "Your Adress cannot be longer than {{ limit }} characters")]
     private ?string $deliveryAdress = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -25,9 +31,19 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     private ?Member $member = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?product $product = null;
+    #[Assert\NotBlank(message:'The rent days is required')]
+    #[Assert\Positive(message:'The rent days should be positive')]
+    #[ORM\Column(nullable: true)]
+    private ?int $rentDays = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $payment = null;
+
+    #[ORM\ManyToOne(inversedBy: 'orders',cascade: ['persist', 'remove'])]
+    private ?Product $products = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $priceAdded = null;
 
     public function getId(): ?int
     {
@@ -70,14 +86,51 @@ class Order
         return $this;
     }
 
-    public function getProduct(): ?Product
+
+    public function getRentDays(): ?int
     {
-        return $this->product;
+        return $this->rentDays;
     }
 
-    public function setProduct(Product $product): static
+    public function setRentDays(?int $rentDays): static
     {
-        $this->product = $product;
+        $this->rentDays = $rentDays;
+
+        return $this;
+    }
+
+    public function getPayment(): ?string
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(?string $payment): static
+    {
+        $this->payment = $payment;
+
+        return $this;
+    }
+
+    public function getProducts(): ?product
+    {
+        return $this->products;
+    }
+
+    public function setProducts(?product $products): static
+    {
+        $this->products = $products;
+
+        return $this;
+    }
+
+    public function getPriceAdded(): ?float
+    {
+        return $this->priceAdded;
+    }
+
+    public function setPriceAdded(?float $priceAdded): static
+    {
+        $this->priceAdded = $priceAdded;
 
         return $this;
     }

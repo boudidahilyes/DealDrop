@@ -37,7 +37,7 @@ class SupportTicket
 
     #[ORM\ManyToOne(inversedBy: 'supportTickets')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $user = null;
+    private ?User $user = null;
 
     public function __construct()
     {

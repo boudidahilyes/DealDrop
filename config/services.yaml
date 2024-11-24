@@ -6,11 +6,26 @@
 parameters:
 
 services:
+
+    # default configuration for services in *this* file
+    App\Service\TwilioService:
+        arguments:
+            $accountSid: 'ACd94ca498f386e1edbcba3439135f72ff'
+            $authToken: 'c413c8f1e8e5deca40c92f37cceceeb0'
+
+    App\Command\SendRemindersCommand:
+        arguments:
+            $twilioService: '@App\Service\TwilioService'
+
+      
+
+    App\Security\GoogleAuthenticator:
+        public: true
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+    
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -19,6 +34,22 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            
+    App\Validator\Constraints\VerticesConstraintValidator:
+        tags: [validator.constraint_validator]
 
+        
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\WebSocket\LocationHandler:
+        arguments:
+            $entityManager: '@doctrine.orm.default_entity_manager'
+            
+    App\WebSocket\ChatServer:
+        arguments:
+            $entityManager: '@doctrine.orm.default_entity_manager'
+
+            
+            
+
+   

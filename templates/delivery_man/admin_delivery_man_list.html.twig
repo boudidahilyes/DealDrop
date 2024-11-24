@@ -1,0 +1,82 @@
+{% extends 'baseBackOffice.html.twig' %}
+
+{% block pagecontent %}
+	<div class="card mt-4" id="ordersTable">
+		<div class="card-body">
+			<div class="grid grid-cols-1 gap-4 lg:grid-cols-12">
+				<div class="lg:col-span-3">
+					<div class="relative">
+						<input type="text" class="ltr:pl-8 rtl:pr-8 search form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="Search for ..." autocomplete="off">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="search" class="lucide lucide-search inline-block size-4 absolute ltr:left-2.5 rtl:right-2.5 top-2.5 text-slate-500 dark:text-zink-200 fill-slate-100 dark:fill-zink-600">
+							<circle cx="11" cy="11" r="8"></circle>
+							<path d="m21 21-4.3-4.3"></path>
+						</svg>
+					</div>
+				</div>
+				<!--end col-->
+				
+			</div>
+			<!--col grid-->
+
+			
+
+			<div class="mt-5 overflow-x-auto">
+				<table class="w-full whitespace-nowrap">
+					<thead class="ltr:text-left rtl:text-right bg-slate-100 dark:bg-zink-600">
+						<tr>
+
+							<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="order_id">Delivery Man ID</th>
+							<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="order_date">Full Name</th>
+							<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="delivery_date">Cin</th>
+							<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="customer_name">Email</th>
+							<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="amount">Adress</th>
+							<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="amount">Phone</th>
+							<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="delivery_status">Status</th>
+							<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="delivery_status">Disponibility</th>
+							<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						{% for deliveryMan in deliveryMen %}
+							<tr>
+
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">{{deliveryMan.id}}</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 customer_name">{{deliveryMan.firstName}}
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 order_date">{{deliveryMan.cin}}</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 delivery_date">{{deliveryMan.email}}</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">{{deliveryMan.adress}}</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">{{deliveryMan.phone}}</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+                {% if deliveryMan.status == "Accepted" %}
+                  <span class="px-2.5 py-0.5 text-s inline-block font-medium rounded border bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20">{{deliveryMan.status}}</span>
+                  {% elseif deliveryMan.status == "Banned" %}
+                    <span class="delivery_status px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-red-100 border-red-200 text-red-500 dark:bg-red-500/20 dark:border-red-500/20">Banned</span>
+                {% endif %}
+                
+                </td>
+                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">{{deliveryMan.disponibility}}</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+									<div class="relative dropdown">
+										<a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="{{path('app_admin_delivery_details', {'id':deliveryMan.id})}}">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="eye" class="lucide lucide-eye inline-block size-3 ltr:mr-1 rtl:ml-1">
+												<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+												<circle cx="12" cy="12" r="3"></circle>
+											</svg>
+											<span class="align-middle">Overview</span>
+										</a>
+
+									</div>
+								</td>
+							</tr>
+						{% endfor %}
+
+					</tbody>
+				</table>
+				
+			</div>
+
+			
+		</div>
+	</div>
+{% endblock %}

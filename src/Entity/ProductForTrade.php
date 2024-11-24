@@ -13,7 +13,7 @@ class ProductForTrade extends Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $tradeType = null;
@@ -87,5 +87,9 @@ class ProductForTrade extends Product
         $this->chosenOffer = $chosenOffer;
 
         return $this;
+    }
+    public function whoIAm()
+    {
+        return 'ProductForTrade';
     }
 }

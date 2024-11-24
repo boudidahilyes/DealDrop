@@ -10,7 +10,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: SupportTicketCategoryRepository::class)]
 class SupportTicketCategory extends Category
 {
-
     #[ORM\OneToMany(mappedBy: 'supportTicketCategory', targetEntity: SupportTicket::class)]
     private Collection $tickets;
 

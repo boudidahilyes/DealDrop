@@ -5,62 +5,127 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Scheb\TwoFactorBundle\Model\Email\TwoFactorInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[ORM\InheritanceType('JOINED')]
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
 #[ORM\DiscriminatorMap(['DeliveryMan' => DeliveryMan::class, 'Member' => Member::class, 'Admin' => Admin::class])]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-abstract class User
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface, TwoFactorInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
+    
+    #[Assert\Email()]
+    #[ORM\Column(length: 180, unique: true)]
+    protected ?string $email = null;
 
+    #[ORM\Column]
+    protected array $roles = ['ROLE_MEMBER','ROLE_ADMIN','ROLE_DELIVERY_MAN'];
+
+    /**
+     * @var string The hashed password
+     */
+    #[Assert\Regex(
+        pattern:'/[a-zA-Z]*[0-9][a-zA-Z]*/',
+        message:'Password should containt a number'
+        )]
+    #[ORM\Column]
+    protected ?string $password = null;
+
+    #[Assert\Length(
+        min: 3,
+        max: 30,
+        minMessage: 'Your Firstname must be at least {{ limit }} characters long',
+        maxMessage: 'Your Firstname cannot be longer than {{ limit }} characters',
+    )]
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
     protected ?string $firstName = null;
 
-    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
+    #[Assert\Length(
+        min: 3,
+        max: 30,
+        minMessage: 'Your Lastname must be at least {{ limit }} characters long',
+        maxMessage: 'Your Lastname cannot be longer than {{ limit }} characters',
+    )]
+    #[ORM\Column(length: 255, nullable:true)]
     protected ?string $lastName = null;
 
-    #[ORM\Column]
+    #[Assert\Length(
+        min: 8,
+        max: 8,
+        minMessage: 'Your CIN must be {{ limit }} characters long',
+        maxMessage: 'Your CIN must be {{ limit }} characters',
+    )]
+    #[ORM\Column(nullable:true)]
     protected ?int $cin = null;
 
-    #[ORM\Column(length: 255)]
-    protected ?string $email = null;
-
-    #[ORM\Column(length: 50)]
-    protected ?string $password = null;
-
-    #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 50,
+        max: 255,
+        minMessage: 'Your Adress must be at least {{ limit }} characters long',
+        maxMessage: 'Your Adress cannot be longer than {{ limit }} characters',
+    )]
+    #[ORM\Column(length: 255, nullable:true)]
     protected ?string $adress = null;
 
-    #[ORM\Column]
+    #[Assert\Length(
+        min: 8,
+        max: 8,
+        minMessage: 'Your Phone number must be {{ limit }} characters long',
+        maxMessage: 'Your Phone number must be {{ limit }} characters',
+    )]
+    #[ORM\Column(nullable:true)]
     protected ?int $phone = null;
+
+    #[ORM\Column(type: Types::STRING, nullable: true)]
+    protected $authCode;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: SupportTicket::class, orphanRemoval: true)]
     private Collection $supportTickets;
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    protected ?UserImage $userImage = null;
+    private ?UserImage $userImage = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    protected ?string $resetToken = null;
+
+    #[ORM\Column(type: 'boolean')]
+    protected $isVerified = false;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    protected ?\DateTimeInterface $birthDate = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    protected ?\DateTimeInterface $joiningDate = null;
+
 
     public function __construct()
     {
         $this->supportTickets = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+
 
     public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): static
+    public function setFirstName(?string $firstName): static
     {
         $this->firstName = $firstName;
 
@@ -72,7 +137,7 @@ abstract class User
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): static
+    public function setLastName(?string $lastName): static
     {
         $this->lastName = $lastName;
 
@@ -91,36 +156,12 @@ abstract class User
         return $this;
     }
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): static
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): static
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
     public function getAdress(): ?string
     {
         return $this->adress;
     }
 
-    public function setAdress(string $adress): static
+    public function setAdress(?string $adress): static
     {
         $this->adress = $adress;
 
@@ -182,6 +223,174 @@ abstract class User
         }
 
         $this->userImage = $userImage;
+
+        return $this;
+    }
+
+
+
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(?string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function isEmailAuthEnabled(): bool
+    {
+        return true; // This can be a persisted field to switch email code authentication on/off
+    }
+
+    public function getEmailAuthRecipient(): string
+    {
+        return $this->email;
+    }
+
+    public function getEmailAuthCode(): string
+    {
+        if (null === $this->authCode) {
+            throw new \LogicException('The email authentication code was not set');
+        }
+
+        return $this->authCode;
+    }
+
+    public function setEmailAuthCode(string $authCode): void
+    {
+        $this->authCode = $authCode;
+    }
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getBirthDate(): ?\DateTimeInterface
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDate(\DateTimeInterface $birthDate): static
+    {
+        $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    public function getJoiningDate(): ?\DateTimeInterface
+    {
+        return $this->joiningDate;
+    }
+
+    public function setJoiningDate(\DateTimeInterface $joiningDate): static
+    {
+        if ($joiningDate === null) {
+
+            $joiningDate = new \DateTime();
+        }
+
+        $this->joiningDate = $joiningDate;
 
         return $this;
     }

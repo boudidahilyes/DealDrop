@@ -1,0 +1,53 @@
+{% extends 'baseFrontOffice.html.twig' %}
+{% block stylesheets %}
+	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+{% endblock %}
+{% block body %}
+	<main id="main-content" class="grow lg:pt-0">
+		<div class="pt-10 pb-16 lg:pt-20 lg:pb-44">
+			<div class="container">
+				<div class="grid grid-cols-12 gap-x-5 md:gap-x-6 lg:gap-x-7.5 gap-y-16">
+					<div class="col-span-full l:col-span-8 md:pr-[38px] lg:pr-[50px] xl:pr-[70px]">
+						<div class="mb-10 md:mb-12 lg:mb-16 xl:mb-[72px]">
+							<h3 class="text-xl font-bold tracking-tight text-gray-900 before:text-accent before:content-['.'] dark:text-white sm:text-1.5xl md:text-2xl lg:leading-none lg:text-[32px]">Delivery Route</h3>
+						</div>
+						<figure class="relative mb-6 md:mb-8 lg:mb-10 xl:mb-12">
+							<div id="map" class='w-full' style="height :70vh"></div>
+						</figure>
+
+						
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
+{% block endbodyjs %}
+	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script>
+	var map = L.map('map').setView([{{ delivery.currentCoordinates }}], 14);
+	L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {attribution: '© OpenStreetMap contributors'}).addTo(map);
+	var markerGroup = L.featureGroup().addTo(map);
+	
+	function getLocation()
+	{
+		$.ajax({
+                method: "POST",
+                url: "/get_delivery_position",
+                data:{
+                  id: {{delivery.id}}
+              }
+            }).then(function(data){
+							let coords = data.location.split(',');
+							markerGroup.clearLayers();
+							L.marker([coords[0], coords[1]]).addTo(markerGroup);
+                    });
+	}
+	
+	
+	const interval2 = setInterval(getLocation, 1000);
+
+	</script>
+{% endblock %}

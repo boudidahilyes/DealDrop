@@ -13,9 +13,9 @@ class Member extends User
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    protected ?int $id = null;
 
-    #[ORM\OneToMany(mappedBy: 'member', targetEntity: Product::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Product::class, orphanRemoval: true)]
     private Collection $products;
 
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Order::class)]
@@ -30,6 +30,12 @@ class Member extends User
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: Feedback::class, orphanRemoval: true)]
     private Collection $feedback;
 
+    #[ORM\ManyToMany(targetEntity: Reminder::class, mappedBy: 'members')]
+    private Collection $reminders;
+
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class)]
+    private Collection $messages;
+
     public function __construct()
     {
         parent::__construct();
@@ -38,6 +44,8 @@ class Member extends User
         $this->bids = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->feedback = new ArrayCollection();
+        $this->reminders = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -189,6 +197,65 @@ class Member extends User
             // set the owning side to null (unless already changed)
             if ($feedback->getMember() === $this) {
                 $feedback->setMember(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reminder>
+     */
+    public function getReminders(): Collection
+    {
+        return $this->reminders;
+    }
+
+    public function addReminder(Reminder $reminder): static
+    {
+        if (!$this->reminders->contains($reminder)) {
+            $this->reminders->add($reminder);
+            $reminder->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReminder(Reminder $reminder): static
+    {
+        if ($this->reminders->removeElement($reminder)) {
+            $reminder->removeMember($this);
+        }
+
+        return $this;
+    }
+    public function getType()
+    {
+        return 'Member';
+    }
+
+    /**
+     *@return Collection<int, Message>
+     */
+
+  public function getMessages(): Collection{
+    return $this->messages;}
+
+  public function addMessage(Message $message): static
+  {
+      if (!$this->messages->contains($message)) {
+          $this->messages->add($message);
+          $message->setSender($this);
+      }
+
+      return $this;
+  }
+  public function removeMessage(Message $message): static
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getSender() === $this) {
+                $message->setSender(null);
             }
         }
 

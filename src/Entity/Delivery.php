@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\DeliveryRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -23,15 +24,27 @@ class Delivery
     #[ORM\Column(length: 255)]
     private ?string $state = null;
 
-    #[ORM\Column]
-    private ?float $cost = null;
-
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Order $deliveryOrder = null;
 
     #[ORM\ManyToOne(inversedBy: 'deliveries')]
     private ?DeliveryMan $deliveryMan = null;
+
+    #[ORM\Column(length: 255, nullable: false)]
+    private ?string $coordinates = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $currentCoordinates = null;
+
+
+    public function __construct(?Order $order, ?string $coordinate)
+    {
+        $this->deliveryOrder = $order;
+        $this->state = "Awaiting Pick Up";
+        $this->coordinates = $coordinate;
+        $this->currentCoordinates = $coordinate;
+    }
 
     public function getId(): ?int
     {
@@ -74,17 +87,6 @@ class Delivery
         return $this;
     }
 
-    public function getCost(): ?float
-    {
-        return $this->cost;
-    }
-
-    public function setCost(float $cost): static
-    {
-        $this->cost = $cost;
-
-        return $this;
-    }
 
     public function getDeliveryOrder(): ?Order
     {
@@ -106,6 +108,41 @@ class Delivery
     public function setDeliveryMan(?DeliveryMan $deliveryMan): static
     {
         $this->deliveryMan = $deliveryMan;
+
+        return $this;
+    }
+
+    public function getCoordinates(): ?string
+    {
+        return $this->coordinates;
+    }
+
+    public function setCoordinates(?string $coordinates): static
+    {
+        $this->coordinates = $coordinates;
+
+        return $this;
+    }
+    public function claim(?DeliveryMan $dm){
+        $this->deliveryMan = $dm;
+        $this->startTime = new DateTime();
+        $this->state = "In Route";
+    }
+
+    public function unclaim(){
+        $this->deliveryMan = null;
+        $this->startTime = null;
+        $this->state = "Awaiting Pick Up";
+    }
+
+    public function getCurrentCoordinates(): ?string
+    {
+        return $this->currentCoordinates;
+    }
+
+    public function setCurrentCoordinates(string $currentCoordinates): static
+    {
+        $this->currentCoordinates = $currentCoordinates;
 
         return $this;
     }

@@ -1,0 +1,64 @@
+{% extends 'baseFrontUser.html.twig' %}
+{% block title %}Log in!
+{% endblock %}
+{% block nav %}
+	<nav class="tabs__header overflow-hidden">
+		<ul class="flex gap-x-[1px] dark:bg-gray-500/20">
+			<li class="tabs__header-item {% if app.request.attributes.get('_route') == 'login' %}is-active{% endif %} group flex-1">
+				<a href="{{ path('app_login') }}" class="flex justify-center border-b bg-gray-100 dark:bg-gray-800 group-[.is-active]:bg-white border-gray-500/20 py-4 text-center font-bold text-gray-500/40 transition-colors hover:text-accent group-[.is-active]:text-accent dark:group-[.is-active]:border-gray-700 group-[.is-active]:border-white dark:group-[.is-active]:bg-gray-700">Login</a>
+			</li>
+		</ul>
+	</nav>
+{% endblock %}
+{% block login %}
+	{% if authenticationError %}
+		<p>{{ authenticationError|trans(authenticationErrorData, 'SchebTwoFactorBundle') }}</p>
+	{% endif %}
+
+	{# Let the user select the authentication method #}
+	<p>{{ "choose_provider"|trans({}, 'SchebTwoFactorBundle') }}:
+		{% for provider in availableTwoFactorProviders %}
+			<a href="{{ path("2fa_login", {"preferProvider": provider}) }}">{{ provider }}</a>
+		{% endfor %}
+	</p>
+
+	{# Display current two-factor provider #}
+	<p class="label">
+		<label for="_auth_code">
+			{{ "auth_code"|trans({}, 'SchebTwoFactorBundle') }}
+			{{ twoFactorProvider }}:
+		</label>
+	</p>
+
+	<div class="tabs__content-item">
+		<form class="flex flex-col gap-y-6 lg:gap-y-8" method="post" action="{{ checkPathUrl ? checkPathUrl: path(checkPathRoute) }}">
+
+			<div>
+				<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5">
+					Enter the code
+				</label>
+				<input type="text" name="{{ authCodeParameterName }}" id="_auth_code" autocomplete="one-time-code" autofocus class="group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full" placeholder=""><p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+			</div>
+			{% if displayTrustedOption %}
+				<div class="flex justify-between flex-wrap gap-y-4">
+					<div>
+						<label class="flex items-center gap-x-3 hover:cursor-pointer" for="_trusted">
+							<input name="{{ trustedParameterName }}" id="_trusted" type="checkbox" class="border-gray-650 dark:border-gray-650 h-4 w-4 bg-white checked:border-accent checked:bg-white checked:text-accent checked:hover:border-accent checked:hover:bg-white dark:bg-gray-900 dark:checked:border-accent dark:checked:hover:border-accent dark:checked:hover:bg-gray-900">
+							{{ "trusted"|trans({}, 'SchebTwoFactorBundle') }}
+						</label>
+					</div>
+
+				</div>
+			{% endif %}
+			{% if isCsrfProtectionEnabled %}
+				<input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+			{% endif %}
+			<div class="mt-2">
+				<button type="submit" value="{{ "login"|trans({}, 'SchebTwoFactorBundle') }}" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 w-full">Login to your account</button>
+			</div>
+		</form>
+		<p class="cancel">
+			<a href="{{ logoutPath }}">{{ "cancel"|trans({}, 'SchebTwoFactorBundle') }}</a>
+		</p>
+	</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <h1>Administrator adressed your issue on Ticket ID : {{ info.Id }}</h1>
+  <p>Subject: {{ info.subject }}</p>
+  <p>Description: {{ info.description }}</p>
+  <p>Creation Date: {{ info.creationDate|date('Y-m-d') }}</p>
+  <p>Administrator message: {{ Rep.content }}</p>
+  <p>Administrator response Date: {{ Rep.addDate|date('Y-m-d') }}</p>
+  <p>Updated state: {{ info.state }}</p>
+  <p>You can always Appeal the ticket state inside the Ticket information on our WebSite</p>
+</body>
+</html>

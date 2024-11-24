@@ -1,0 +1,97 @@
+{% extends 'baseFrontOffice.html.twig' %}
+{% block body %}
+	<div class="page-heading py-6 md:py-12">
+		<div class="container">
+			<div class="mb-2 flex items-baseline gap-x-3 lg:gap-x-4.5">
+				<svg role="img" class="aspect-[6/9] w-3 fill-accent sm:w-4 md:w-5 lg:w-7 xl:w-9">
+					<use xlink:href="/build/images/str1/sprite.svg#arrow-right-pixel"></use>
+				</svg>
+				<h1 class="relative mb-3 text-3xl font-bold leading-none tracking-tighter text-gray-900 dark:text-white sm:text-4xl md:text-5xl lg:text-7xl xl:text-[84px]">
+					Account</h1>
+			</div>
+			<ol class="relative flex flex-wrap gap-x-6 text-sm leading-none text-gray-500 lg:gap-x-8 lg:text-lg [&>li>a]:text-gray-900 hover:[&>li>a]:text-accent dark:[&>li>a]:text-white dark:hover:[&>li>a]:text-accent [&>li]:relative">
+				<li class="font-bold">
+					<a href="{{ path('app_home') }}">Home</a>
+					<svg role="img" class="fill-gray absolute -right-4 top-1/2 aspect-[3/5] w-1.5 -translate-y-1/2 lg:-right-5">
+						<use xlink:href="/build/images/str1/sprite.svg#arrow-right-pixel-alt"></use>
+					</svg>
+				</li>
+				<li>Account</li>
+			</ol>
+		</div>
+	</div>
+<div class="pt-10 pb-16 lg:pt-20 lg:pb-44">
+					<div class="container">
+		<nav class="mb-8 sm:mb-10 md:mb-12 lg:mb-16 xl:mb-20">
+					<ul class="flex flex-col flex-wrap sm:flex-row gap-y-4 font-bold md:text-lg gap-x-8">
+						<li>
+							<a class="transition-all text-accent" href="{{path('app_profile')}}">Personal Info</a>
+						</li>
+												<li>
+							<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{path('app_front_user_added_auctions')}}">Auctions</a>
+						</li>
+						<li>
+							<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{path('app_product_for_sale_profil')}}">Products For Sale</a>
+						</li>
+						<li>
+							<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{path('app_product_for_rent_profil')}}">Products for Rent</a>
+						</li>
+						<li>
+							<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{path('app_product_for_trade_profil')}}">Products for Trade</a>
+						</li>
+						<li>
+							<a class="transition-all text-gray-900 hover:text-accent dark:text-white dark:hover:text-accent" href="{{path('app_product_for_sale_orders')}}">Orders</a>
+						</li>
+					</ul>
+				</nav>
+						{{ form_start(userForm,{'attr':{'novalidate':'novalidate', 'enctype': 'multipart/form-data', 'class':'grid grid-cols-12 gap-y-7 gap-x-5 md:gap-x-6 lg:gap-x-7.5'}}) }}
+							<fieldset class="col-span-full flex flex-col">
+								<h5 class="font-bold text-gray-500 uppercase text-sm mb-3">Profile Photo</h5>
+								<div class="flex gap-x-7.5 mb-3 items-start">
+									<figure><img src="assets/img/str1/samples/user-6-100x100.jpg" alt="April Valentine"></figure>
+									<label class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center py-4 px-4 lg:py-[18px] lg:px-10 text-sm text-gray-500/40 ring-1 ring-inset ring-gray-500/40 bg-transparent hover:bg-accent hover:text-gray-900 hover:ring-0 cursor-pointer" for="user-profile-img">Browse...
+										<input class="hidden" type="file" name="user-profile-img" id="user-profile-img"></label>
+								</div>
+								<div class="text-gray-500 text-xs opacity-60">100x100px minimum resolution</div>
+							</fieldset>
+							
+              
+							<div class="col-span-full md:col-span-4">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="first-name">{{ form_label(userForm.firstName) }}</label>
+                {{ form_widget(userForm.firstName, {'attr':{'class':'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full'}}) }}
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+							<div class="col-span-full md:col-span-4">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="first-name">{{ form_label(userForm.lastName) }}</label>
+                {{ form_widget(userForm.lastName, {'attr':{'class':'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full'}}) }}
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+              <div class="col-span-full md:col-span-4">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="first-name">{{ form_label(userForm.cin) }}</label>
+                {{ form_widget(userForm.cin, {'attr':{'class':'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full'}}) }}
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+              <div class="col-span-full md:col-span-4">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="first-name">{{ form_label(userForm.email) }}</label>
+                {{ form_widget(userForm.email, {'attr':{'class':'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full'}}) }}
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+              <div class="col-span-full md:col-span-4">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="first-name">{{ form_label(userForm.phone) }}</label>
+                {{ form_widget(userForm.phone, {'attr':{'class':'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full'}}) }}
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+              <div class="col-span-full md:col-span-4">
+								<label class="block text-sm font-bold uppercase text-gray-500 [&:not(:empty)]:mb-2.5" for="first-name">{{ form_label(userForm.adress) }}</label>
+                {{ form_widget(userForm.adress, {'attr':{'class':'group-[.is-success]:bg-input-success-dark group-[.is-error]:border-danger group-[.is-error]:bg-input-invalid group-[.is-error]:text-danger group-[.is-success]:pr-16 group-[.is-invalid]:pr-16 px-4 py-2 border-base bg-white/40 bg-[length:18px_18px,_38px_38px] bg-[position:right_16px_center,_right_6px_center] bg-no-repeat font-medium leading-8 tracking-tight text-gray-900 transition-all duration-150 placeholder:font-normal placeholder:text-gray-500/60 focus:border-accent focus:bg-white focus:text-gray-900 focus:outline-0 focus:ring-0 dark:border-gray-650 dark:group-[.is-success]:bg-input-success dark:bg-gray-900/40 dark:text-white dark:placeholder:text-gray-500/80 dark:focus:border-accent dark:focus:bg-gray-900 w-full'}}) }}
+								<p class="group-[.is-error]:block mt-2 hidden text-xs text-danger"></p>
+							</div>
+             
+							<div class="col-span-full lg:col-start-10 lg:col-span-3 pt-2">
+								<button type="submit" class="inline-flex text-center font-bold leading-none transition-colors uppercase justify-center gap-x-3 py-4 px-4 md:py-[18px] lg:px-8 text-sm text-gray-900 bg-accent hover:bg-accent/90 w-full">Save all changes</button>
+							</div>
+              {{ form_end(userForm) }}
+						
+					</div>
+				</div>
+{% endblock %}

@@ -1,0 +1,572 @@
+{% extends 'baseBackOffice.html.twig' %}
+{% block pagecontent %}
+	
+
+		<div class="flex flex-col gap-2 py-4 md:flex-row md:items-center print:hidden">
+			<div class="grow">
+				<h5 class="text-16">Delivery List</h5>
+			</div>
+			<ul class="flex items-center gap-2 text-sm font-normal shrink-0">
+				<li class="relative before:content-['\ea54'] before:font-remix ltr:before:-right-1 rtl:before:-left-1  before:absolute before:text-[18px] before:-top-[3px] ltr:pr-4 rtl:pl-4 before:text-slate-400 dark:text-zink-200">
+					<a href="#!" class="text-slate-400 dark:text-zink-200">Ecommerce</a>
+				</li>
+				<li class="text-slate-700 dark:text-zink-100">
+					Delivery Lists
+				</li>
+			</ul>
+		</div>
+		<div class="grid grid-cols-1 gap-x-5 md:grid-cols-2 2xl:grid-cols-12">
+			<div class="2xl:col-span-2 2xl:row-span-1">
+				<div class="card">
+					<div class="flex items-center gap-3 card-body">
+						<div class="flex items-center justify-center rounded-md size-12 text-15 bg-custom-50 text-custom-500 dark:bg-custom-500/20 shrink-0">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="boxes" class="lucide lucide-boxes">
+								<path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42Z"></path>
+								<path d="m7 16.5-4.74-2.85"></path>
+								<path d="m7 16.5 5-3"></path>
+								<path d="M7 16.5v5.17"></path>
+								<path d="M12 13.5V19l3.97 2.38a2 2 0 0 0 2.06 0l3-1.8a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L17 10.5l-5 3Z"></path>
+								<path d="m17 16.5-5-3"></path>
+								<path d="m17 16.5 4.74-2.85"></path>
+								<path d="M17 16.5v5.17"></path>
+								<path d="M7.97 4.42A2 2 0 0 0 7 6.13v4.37l5 3 5-3V6.13a2 2 0 0 0-.97-1.71l-3-1.8a2 2 0 0 0-2.06 0l-3 1.8Z"></path>
+								<path d="M12 8 7.26 5.15"></path>
+								<path d="m12 8 4.74-2.85"></path>
+								<path d="M12 13.5V8"></path>
+							</svg>
+						</div>
+						<div class="grow">
+							<h5 class="mb-1 text-16 counter-value" data-target="15101">15,101</h5>
+							<p class="text-slate-500 dark:text-zink-200">Total Orders</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end col-->
+			<div class="2xl:col-span-2 2xl:row-span-1">
+				<div class="card">
+					<div class="flex items-center gap-3 card-body">
+						<div class="flex items-center justify-center rounded-md size-12 text-15 bg-sky-50 text-sky-500 dark:bg-sky-500/20 shrink-0">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="package-plus" class="lucide lucide-package-plus">
+								<path d="M16 16h6"></path>
+								<path d="M19 13v6"></path>
+								<path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"></path>
+								<path d="m7.5 4.27 9 5.15"></path>
+								<polyline points="3.29 7 12 12 20.71 7"></polyline>
+								<line x1="12" x2="12" y1="22" y2="12"></line>
+							</svg>
+						</div>
+						<div class="grow">
+							<h5 class="mb-1 text-16 counter-value" data-target="3874">3,874</h5>
+							<p class="text-slate-500 dark:text-zink-200">New Orders</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end col-->
+			<div class="order-last md:col-span-2 2xl:col-span-8 2xl:row-span-3 card 2xl:order-none">
+				<div class="card-body">
+					<h6 class="mb-4 text-gray-800 text-15 dark:text-zink-50">Orders Overview</h6>
+					<div id="ordersOverview" class="apex-charts" data-chart-colors="[&quot;bg-custom-500&quot;]" dir="ltr" style="min-height: 253px;">
+						<div id="apexchartsqs40629l" class="apexcharts-canvas apexchartsqs40629l apexcharts-theme-light" style="width: 812px; height: 238px;">
+							<svg id="SvgjsSvg1173" width="812" height="238" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;">
+								<foreignObject x="0" y="0" width="812" height="238">
+									<div class="apexcharts-legend" xmlns="http://www.w3.org/1999/xhtml" style="max-height: 119px;"></div>
+								</foreignObject>
+								<g id="SvgjsG1312" class="apexcharts-yaxis" rel="0" transform="translate(-8, 0)">
+									<g id="SvgjsG1313" class="apexcharts-yaxis-texts-g"></g>
+								</g>
+								<g id="SvgjsG1175" class="apexcharts-inner apexcharts-graphical" transform="translate(22, 41.004800617218024)">
+									<defs id="SvgjsDefs1174">
+										<linearGradient id="SvgjsLinearGradient1177" x1="0" y1="0" x2="0" y2="1">
+											<stop id="SvgjsStop1178" stop-opacity="0.4" stop-color="rgba(216,227,240,0.4)" offset="0"></stop>
+											<stop id="SvgjsStop1179" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)" offset="1"></stop>
+											<stop id="SvgjsStop1180" stop-opacity="0.5" stop-color="rgba(190,209,230,0.5)" offset="1"></stop>
+										</linearGradient>
+										<clipPath id="gridRectMaskqs40629l">
+											<rect id="SvgjsRect1182" width="784" height="184.99519938278198" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+										</clipPath>
+										<clipPath id="forecastMaskqs40629l"></clipPath>
+										<clipPath id="nonForecastMaskqs40629l"></clipPath>
+										<clipPath id="gridRectMarkerMaskqs40629l">
+											<rect id="SvgjsRect1183" width="784" height="184.99519938278198" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect>
+										</clipPath>
+									</defs>
+									<rect id="SvgjsRect1181" width="45.5" height="180.99519938278198" x="0" y="0" rx="0" ry="0" opacity="1" stroke-width="0" stroke-dasharray="3" fill="url(#SvgjsLinearGradient1177)" class="apexcharts-xcrosshairs" y2="180.99519938278198" filter="none" fill-opacity="0.9"></rect>
+									<g id="SvgjsG1261" class="apexcharts-grid">
+										<g id="SvgjsG1262" class="apexcharts-gridlines-horizontal">
+											<line id="SvgjsLine1266" x1="0" y1="45.248799845695494" x2="780" y2="45.248799845695494" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-gridline"></line>
+											<line id="SvgjsLine1267" x1="0" y1="90.49759969139099" x2="780" y2="90.49759969139099" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-gridline"></line>
+											<line id="SvgjsLine1268" x1="0" y1="135.7463995370865" x2="780" y2="135.7463995370865" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-gridline"></line>
+										</g>
+										<g id="SvgjsG1263" class="apexcharts-gridlines-vertical"></g>
+										<line id="SvgjsLine1271" x1="0" y1="180.99519938278198" x2="780" y2="180.99519938278198" stroke="transparent" stroke-dasharray="0" stroke-linecap="butt"></line>
+										<line id="SvgjsLine1270" x1="0" y1="1" x2="0" y2="180.99519938278198" stroke="transparent" stroke-dasharray="0" stroke-linecap="butt"></line>
+									</g>
+									<g id="SvgjsG1264" class="apexcharts-grid-borders">
+										<line id="SvgjsLine1265" x1="0" y1="0" x2="780" y2="0" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-gridline"></line>
+										<line id="SvgjsLine1269" x1="0" y1="180.99519938278198" x2="780" y2="180.99519938278198" stroke="#e0e0e0" stroke-dasharray="0" stroke-linecap="butt" class="apexcharts-gridline"></line>
+									</g>
+									<g id="SvgjsG1184" class="apexcharts-bar-series apexcharts-plot-series">
+										<g id="SvgjsG1185" class="apexcharts-series" rel="1" seriesname="Orders" data:realindex="0">
+											<path id="SvgjsPath1190" d="M 9.75 175.99619938278198 L 9.75 151.30545283441543 C 9.75 148.80545283441543 12.25 146.30545283441543 14.75 146.30545283441543 L 50.25 146.30545283441543 C 52.75 146.30545283441543 55.25 148.80545283441543 55.25 151.30545283441543 L 55.25 175.99619938278198 C 55.25 178.49619938278198 52.75 180.99619938278198 50.25 180.99619938278198 L 14.75 180.99619938278198 C 12.25 180.99619938278198 9.75 178.49619938278198 9.75 175.99619938278198 Z " fill="rgba(59,130,246,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskqs40629l)" pathto="M 9.75 175.99619938278198 L 9.75 151.30545283441543 C 9.75 148.80545283441543 12.25 146.30545283441543 14.75 146.30545283441543 L 50.25 146.30545283441543 C 52.75 146.30545283441543 55.25 148.80545283441543 55.25 151.30545283441543 L 55.25 175.99619938278198 C 55.25 178.49619938278198 52.75 180.99619938278198 50.25 180.99619938278198 L 14.75 180.99619938278198 C 12.25 180.99619938278198 9.75 178.49619938278198 9.75 175.99619938278198 Z " pathfrom="M 9.75 180.99619938278198 L 9.75 180.99619938278198 L 55.25 180.99619938278198 L 55.25 180.99619938278198 L 55.25 180.99619938278198 L 55.25 180.99619938278198 L 55.25 180.99619938278198 L 9.75 180.99619938278198 Z" cy="146.30445283441543" cx="74.75" j="0" val="2.3" barheight="34.69074654836655" barwidth="45.5"></path>
+											<path id="SvgjsPath1196" d="M 74.75 175.99619938278198 L 74.75 139.23910620889663 C 74.75 136.73910620889663 77.25 134.23910620889663 79.75 134.23910620889663 L 115.25 134.23910620889663 C 117.75 134.23910620889663 120.25 136.73910620889663 120.25 139.23910620889663 L 120.25 175.99619938278198 C 120.25 178.49619938278198 117.75 180.99619938278198 115.25 180.99619938278198 L 79.75 180.99619938278198 C 77.25 180.99619938278198 74.75 178.49619938278198 74.75 175.99619938278198 Z " fill="rgba(59,130,246,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskqs40629l)" pathto="M 74.75 175.99619938278198 L 74.75 139.23910620889663 C 74.75 136.73910620889663 77.25 134.23910620889663 79.75 134.23910620889663 L 115.25 134.23910620889663 C 117.75 134.23910620889663 120.25 136.73910620889663 120.25 139.23910620889663 L 120.25 175.99619938278198 C 120.25 178.49619938278198 117.75 180.99619938278198 115.25 180.99619938278198 L 79.75 180.99619938278198 C 77.25 180.99619938278198 74.75 178.49619938278198 74.75 175.99619938278198 Z " pathfrom="M 74.75 180.99619938278198 L 74.75 180.99619938278198 L 120.25 180.99619938278198 L 120.25 180.99619938278198 L 120.25 180.99619938278198 L 120.25 180.99619938278198 L 120.25 180.99619938278198 L 74.75 180.99619938278198 Z" cy="134.23810620889662" cx="139.75" j="1" val="3.1" barheight="46.75709317388535" barwidth="45.5"></path>
+											<path id="SvgjsPath1202" d="M 139.75 175.99619938278198 L 139.75 125.66446625518799 C 139.75 123.16446625518799 142.25 120.66446625518799 144.75 120.66446625518799 L 180.25 120.66446625518799 C 182.75 120.66446625518799 185.25 123.16446625518799 185.25 125.66446625518799 L 185.25 175.99619938278198 C 185.25 178.49619938278198 182.75 180.99619938278198 180.25 180.99619938278198 L 144.75 180.99619938278198 C 142.25 180.99619938278198 139.75 178.49619938278198 139.75 175.99619938278198 Z " fill="rgba(59,130,246,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskqs40629l)" pathto="M 139.75 175.99619938278198 L 139.75 125.66446625518799 C 139.75 123.16446625518799 142.25 120.66446625518799 144.75 120.66446625518799 L 180.25 120.66446625518799 C 182.75 120.66446625518799 185.25 123.16446625518799 185.25 125.66446625518799 L 185.25 175.99619938278198 C 185.25 178.49619938278198 182.75 180.99619938278198 180.25 180.99619938278198 L 144.75 180.99619938278198 C 142.25 180.99619938278198 139.75 178.49619938278198 139.75 175.99619938278198 Z " pathfrom="M 139.75 180.99619938278198 L 139.75 180.99619938278198 L 185.25 180.99619938278198 L 185.25 180.99619938278198 L 185.25 180.99619938278198 L 185.25 180.99619938278198 L 185.25 180.99619938278198 L 139.75 180.99619938278198 Z" cy="120.66346625518798" cx="204.75" j="2" val="4" barheight="60.331733127594" barwidth="45.5"></path>
+											<path id="SvgjsPath1208" d="M 204.75 175.99619938278198 L 204.75 33.65857323560715 C 204.75 31.15857323560715 207.25 28.658573235607147 209.75 28.658573235607147 L 245.25 28.658573235607147 C 247.75 28.658573235607147 250.25 31.15857323560715 250.25 33.65857323560715 L 250.25 175.99619938278198 C 250.25 178.49619938278198 247.75 180.99619938278198 245.25 180.99619938278198 L 209.75 180.99619938278198 C 207.25 180.99619938278198 204.75 178.49619938278198 204.75 175.99619938278198 Z " fill="rgba(59,130,246,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskqs40629l)" pathto="M 204.75 175.99619938278198 L 204.75 33.65857323560715 C 204.75 31.15857323560715 207.25 28.658573235607147 209.75 28.658573235607147 L 245.25 28.658573235607147 C 247.75 28.658573235607147 250.25 31.15857323560715 250.25 33.65857323560715 L 250.25 175.99619938278198 C 250.25 178.49619938278198 247.75 180.99619938278198 245.25 180.99619938278198 L 209.75 180.99619938278198 C 207.25 180.99619938278198 204.75 178.49619938278198 204.75 175.99619938278198 Z " pathfrom="M 204.75 180.99619938278198 L 204.75 180.99619938278198 L 250.25 180.99619938278198 L 250.25 180.99619938278198 L 250.25 180.99619938278198 L 250.25 180.99619938278198 L 250.25 180.99619938278198 L 204.75 180.99619938278198 Z" cy="28.657573235607146" cx="269.75" j="3" val="10.1" barheight="152.33762614717483" barwidth="45.5"></path>
+											<path id="SvgjsPath1214" d="M 269.75 175.99619938278198 L 269.75 125.66446625518799 C 269.75 123.16446625518799 272.25 120.66446625518799 274.75 120.66446625518799 L 310.25 120.66446625518799 C 312.75 120.66446625518799 315.25 123.16446625518799 315.25 125.66446625518799 L 315.25 175.99619938278198 C 315.25 178.49619938278198 312.75 180.99619938278198 310.25 180.99619938278198 L 274.75 180.99619938278198 C 272.25 180.99619938278198 269.75 178.49619938278198 269.75 175.99619938278198 Z " fill="rgba(59,130,246,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskqs40629l)" pathto="M 269.75 175.99619938278198 L 269.75 125.66446625518799 C 269.75 123.16446625518799 272.25 120.66446625518799 274.75 120.66446625518799 L 310.25 120.66446625518799 C 312.75 120.66446625518799 315.25 123.16446625518799 315.25 125.66446625518799 L 315.25 175.99619938278198 C 315.25 178.49619938278198 312.75 180.99619938278198 310.25 180.99619938278198 L 274.75 180.99619938278198 C 272.25 180.99619938278198 269.75 178.49619938278198 269.75 175.99619938278198 Z " pathfrom="M 269.75 180.99619938278198 L 269.75 180.99619938278198 L 315.25 180.99619938278198 L 315.25 180.99619938278198 L 315.25 180.99619938278198 L 315.25 180.99619938278198 L 315.25 180.99619938278198 L 269.75 180.99619938278198 Z" cy="120.66346625518798" cx="334.75" j="4" val="4" barheight="60.331733127594" barwidth="45.5"></path>
+											<path id="SvgjsPath1220" d="M 334.75 175.99619938278198 L 334.75 131.6976395679474 C 334.75 129.1976395679474 337.25 126.69763956794739 339.75 126.69763956794739 L 375.25 126.69763956794739 C 377.75 126.69763956794739 380.25 129.1976395679474 380.25 131.6976395679474 L 380.25 175.99619938278198 C 380.25 178.49619938278198 377.75 180.99619938278198 375.25 180.99619938278198 L 339.75 180.99619938278198 C 337.25 180.99619938278198 334.75 178.49619938278198 334.75 175.99619938278198 Z " fill="rgba(59,130,246,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskqs40629l)" pathto="M 334.75 175.99619938278198 L 334.75 131.6976395679474 C 334.75 129.1976395679474 337.25 126.69763956794739 339.75 126.69763956794739 L 375.25 126.69763956794739 C 377.75 126.69763956794739 380.25 129.1976395679474 380.25 131.6976395679474 L 380.25 175.99619938278198 C 380.25 178.49619938278198 377.75 180.99619938278198 375.25 180.99619938278198 L 339.75 180.99619938278198 C 337.25 180.99619938278198 334.75 178.49619938278198 334.75 175.99619938278198 Z " pathfrom="M 334.75 180.99619938278198 L 334.75 180.99619938278198 L 380.25 180.99619938278198 L 380.25 180.99619938278198 L 380.25 180.99619938278198 L 380.25 180.99619938278198 L 380.25 180.99619938278198 L 334.75 180.99619938278198 Z" cy="126.69663956794739" cx="399.75" j="5" val="3.6" barheight="54.2985598148346" barwidth="45.5"></path>
+											<path id="SvgjsPath1226" d="M 399.75 175.99619938278198 L 399.75 137.7308128807068 C 399.75 135.2308128807068 402.25 132.7308128807068 404.75 132.7308128807068 L 440.25 132.7308128807068 C 442.75 132.7308128807068 445.25 135.2308128807068 445.25 137.7308128807068 L 445.25 175.99619938278198 C 445.25 178.49619938278198 442.75 180.99619938278198 440.25 180.99619938278198 L 404.75 180.99619938278198 C 402.25 180.99619938278198 399.75 178.49619938278198 399.75 175.99619938278198 Z " fill="rgba(59,130,246,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskqs40629l)" pathto="M 399.75 175.99619938278198 L 399.75 137.7308128807068 C 399.75 135.2308128807068 402.25 132.7308128807068 404.75 132.7308128807068 L 440.25 132.7308128807068 C 442.75 132.7308128807068 445.25 135.2308128807068 445.25 137.7308128807068 L 445.25 175.99619938278198 C 445.25 178.49619938278198 442.75 180.99619938278198 440.25 180.99619938278198 L 404.75 180.99619938278198 C 402.25 180.99619938278198 399.75 178.49619938278198 399.75 175.99619938278198 Z " pathfrom="M 399.75 180.99619938278198 L 399.75 180.99619938278198 L 445.25 180.99619938278198 L 445.25 180.99619938278198 L 445.25 180.99619938278198 L 445.25 180.99619938278198 L 445.25 180.99619938278198 L 399.75 180.99619938278198 Z" cy="132.7298128807068" cx="464.75" j="6" val="3.2" barheight="48.2653865020752" barwidth="45.5"></path>
+											<path id="SvgjsPath1232" d="M 464.75 175.99619938278198 L 464.75 151.30545283441543 C 464.75 148.80545283441543 467.25 146.30545283441543 469.75 146.30545283441543 L 505.25 146.30545283441543 C 507.75 146.30545283441543 510.25 148.80545283441543 510.25 151.30545283441543 L 510.25 175.99619938278198 C 510.25 178.49619938278198 507.75 180.99619938278198 505.25 180.99619938278198 L 469.75 180.99619938278198 C 467.25 180.99619938278198 464.75 178.49619938278198 464.75 175.99619938278198 Z " fill="rgba(59,130,246,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskqs40629l)" pathto="M 464.75 175.99619938278198 L 464.75 151.30545283441543 C 464.75 148.80545283441543 467.25 146.30545283441543 469.75 146.30545283441543 L 505.25 146.30545283441543 C 507.75 146.30545283441543 510.25 148.80545283441543 510.25 151.30545283441543 L 510.25 175.99619938278198 C 510.25 178.49619938278198 507.75 180.99619938278198 505.25 180.99619938278198 L 469.75 180.99619938278198 C 467.25 180.99619938278198 464.75 178.49619938278198 464.75 175.99619938278198 Z " pathfrom="M 464.75 180.99619938278198 L 464.75 180.99619938278198 L 510.25 180.99619938278198 L 510.25 180.99619938278198 L 510.25 180.99619938278198 L 510.25 180.99619938278198 L 510.25 180.99619938278198 L 464.75 180.99619938278198 Z" cy="146.30445283441543" cx="529.75" j="7" val="2.3" barheight="34.69074654836655" barwidth="45.5"></path>
+											<path id="SvgjsPath1238" d="M 529.75 175.99619938278198 L 529.75 164.88009278812407 C 529.75 162.38009278812407 532.25 159.88009278812407 534.75 159.88009278812407 L 570.25 159.88009278812407 C 572.75 159.88009278812407 575.25 162.38009278812407 575.25 164.88009278812407 L 575.25 175.99619938278198 C 575.25 178.49619938278198 572.75 180.99619938278198 570.25 180.99619938278198 L 534.75 180.99619938278198 C 532.25 180.99619938278198 529.75 178.49619938278198 529.75 175.99619938278198 Z " fill="rgba(59,130,246,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskqs40629l)" pathto="M 529.75 175.99619938278198 L 529.75 164.88009278812407 C 529.75 162.38009278812407 532.25 159.88009278812407 534.75 159.88009278812407 L 570.25 159.88009278812407 C 572.75 159.88009278812407 575.25 162.38009278812407 575.25 164.88009278812407 L 575.25 175.99619938278198 C 575.25 178.49619938278198 572.75 180.99619938278198 570.25 180.99619938278198 L 534.75 180.99619938278198 C 532.25 180.99619938278198 529.75 178.49619938278198 529.75 175.99619938278198 Z " pathfrom="M 529.75 180.99619938278198 L 529.75 180.99619938278198 L 575.25 180.99619938278198 L 575.25 180.99619938278198 L 575.25 180.99619938278198 L 575.25 180.99619938278198 L 575.25 180.99619938278198 L 529.75 180.99619938278198 Z" cy="159.87909278812407" cx="594.75" j="8" val="1.4" barheight="21.116106594657897" barwidth="45.5"></path>
+											<path id="SvgjsPath1244" d="M 594.75 175.99619938278198 L 594.75 134.7142262243271 C 594.75 132.2142262243271 597.25 129.7142262243271 599.75 129.7142262243271 L 635.25 129.7142262243271 C 637.75 129.7142262243271 640.25 132.2142262243271 640.25 134.7142262243271 L 640.25 175.99619938278198 C 640.25 178.49619938278198 637.75 180.99619938278198 635.25 180.99619938278198 L 599.75 180.99619938278198 C 597.25 180.99619938278198 594.75 178.49619938278198 594.75 175.99619938278198 Z " fill="rgba(59,130,246,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskqs40629l)" pathto="M 594.75 175.99619938278198 L 594.75 134.7142262243271 C 594.75 132.2142262243271 597.25 129.7142262243271 599.75 129.7142262243271 L 635.25 129.7142262243271 C 637.75 129.7142262243271 640.25 132.2142262243271 640.25 134.7142262243271 L 640.25 175.99619938278198 C 640.25 178.49619938278198 637.75 180.99619938278198 635.25 180.99619938278198 L 599.75 180.99619938278198 C 597.25 180.99619938278198 594.75 178.49619938278198 594.75 175.99619938278198 Z " pathfrom="M 594.75 180.99619938278198 L 594.75 180.99619938278198 L 640.25 180.99619938278198 L 640.25 180.99619938278198 L 640.25 180.99619938278198 L 640.25 180.99619938278198 L 640.25 180.99619938278198 L 594.75 180.99619938278198 Z" cy="129.7132262243271" cx="659.75" j="9" val="3.4" barheight="51.281973158454896" barwidth="45.5"></path>
+											<path id="SvgjsPath1250" d="M 659.75 175.99619938278198 L 659.75 103.04006633234023 C 659.75 100.54006633234023 662.25 98.04006633234023 664.75 98.04006633234023 L 700.25 98.04006633234023 C 702.75 98.04006633234023 705.25 100.54006633234023 705.25 103.04006633234023 L 705.25 175.99619938278198 C 705.25 178.49619938278198 702.75 180.99619938278198 700.25 180.99619938278198 L 664.75 180.99619938278198 C 662.25 180.99619938278198 659.75 178.49619938278198 659.75 175.99619938278198 Z " fill="rgba(59,130,246,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskqs40629l)" pathto="M 659.75 175.99619938278198 L 659.75 103.04006633234023 C 659.75 100.54006633234023 662.25 98.04006633234023 664.75 98.04006633234023 L 700.25 98.04006633234023 C 702.75 98.04006633234023 705.25 100.54006633234023 705.25 103.04006633234023 L 705.25 175.99619938278198 C 705.25 178.49619938278198 702.75 180.99619938278198 700.25 180.99619938278198 L 664.75 180.99619938278198 C 662.25 180.99619938278198 659.75 178.49619938278198 659.75 175.99619938278198 Z " pathfrom="M 659.75 180.99619938278198 L 659.75 180.99619938278198 L 705.25 180.99619938278198 L 705.25 180.99619938278198 L 705.25 180.99619938278198 L 705.25 180.99619938278198 L 705.25 180.99619938278198 L 659.75 180.99619938278198 Z" cy="98.03906633234023" cx="724.75" j="10" val="5.5" barheight="82.95613305044175" barwidth="45.5"></path>
+											<path id="SvgjsPath1256" d="M 724.75 175.99619938278198 L 724.75 53.26638650207516 C 724.75 50.76638650207516 727.25 48.26638650207516 729.75 48.26638650207516 L 765.25 48.26638650207516 C 767.75 48.26638650207516 770.25 50.76638650207516 770.25 53.26638650207516 L 770.25 175.99619938278198 C 770.25 178.49619938278198 767.75 180.99619938278198 765.25 180.99619938278198 L 729.75 180.99619938278198 C 727.25 180.99619938278198 724.75 178.49619938278198 724.75 175.99619938278198 Z " fill="rgba(59,130,246,0.85)" fill-opacity="1" stroke-opacity="1" stroke-linecap="round" stroke-width="0" stroke-dasharray="0" class="apexcharts-bar-area" index="0" clip-path="url(#gridRectMaskqs40629l)" pathto="M 724.75 175.99619938278198 L 724.75 53.26638650207516 C 724.75 50.76638650207516 727.25 48.26638650207516 729.75 48.26638650207516 L 765.25 48.26638650207516 C 767.75 48.26638650207516 770.25 50.76638650207516 770.25 53.26638650207516 L 770.25 175.99619938278198 C 770.25 178.49619938278198 767.75 180.99619938278198 765.25 180.99619938278198 L 729.75 180.99619938278198 C 727.25 180.99619938278198 724.75 178.49619938278198 724.75 175.99619938278198 Z " pathfrom="M 724.75 180.99619938278198 L 724.75 180.99619938278198 L 770.25 180.99619938278198 L 770.25 180.99619938278198 L 770.25 180.99619938278198 L 770.25 180.99619938278198 L 770.25 180.99619938278198 L 724.75 180.99619938278198 Z" cy="48.26538650207516" cx="789.75" j="11" val="8.8" barheight="132.72981288070682" barwidth="45.5"></path>
+											<g id="SvgjsG1187" class="apexcharts-bar-goals-markers">
+												<g id="SvgjsG1189" classname="apexcharts-bar-goals-groups" class="apexcharts-hidden-element-shown" clip-path="url(#gridRectMarkerMaskqs40629l)"></g>
+												<g id="SvgjsG1195" classname="apexcharts-bar-goals-groups" class="apexcharts-hidden-element-shown" clip-path="url(#gridRectMarkerMaskqs40629l)"></g>
+												<g id="SvgjsG1201" classname="apexcharts-bar-goals-groups" class="apexcharts-hidden-element-shown" clip-path="url(#gridRectMarkerMaskqs40629l)"></g>
+												<g id="SvgjsG1207" classname="apexcharts-bar-goals-groups" class="apexcharts-hidden-element-shown" clip-path="url(#gridRectMarkerMaskqs40629l)"></g>
+												<g id="SvgjsG1213" classname="apexcharts-bar-goals-groups" class="apexcharts-hidden-element-shown" clip-path="url(#gridRectMarkerMaskqs40629l)"></g>
+												<g id="SvgjsG1219" classname="apexcharts-bar-goals-groups" class="apexcharts-hidden-element-shown" clip-path="url(#gridRectMarkerMaskqs40629l)"></g>
+												<g id="SvgjsG1225" classname="apexcharts-bar-goals-groups" class="apexcharts-hidden-element-shown" clip-path="url(#gridRectMarkerMaskqs40629l)"></g>
+												<g id="SvgjsG1231" classname="apexcharts-bar-goals-groups" class="apexcharts-hidden-element-shown" clip-path="url(#gridRectMarkerMaskqs40629l)"></g>
+												<g id="SvgjsG1237" classname="apexcharts-bar-goals-groups" class="apexcharts-hidden-element-shown" clip-path="url(#gridRectMarkerMaskqs40629l)"></g>
+												<g id="SvgjsG1243" classname="apexcharts-bar-goals-groups" class="apexcharts-hidden-element-shown" clip-path="url(#gridRectMarkerMaskqs40629l)"></g>
+												<g id="SvgjsG1249" classname="apexcharts-bar-goals-groups" class="apexcharts-hidden-element-shown" clip-path="url(#gridRectMarkerMaskqs40629l)"></g>
+												<g id="SvgjsG1255" classname="apexcharts-bar-goals-groups" class="apexcharts-hidden-element-shown" clip-path="url(#gridRectMarkerMaskqs40629l)"></g>
+											</g>
+											<g id="SvgjsG1188" class="apexcharts-bar-shadows apexcharts-hidden-element-shown"></g>
+										</g>
+										<g id="SvgjsG1186" class="apexcharts-datalabels apexcharts-hidden-element-shown" data:realindex="0">
+											<g id="SvgjsG1192" class="apexcharts-data-labels" transform="rotate(0)">
+												<text id="SvgjsText1194" font-family="Helvetica, Arial, sans-serif" x="32.5" y="159.90445321588516" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="600" fill="#ffffff" class="apexcharts-datalabel" cx="32.5" cy="159.90445321588516" style="font-family: Helvetica, Arial, sans-serif;">2.3%</text>
+											</g>
+											<g id="SvgjsG1198" class="apexcharts-data-labels" transform="rotate(0)">
+												<text id="SvgjsText1200" font-family="Helvetica, Arial, sans-serif" x="97.5" y="147.83810659036635" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="600" fill="#ffffff" class="apexcharts-datalabel" cx="97.5" cy="147.83810659036635" style="font-family: Helvetica, Arial, sans-serif;">3.1%</text>
+											</g>
+											<g id="SvgjsG1204" class="apexcharts-data-labels" transform="rotate(0)">
+												<text id="SvgjsText1206" font-family="Helvetica, Arial, sans-serif" x="162.5" y="134.2634666366577" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="600" fill="#ffffff" class="apexcharts-datalabel" cx="162.5" cy="134.2634666366577" style="font-family: Helvetica, Arial, sans-serif;">4%</text>
+											</g>
+											<g id="SvgjsG1210" class="apexcharts-data-labels" transform="rotate(0)">
+												<text id="SvgjsText1212" font-family="Helvetica, Arial, sans-serif" x="227.5" y="42.25757361707687" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="600" fill="#ffffff" class="apexcharts-datalabel" cx="227.5" cy="42.25757361707687" style="font-family: Helvetica, Arial, sans-serif;">10.1%</text>
+											</g>
+											<g id="SvgjsG1216" class="apexcharts-data-labels" transform="rotate(0)">
+												<text id="SvgjsText1218" font-family="Helvetica, Arial, sans-serif" x="292.5" y="134.2634666366577" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="600" fill="#ffffff" class="apexcharts-datalabel" cx="292.5" cy="134.2634666366577" style="font-family: Helvetica, Arial, sans-serif;">4%</text>
+											</g>
+											<g id="SvgjsG1222" class="apexcharts-data-labels" transform="rotate(0)">
+												<text id="SvgjsText1224" font-family="Helvetica, Arial, sans-serif" x="357.5" y="140.2966399494171" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="600" fill="#ffffff" class="apexcharts-datalabel" cx="357.5" cy="140.2966399494171" style="font-family: Helvetica, Arial, sans-serif;">3.6%</text>
+											</g>
+											<g id="SvgjsG1228" class="apexcharts-data-labels" transform="rotate(0)">
+												<text id="SvgjsText1230" font-family="Helvetica, Arial, sans-serif" x="422.5" y="146.32981326217651" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="600" fill="#ffffff" class="apexcharts-datalabel" cx="422.5" cy="146.32981326217651" style="font-family: Helvetica, Arial, sans-serif;">3.2%</text>
+											</g>
+											<g id="SvgjsG1234" class="apexcharts-data-labels" transform="rotate(0)">
+												<text id="SvgjsText1236" font-family="Helvetica, Arial, sans-serif" x="487.5" y="159.90445321588516" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="600" fill="#ffffff" class="apexcharts-datalabel" cx="487.5" cy="159.90445321588516" style="font-family: Helvetica, Arial, sans-serif;">2.3%</text>
+											</g>
+											<g id="SvgjsG1240" class="apexcharts-data-labels" transform="rotate(0)">
+												<text id="SvgjsText1242" font-family="Helvetica, Arial, sans-serif" x="552.5" y="173.4790931695938" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="600" fill="#ffffff" class="apexcharts-datalabel" cx="552.5" cy="173.4790931695938" style="font-family: Helvetica, Arial, sans-serif;">1.4%</text>
+											</g>
+											<g id="SvgjsG1246" class="apexcharts-data-labels" transform="rotate(0)">
+												<text id="SvgjsText1248" font-family="Helvetica, Arial, sans-serif" x="617.5" y="143.3132266057968" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="600" fill="#ffffff" class="apexcharts-datalabel" cx="617.5" cy="143.3132266057968" style="font-family: Helvetica, Arial, sans-serif;">3.4%</text>
+											</g>
+											<g id="SvgjsG1252" class="apexcharts-data-labels" transform="rotate(0)">
+												<text id="SvgjsText1254" font-family="Helvetica, Arial, sans-serif" x="682.5" y="111.63906671380995" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="600" fill="#ffffff" class="apexcharts-datalabel" cx="682.5" cy="111.63906671380995" style="font-family: Helvetica, Arial, sans-serif;">5.5%</text>
+											</g>
+											<g id="SvgjsG1258" class="apexcharts-data-labels" transform="rotate(0)">
+												<text id="SvgjsText1260" font-family="Helvetica, Arial, sans-serif" x="747.5" y="61.865386883544886" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="600" fill="#ffffff" class="apexcharts-datalabel" cx="747.5" cy="61.865386883544886" style="font-family: Helvetica, Arial, sans-serif;">8.8%</text>
+											</g>
+										</g>
+									</g>
+									<line id="SvgjsLine1272" x1="0" y1="0" x2="780" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" stroke-linecap="butt" class="apexcharts-ycrosshairs"></line>
+									<line id="SvgjsLine1273" x1="0" y1="0" x2="780" y2="0" stroke-dasharray="0" stroke-width="0" stroke-linecap="butt" class="apexcharts-ycrosshairs-hidden"></line>
+									<g id="SvgjsG1274" class="apexcharts-xaxis" transform="translate(0, 0)">
+										<g id="SvgjsG1275" class="apexcharts-xaxis-texts-g" transform="translate(0, -4)">
+											<text id="SvgjsText1277" font-family="Helvetica, Arial, sans-serif" x="32.5" y="-8.004800617218024" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;">
+												<tspan id="SvgjsTspan1278">Jan</tspan>
+												<title>Jan</title>
+											</text>
+											<text id="SvgjsText1280" font-family="Helvetica, Arial, sans-serif" x="97.5" y="-8.004800617218024" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;">
+												<tspan id="SvgjsTspan1281">Feb</tspan>
+												<title>Feb</title>
+											</text>
+											<text id="SvgjsText1283" font-family="Helvetica, Arial, sans-serif" x="162.5" y="-8.004800617218024" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;">
+												<tspan id="SvgjsTspan1284">Mar</tspan>
+												<title>Mar</title>
+											</text>
+											<text id="SvgjsText1286" font-family="Helvetica, Arial, sans-serif" x="227.5" y="-8.004800617218024" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;">
+												<tspan id="SvgjsTspan1287">Apr</tspan>
+												<title>Apr</title>
+											</text>
+											<text id="SvgjsText1289" font-family="Helvetica, Arial, sans-serif" x="292.5" y="-8.004800617218024" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;">
+												<tspan id="SvgjsTspan1290">May</tspan>
+												<title>May</title>
+											</text>
+											<text id="SvgjsText1292" font-family="Helvetica, Arial, sans-serif" x="357.5" y="-8.004800617218024" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;">
+												<tspan id="SvgjsTspan1293">Jun</tspan>
+												<title>Jun</title>
+											</text>
+											<text id="SvgjsText1295" font-family="Helvetica, Arial, sans-serif" x="422.5" y="-8.004800617218024" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;">
+												<tspan id="SvgjsTspan1296">Jul</tspan>
+												<title>Jul</title>
+											</text>
+											<text id="SvgjsText1298" font-family="Helvetica, Arial, sans-serif" x="487.5" y="-8.004800617218024" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;">
+												<tspan id="SvgjsTspan1299">Aug</tspan>
+												<title>Aug</title>
+											</text>
+											<text id="SvgjsText1301" font-family="Helvetica, Arial, sans-serif" x="552.5" y="-8.004800617218024" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;">
+												<tspan id="SvgjsTspan1302">Sep</tspan>
+												<title>Sep</title>
+											</text>
+											<text id="SvgjsText1304" font-family="Helvetica, Arial, sans-serif" x="617.5" y="-8.004800617218024" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;">
+												<tspan id="SvgjsTspan1305">Oct</tspan>
+												<title>Oct</title>
+											</text>
+											<text id="SvgjsText1307" font-family="Helvetica, Arial, sans-serif" x="682.5" y="-8.004800617218024" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;">
+												<tspan id="SvgjsTspan1308">Nov</tspan>
+												<title>Nov</title>
+											</text>
+											<text id="SvgjsText1310" font-family="Helvetica, Arial, sans-serif" x="747.5" y="-8.004800617218024" text-anchor="middle" dominant-baseline="auto" font-size="12px" font-weight="400" fill="#373d3f" class="apexcharts-text apexcharts-xaxis-label " style="font-family: Helvetica, Arial, sans-serif;">
+												<tspan id="SvgjsTspan1311">Dec</tspan>
+												<title>Dec</title>
+											</text>
+										</g>
+									</g>
+									<g id="SvgjsG1314" class="apexcharts-yaxis-annotations"></g>
+									<g id="SvgjsG1315" class="apexcharts-xaxis-annotations"></g>
+									<g id="SvgjsG1316" class="apexcharts-point-annotations"></g>
+								</g>
+							</svg>
+							<div class="apexcharts-tooltip apexcharts-theme-light">
+								<div class="apexcharts-tooltip-title" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"></div>
+								<div class="apexcharts-tooltip-series-group" style="order: 1;">
+									<span class="apexcharts-tooltip-marker" style="background-color: rgb(59, 130, 246);"></span>
+									<div class="apexcharts-tooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;">
+										<div class="apexcharts-tooltip-y-group">
+											<span class="apexcharts-tooltip-text-y-label"></span>
+											<span class="apexcharts-tooltip-text-y-value"></span>
+										</div>
+										<div class="apexcharts-tooltip-goals-group">
+											<span class="apexcharts-tooltip-text-goals-label"></span>
+											<span class="apexcharts-tooltip-text-goals-value"></span>
+										</div>
+										<div class="apexcharts-tooltip-z-group">
+											<span class="apexcharts-tooltip-text-z-label"></span>
+											<span class="apexcharts-tooltip-text-z-value"></span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="apexcharts-xaxistooltip apexcharts-xaxistooltip-top apexcharts-theme-light">
+								<div class="apexcharts-xaxistooltip-text" style="font-family: Helvetica, Arial, sans-serif; font-size: 12px;"></div>
+							</div>
+							<div class="apexcharts-yaxistooltip apexcharts-yaxistooltip-0 apexcharts-yaxistooltip-left apexcharts-theme-light">
+								<div class="apexcharts-yaxistooltip-text"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end col-->
+			<div class="2xl:col-span-2 2xl:row-span-1">
+				<div class="card">
+					<div class="flex items-center gap-3 card-body">
+						<div class="flex items-center justify-center text-yellow-500 rounded-md size-12 text-15 bg-yellow-50 dark:bg-yellow-500/20 shrink-0">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="loader" class="lucide lucide-loader">
+								<line x1="12" x2="12" y1="2" y2="6"></line>
+								<line x1="12" x2="12" y1="18" y2="22"></line>
+								<line x1="4.93" x2="7.76" y1="4.93" y2="7.76"></line>
+								<line x1="16.24" x2="19.07" y1="16.24" y2="19.07"></line>
+								<line x1="2" x2="6" y1="12" y2="12"></line>
+								<line x1="18" x2="22" y1="12" y2="12"></line>
+								<line x1="4.93" x2="7.76" y1="19.07" y2="16.24"></line>
+								<line x1="16.24" x2="19.07" y1="7.76" y2="4.93"></line>
+							</svg>
+						</div>
+						<div class="grow">
+							<h5 class="mb-1 text-16 counter-value" data-target="1548">1,548</h5>
+							<p class="text-slate-500 dark:text-zink-200">Pending Orders</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end col-->
+			<div class="2xl:col-span-2 2xl:row-span-1">
+				<div class="card">
+					<div class="flex items-center gap-3 card-body">
+						<div class="flex items-center justify-center text-purple-500 rounded-md size-12 text-15 bg-purple-50 dark:bg-purple-500/20 shrink-0">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="truck" class="lucide lucide-truck">
+								<path d="M5 18H3c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v11"></path>
+								<path d="M14 9h4l4 4v4c0 .6-.4 1-1 1h-2"></path>
+								<circle cx="7" cy="18" r="2"></circle>
+								<path d="M15 18H9"></path>
+								<circle cx="17" cy="18" r="2"></circle>
+							</svg>
+						</div>
+						<div class="grow">
+							<h5 class="mb-1 text-16 counter-value" data-target="9543">9,543</h5>
+							<p class="text-slate-500 dark:text-zink-200">Shipping Orders</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end col-->
+			<div class="2xl:col-span-2 2xl:row-span-1">
+				<div class="card">
+					<div class="flex items-center gap-3 card-body">
+						<div class="flex items-center justify-center text-green-500 rounded-md size-12 text-15 bg-green-50 dark:bg-green-500/20 shrink-0">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="package-check" class="lucide lucide-package-check">
+								<path d="m16 16 2 2 4-4"></path>
+								<path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"></path>
+								<path d="m7.5 4.27 9 5.15"></path>
+								<polyline points="3.29 7 12 12 20.71 7"></polyline>
+								<line x1="12" x2="12" y1="22" y2="12"></line>
+							</svg>
+						</div>
+						<div class="grow">
+							<h5 class="mb-1 text-16 counter-value" data-target="30914">30,914</h5>
+							<p class="text-slate-500 dark:text-zink-200">Delivered Orders</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end col-->
+			<div class="2xl:col-span-2 2xl:row-span-1">
+				<div class="card">
+					<div class="flex items-center gap-3 card-body">
+						<div class="flex items-center justify-center text-red-500 rounded-md size-12 text-15 bg-red-50 dark:bg-red-500/20 shrink-0">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="package-x" class="lucide lucide-package-x">
+								<path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"></path>
+								<path d="m7.5 4.27 9 5.15"></path>
+								<polyline points="3.29 7 12 12 20.71 7"></polyline>
+								<line x1="12" x2="12" y1="22" y2="12"></line>
+								<path d="m17 13 5 5m-5 0 5-5"></path>
+							</svg>
+						</div>
+						<div class="grow">
+							<h5 class="mb-1 text-16 counter-value" data-target="3863">3,863</h5>
+							<p class="text-slate-500 dark:text-zink-200">Cancelled Orders</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--end col-->
+		</div>
+		<!--end grid-->
+
+		<div class="card" id="ordersTable">
+			<div class="card-body">
+				<div class="grid grid-cols-1 gap-4 lg:grid-cols-12">
+					<div class="lg:col-span-3">
+						<div class="relative">
+							<input type="text" class="ltr:pl-8 rtl:pr-8 search form-input border-slate-200 dark:border-zink-500 focus:outline-none focus:border-custom-500 disabled:bg-slate-100 dark:disabled:bg-zink-600 disabled:border-slate-300 dark:disabled:border-zink-500 dark:disabled:text-zink-200 disabled:text-slate-500 dark:text-zink-100 dark:bg-zink-700 dark:focus:border-custom-800 placeholder:text-slate-400 dark:placeholder:text-zink-200" placeholder="Search for ..." autocomplete="off">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="search" class="lucide lucide-search inline-block size-4 absolute ltr:left-2.5 rtl:right-2.5 top-2.5 text-slate-500 dark:text-zink-200 fill-slate-100 dark:fill-zink-600">
+								<circle cx="11" cy="11" r="8"></circle>
+								<path d="m21 21-4.3-4.3"></path>
+							</svg>
+						</div>
+					</div>
+					<!--end col-->
+					<div class="lg:col-span-2 lg:col-start-11">
+						<div class="ltr:lg:text-right rtl:lg:text-left">
+							<a href="#!" data-modal-target="addOrderModal" type="button" class="text-white btn bg-custom-500 border-custom-500 hover:text-white hover:bg-custom-600 hover:border-custom-600 focus:text-white focus:bg-custom-600 focus:border-custom-600 focus:ring focus:ring-custom-100 active:text-white active:bg-custom-600 active:border-custom-600 active:ring active:ring-custom-100 dark:ring-custom-400/20">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="plus" class="lucide lucide-plus inline-block size-4">
+									<path d="M5 12h14"></path>
+									<path d="M12 5v14"></path>
+								</svg>
+								<span class="align-middle">Add Order</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!--col grid-->
+
+				<ul class="flex flex-wrap w-full mt-5 text-sm font-medium text-center text-gray-500 nav-tabs">
+					<li class="group active">
+						<a href="javascript:void(0);" data-tab-toggle="" data-target="allOrders" class="inline-block px-4 py-1.5 text-base transition-all duration-300 ease-linear rounded-md text-slate-500 dark:text-zink-200 border border-transparent group-[.active]:bg-custom-500 group-[.active]:text-white dark:group-[.active]:text-white hover:text-custom-500 dark:hover:text-custom-500 active:text-custom-500 dark:active:text-custom-500 -mb-[1px]">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="boxes" class="lucide lucide-boxes inline-block size-4 ltr:mr-1 rtl:ml-1">
+								<path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42Z"></path>
+								<path d="m7 16.5-4.74-2.85"></path>
+								<path d="m7 16.5 5-3"></path>
+								<path d="M7 16.5v5.17"></path>
+								<path d="M12 13.5V19l3.97 2.38a2 2 0 0 0 2.06 0l3-1.8a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L17 10.5l-5 3Z"></path>
+								<path d="m17 16.5-5-3"></path>
+								<path d="m17 16.5 4.74-2.85"></path>
+								<path d="M17 16.5v5.17"></path>
+								<path d="M7.97 4.42A2 2 0 0 0 7 6.13v4.37l5 3 5-3V6.13a2 2 0 0 0-.97-1.71l-3-1.8a2 2 0 0 0-2.06 0l-3 1.8Z"></path>
+								<path d="M12 8 7.26 5.15"></path>
+								<path d="m12 8 4.74-2.85"></path>
+								<path d="M12 13.5V8"></path>
+							</svg>
+							<span class="align-middle">All Orders</span>
+						</a>
+					</li>
+					<li class="group">
+						<a href="javascript:void(0);" data-tab-toggle="" data-target="pendingOrder" class="inline-block px-4 py-1.5 text-base transition-all duration-300 ease-linear rounded-md text-slate-500 dark:text-zink-200 border border-transparent group-[.active]:bg-custom-500 group-[.active]:text-white dark:group-[.active]:text-white hover:text-custom-500 dark:hover:text-custom-500 active:text-custom-500 dark:active:text-custom-500 -mb-[1px]">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="loader" class="lucide lucide-loader inline-block size-4 ltr:mr-1 rtl:ml-1">
+								<line x1="12" x2="12" y1="2" y2="6"></line>
+								<line x1="12" x2="12" y1="18" y2="22"></line>
+								<line x1="4.93" x2="7.76" y1="4.93" y2="7.76"></line>
+								<line x1="16.24" x2="19.07" y1="16.24" y2="19.07"></line>
+								<line x1="2" x2="6" y1="12" y2="12"></line>
+								<line x1="18" x2="22" y1="12" y2="12"></line>
+								<line x1="4.93" x2="7.76" y1="19.07" y2="16.24"></line>
+								<line x1="16.24" x2="19.07" y1="7.76" y2="4.93"></line>
+							</svg>
+							<span class="align-middle">Pending</span>
+						</a>
+					</li>
+					<li class="group">
+						<a href="javascript:void(0);" data-tab-toggle="" data-target="deliveredOrder" class="inline-block px-4 py-1.5 text-base transition-all duration-300 ease-linear rounded-md text-slate-500 dark:text-zink-200 border border-transparent group-[.active]:bg-custom-500 group-[.active]:text-white dark:group-[.active]:text-white hover:text-custom-500 dark:hover:text-custom-500 active:text-custom-500 dark:active:text-custom-500 -mb-[1px]">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="package-check" class="lucide lucide-package-check inline-block size-4 ltr:mr-1 rtl:ml-1">
+								<path d="m16 16 2 2 4-4"></path>
+								<path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"></path>
+								<path d="m7.5 4.27 9 5.15"></path>
+								<polyline points="3.29 7 12 12 20.71 7"></polyline>
+								<line x1="12" x2="12" y1="22" y2="12"></line>
+							</svg>
+							<span class="align-middle">Delivered</span>
+						</a>
+					</li>
+					<li class="group">
+						<a href="javascript:void(0);" data-tab-toggle="" data-target="returnsOrders" class="inline-block px-4 py-1.5 text-base transition-all duration-300 ease-linear rounded-md text-slate-500 dark:text-zink-200 border border-transparent group-[.active]:bg-custom-500 group-[.active]:text-white dark:group-[.active]:text-white hover:text-custom-500 dark:hover:text-custom-500 active:text-custom-500 dark:active:text-custom-500 -mb-[1px]">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="refresh-ccw" class="lucide lucide-refresh-ccw inline-block size-4 ltr:mr-1 rtl:ml-1">
+								<path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+								<path d="M3 3v5h5"></path>
+								<path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path>
+								<path d="M16 16h5v5"></path>
+							</svg>
+							<span class="align-middle">Returns</span>
+						</a>
+					</li>
+					<li class="group">
+						<a href="javascript:void(0);" data-tab-toggle="" data-target="cancelledOrders" class="inline-block px-4 py-1.5 text-base transition-all duration-300 ease-linear rounded-md text-slate-500 dark:text-zink-200 border border-transparent group-[.active]:bg-custom-500 group-[.active]:text-white dark:group-[.active]:text-white hover:text-custom-500 dark:hover:text-custom-500 active:text-custom-500 dark:active:text-custom-500 -mb-[1px]">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="package-x" class="lucide lucide-package-x inline-block size-4 ltr:mr-1 rtl:ml-1">
+								<path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14"></path>
+								<path d="m7.5 4.27 9 5.15"></path>
+								<polyline points="3.29 7 12 12 20.71 7"></polyline>
+								<line x1="12" x2="12" y1="22" y2="12"></line>
+								<path d="m17 13 5 5m-5 0 5-5"></path>
+							</svg>
+							<span class="align-middle">Cancelled</span>
+						</a>
+					</li>
+				</ul>
+
+				<div class="mt-5 overflow-x-auto">
+					<table class="w-full whitespace-nowrap">
+						<thead class="ltr:text-left rtl:text-right bg-slate-100 dark:bg-zink-600">
+							<tr>
+								
+								<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="order_id">Delivery ID</th>
+								<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="order_date">Order Date</th>
+								<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="delivery_date">Product Name</th>
+								<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="customer_name">Customer Name</th>
+								<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="amount">Delivery Adress</th>
+                                <th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="amount">Delivery Man</th>
+								<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200 sort" data-sort="delivery_status">Delivery Status</th>
+								<th class="px-3.5 py-2.5 font-semibold text-slate-500 border-b border-slate-200 dark:border-zink-500 dark:text-zink-200">Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							
+							{% for delivery in deliveries %}
+                                <tr>
+								
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">{{delivery.id}}</td>
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 customer_name">{{delivery.deliveryOrder.orderDate|date('d-m-Y H:i:s')}}</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 order_date">{{delivery.deliveryOrder.products.name}}</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 delivery_date">{{delivery.deliveryOrder.member.firstName}} {{delivery.deliveryOrder.member.lastName}}</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">{{delivery.deliveryOrder.deliveryAdress}}</td>
+                                <td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500 amount">{% if delivery.deliveryMan is not null %}
+										
+									{{delivery.deliveryMan.firstName}} {{delivery.deliveryMan.lastName}}{% else %} -{% endif %}</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+                                
+                                {% if delivery.state == "Awaiting Pick Up" %}
+                                    <span class="delivery_status px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-yellow-100 border-yellow-200 text-yellow-500 dark:bg-yellow-500/20 dark:border-yellow-500/20">Awaiting Pick Up</span>
+                                    {% elseif delivery.state == "Delivered" %}
+                                        <span class="delivery_status px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-green-100 border-green-200 text-green-500 dark:bg-green-500/20 dark:border-green-500/20">Delivered</span>
+                                        {% elseif delivery.state == "In Route" %}
+                                            <span class="delivery_status px-2.5 py-0.5 text-xs inline-block font-medium rounded border bg-sky-100 border-sky-200 text-sky-500 dark:bg-sky-500/20 dark:border-sky-500/20">In Route</span>
+                                {% endif %}
+								</td>
+								<td class="px-3.5 py-2.5 border-y border-slate-200 dark:border-zink-500">
+									<div class="relative dropdown">
+										<a class="block px-4 py-1.5 text-base transition-all duration-200 ease-linear text-slate-600 dropdown-item hover:bg-slate-100 hover:text-slate-500 focus:bg-slate-100 focus:text-slate-500 dark:text-zink-100 dark:hover:bg-zink-500 dark:hover:text-zink-200 dark:focus:bg-zink-500 dark:focus:text-zink-200" href="{{path('app_admin_delivery_details', {'id':delivery.id})}}">
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="eye" class="lucide lucide-eye inline-block size-3 ltr:mr-1 rtl:ml-1">
+														<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+														<circle cx="12" cy="12" r="3"></circle>
+													</svg>
+													<span class="align-middle">Overview</span>
+												</a>
+										
+									</div>
+								</td>
+							</tr>
+                            {% endfor %}
+							
+						</tbody>
+					</table>
+					<div class="noresult" style="display: none">
+						<div class="py-6 text-center">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="search" class="lucide lucide-search w-6 h-6 mx-auto text-sky-500 fill-sky-100 dark:sky-500/20">
+								<circle cx="11" cy="11" r="8"></circle>
+								<path d="m21 21-4.3-4.3"></path>
+							</svg>
+							<h5 class="mt-2 mb-1">Sorry! No Result Found</h5>
+							<p class="mb-0 text-slate-500 dark:text-zink-200">We've searched more than 299+ orders We did not find any orders for you search.</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="flex flex-col items-center mt-5 md:flex-row">
+					<div class="mb-4 grow md:mb-0">
+						<p class="text-slate-500 dark:text-zink-200">Showing
+							<b>10</b>
+							of
+							<b>18</b>
+							Results</p>
+					</div>
+					<ul class="flex flex-wrap items-center gap-2 shrink-0">
+						<li>
+							<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 h-8 px-3 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&amp;.active]:text-custom-500 dark:[&amp;.active]:text-custom-500 [&amp;.active]:bg-custom-50 dark:[&amp;.active]:bg-custom-500/10 [&amp;.active]:border-custom-50 dark:[&amp;.active]:border-custom-500/10 [&amp;.active]:hover:text-custom-700 dark:[&amp;.active]:hover:text-custom-700 [&amp;.disabled]:text-slate-400 dark:[&amp;.disabled]:text-zink-300 [&amp;.disabled]:cursor-auto">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-left" class="lucide lucide-chevron-left mr-1 size-4 rtl:rotate-180">
+									<path d="m15 18-6-6 6-6"></path>
+								</svg>
+								Prev</a>
+						</li>
+						<li>
+							<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&amp;.active]:text-custom-500 dark:[&amp;.active]:text-custom-500 [&amp;.active]:bg-custom-50 dark:[&amp;.active]:bg-custom-500/10 [&amp;.active]:border-custom-50 dark:[&amp;.active]:border-custom-500/10 [&amp;.active]:hover:text-custom-700 dark:[&amp;.active]:hover:text-custom-700 [&amp;.disabled]:text-slate-400 dark:[&amp;.disabled]:text-zink-300 [&amp;.disabled]:cursor-auto">1</a>
+						</li>
+						<li>
+							<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&amp;.active]:text-custom-500 dark:[&amp;.active]:text-custom-500 [&amp;.active]:bg-custom-50 dark:[&amp;.active]:bg-custom-500/10 [&amp;.active]:border-custom-50 dark:[&amp;.active]:border-custom-500/10 [&amp;.active]:hover:text-custom-700 dark:[&amp;.active]:hover:text-custom-700 [&amp;.disabled]:text-slate-400 dark:[&amp;.disabled]:text-zink-300 [&amp;.disabled]:cursor-auto active">2</a>
+						</li>
+						<li>
+							<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 size-8 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&amp;.active]:text-custom-500 dark:[&amp;.active]:text-custom-500 [&amp;.active]:bg-custom-50 dark:[&amp;.active]:bg-custom-500/10 [&amp;.active]:border-custom-50 dark:[&amp;.active]:border-custom-500/10 [&amp;.active]:hover:text-custom-700 dark:[&amp;.active]:hover:text-custom-700 [&amp;.disabled]:text-slate-400 dark:[&amp;.disabled]:text-zink-300 [&amp;.disabled]:cursor-auto">3</a>
+						</li>
+						<li>
+							<a href="#!" class="inline-flex items-center justify-center bg-white dark:bg-zink-700 h-8 px-3 transition-all duration-150 ease-linear border rounded border-slate-200 dark:border-zink-500 text-slate-500 dark:text-zink-200 hover:text-custom-500 dark:hover:text-custom-500 hover:bg-custom-50 dark:hover:bg-custom-500/10 focus:bg-custom-50 dark:focus:bg-custom-500/10 focus:text-custom-500 dark:focus:text-custom-500 [&amp;.active]:text-custom-500 dark:[&amp;.active]:text-custom-500 [&amp;.active]:bg-custom-50 dark:[&amp;.active]:bg-custom-500/10 [&amp;.active]:border-custom-50 dark:[&amp;.active]:border-custom-500/10 [&amp;.active]:hover:text-custom-700 dark:[&amp;.active]:hover:text-custom-700 [&amp;.disabled]:text-slate-400 dark:[&amp;.disabled]:text-zink-300 [&amp;.disabled]:cursor-auto">Next
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" class="lucide lucide-chevron-right ml-1 size-4 rtl:rotate-180">
+									<path d="m9 18 6-6-6-6"></path>
+								</svg>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--end card-->
+
+	
+{% endblock %}
+{% block endbodyjs %}
+	<!-- list js-->
+	<script src="/assets/libs/list.js/list.min.js"></script>
+	<!-- apexcharts -->
+	<script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
+
+	<!--Ecommerce orders init-->
+	<script src="/assets/js/pages/apps-ecommerce-orders.init.js"></script>
+
+	<!-- App js -->
+	<script src="/assets/js/app.js"></script>
+{% endblock %}
